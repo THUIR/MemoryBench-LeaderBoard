@@ -1,14 +1,17 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { eloData, memorySystems, baseModels, cases } from '../data/eloData';
+import { summaryAverages } from '../data/summaryAverages';
 import './Leaderboard.css';
 
-function ELOBar({ elo, maxElo = 1300, minElo = 700 }) {
-  const percentage = ((elo - minElo) / (maxElo - minElo)) * 100;
+function ELOBar({ elo, maxElo = 1100, minElo = 900 }) {
+  // Ensure minimum width of 8% so even lowest ELO shows a bar
+  const rawPercentage = ((elo - minElo) / (maxElo - minElo)) * 100;
+  const percentage = Math.max(8, Math.min(100, rawPercentage));
   return (
     <div className="elo-bar-container">
       <div className="elo-bar" style={{ width: `${percentage}%` }} />
-      <span className="elo-value">{elo.toFixed(0)}</span>
+      <span className="elo-value">{elo.toFixed(1)}</span>
     </div>
   );
 }
@@ -20,26 +23,6 @@ function StarRating({ elo }) {
       {[1, 2, 3].map(i => (
         <span key={i} className={`star ${i <= stars ? 'filled' : ''}`}>★</span>
       ))}
-    </div>
-  );
-}
-
-function HeatmapCell({ elo }) {
-  const minElo = 700, maxElo = 1300;
-  const normalized = (elo - minElo) / (maxElo - minElo);
-
-  let bgColor;
-  if (normalized > 0.5) {
-    const intensity = Math.min((normalized - 0.5) * 2, 1);
-    bgColor = `rgba(201, 169, 98, ${0.2 + intensity * 0.6})`;
-  } else {
-    const intensity = (0.5 - normalized) * 2;
-    bgColor = `rgba(212, 184, 150, ${0.1 + intensity * 0.3})`;
-  }
-
-  return (
-    <div className="heatmap-cell" style={{ backgroundColor: bgColor }}>
-      <span className="heatmap-value">{elo.toFixed(0)}</span>
     </div>
   );
 }
@@ -101,24 +84,177 @@ function DropdownFilter({ label, options, value, onChange, onClear }) {
   );
 }
 
+function HeatmapCell({ value }) {
+  const minVal = 0.3, maxVal = 0.8;
+  const normalized = Math.max(0, Math.min(1, (value - minVal) / (maxVal - minVal)));
+
+  let bgColor;
+  if (normalized > 0.5) {
+    const intensity = (normalized - 0.5) * 2;
+    bgColor = `rgba(201, 169, 98, ${0.2 + intensity * 0.6})`;
+  } else {
+    const intensity = (0.5 - normalized) * 2;
+    bgColor = `rgba(212, 184, 150, ${0.1 + intensity * 0.3})`;
+  }
+
+  return (
+    <div className="heatmap-cell" style={{ backgroundColor: bgColor }}>
+      <span className="heatmap-value">{(value * 100).toFixed(1)}%</span>
+    </div>
+  );
+}
+
+function HeatmapSection({ model }) {
+  const caseList = ['domain/Academic&Knowledge', 'domain/Legal', 'domain/Open-Domain', 'task/Long-Long', 'task/Long-Short', 'task/Short-Long', 'task/Short-Short'];
+  const caseNames = ['Academic&Knowledge', 'Legal', 'Open-Domain', 'Long-Long', 'Long-Short', 'Short-Long', 'Short-Short'];
+
+  return (
+    <div className="model-heatmap-section">
+      <h3 className="model-heatmap-title">{model.name}</h3>
+      <div className="heatmap-container">
+        <table className="heatmap-table">
+          <thead>
+            <tr>
+              <th className="heatmap-corner">Benchmark</th>
+              {memorySystems.map(mem => (
+                <th key={mem.id} className="heatmap-col-header">{mem.name}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {caseList.map((caseId, idx) => {
+              const caseInfo = summaryAverages.cases[caseId];
+              return (
+                <tr key={caseId}>
+                  <td className="heatmap-row-header">{caseNames[idx]}</td>
+                  {memorySystems.map(mem => {
+                    const key = `${mem.id}-${model.id}`;
+                    const value = caseInfo?.[key];
+                    return (
+                      <td key={mem.id} className="heatmap-cell-wrapper">
+                        {value !== undefined ? <HeatmapCell value={value} /> : <div className="heatmap-cell empty">-</div>}
+                      </td>
+                    );
+                  })}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+      <div className="heatmap-legend">
+        <span className="legend-label">Lower Score</span>
+        <div className="legend-gradient" style={{ background: 'linear-gradient(90deg, #f5efe8 0%, #d4b896 50%, #c9a962 100%)' }} />
+        <span className="legend-label">Higher Score</span>
+      </div>
+    </div>
+  );
+}
+
+function LineChart({ data, title }) {
+  const [hoveredPoint, setHoveredPoint] = useState(null);
+  const svgWidth = 900;
+  const svgHeight = 320;
+  const padding = { top: 25, right: 40, bottom: 55, left: 60 };
+  const chartWidth = svgWidth - padding.left - padding.right;
+  const chartHeight = svgHeight - padding.top - padding.bottom;
+
+  const allValues = data.flatMap(series => series.values);
+  const minVal = Math.min(...allValues);
+  const maxVal = Math.max(...allValues);
+  const valRange = maxVal - minVal || 1;
+
+  const xStep = chartWidth / (data[0]?.values.length - 1 || 1);
+
+  const xScale = (i) => padding.left + i * xStep;
+  const yScale = (v) => padding.top + chartHeight - ((v - minVal) / valRange) * chartHeight;
+
+  const caseNames = ['Academic&Knowledge', 'Legal', 'Open-Domain', 'Long-Long', 'Long-Short', 'Short-Long', 'Short-Short'];
+  const lineColors = [
+    '#c9a962', '#d4b896', '#b8860b', '#8b7355',
+    '#5c4a3a', '#a89b8a', '#6b5d4d', '#9c8b7a'
+  ];
+
+  return (
+    <div className="line-chart-wrapper">
+      <h3 className="line-chart-title">{title}</h3>
+      <svg width={svgWidth} height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`}>
+        {[0, 0.25, 0.5, 0.75, 1].map(ratio => {
+          const y = padding.top + chartHeight * (1 - ratio);
+          const val = minVal + valRange * ratio;
+          return (
+            <g key={ratio}>
+              <line x1={padding.left} y1={y} x2={svgWidth - padding.right} y2={y} stroke="var(--border-subtle)" strokeDasharray="4,4" />
+              <text x={padding.left - 10} y={y + 4} textAnchor="end" className="chart-axis-label" fill="var(--text-muted)">{(val * 100).toFixed(0)}%</text>
+            </g>
+          );
+        })}
+
+        {caseNames.map((name, i) => (
+          <text key={name} x={xScale(i)} y={svgHeight - padding.bottom + 20} textAnchor="middle" className="chart-axis-label" fill="var(--text-secondary)">
+            {name.length > 10 ? name.substring(0, 8) + '..' : name}
+          </text>
+        ))}
+
+        {data.map((series, seriesIndex) => (
+          <g key={series.name}>
+            <polyline
+              points={series.values.map((v, i) => `${xScale(i)},${yScale(v)}`).join(' ')}
+              fill="none"
+              stroke={lineColors[seriesIndex % lineColors.length]}
+              strokeWidth="2.5"
+              strokeLinejoin="round"
+              strokeLinecap="round"
+            />
+            {series.values.map((v, i) => (
+              <circle
+                key={i}
+                cx={xScale(i)}
+                cy={yScale(v)}
+                r="5"
+                fill={lineColors[seriesIndex % lineColors.length]}
+                stroke="white"
+                strokeWidth="2"
+                style={{ cursor: 'pointer' }}
+                onMouseEnter={() => setHoveredPoint({ series: series.name, case: caseNames[i], value: v, x: xScale(i), y: yScale(v) })}
+                onMouseLeave={() => setHoveredPoint(null)}
+              />
+            ))}
+          </g>
+        ))}
+
+        {hoveredPoint && (
+          <g>
+            <rect x={Math.min(hoveredPoint.x - 70, svgWidth - padding.right - 140)} y={hoveredPoint.y - 55} width="140" height="50" fill="var(--bg-card)" stroke="var(--border-accent)" rx="6" />
+            <text x={Math.min(hoveredPoint.x - 70, svgWidth - padding.right - 140) + 70} y={hoveredPoint.y - 35} textAnchor="middle" className="chart-tooltip-title" fill="var(--text-primary)">{hoveredPoint.series}</text>
+            <text x={Math.min(hoveredPoint.x - 70, svgWidth - padding.right - 140) + 70} y={hoveredPoint.y - 18} textAnchor="middle" className="chart-tooltip-value" fill="var(--accent-caramel)">{(hoveredPoint.value * 100).toFixed(1)}%</text>
+            <text x={Math.min(hoveredPoint.x - 70, svgWidth - padding.right - 140) + 70} y={hoveredPoint.y - 4} textAnchor="middle" className="chart-tooltip-case" fill="var(--text-muted)">{hoveredPoint.case}</text>
+          </g>
+        )}
+      </svg>
+      <div className="chart-legend">
+        {data.map((series, i) => (
+          <div key={series.name} className="legend-item">
+            <span className="legend-color" style={{ background: lineColors[i % lineColors.length] }} />
+            <span className="legend-name">{series.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Leaderboard() {
   const [selectedBaseModel, setSelectedBaseModel] = useState('');
   const [selectedMemorySystem, setSelectedMemorySystem] = useState('');
-  const [selectedCase, setSelectedCase] = useState('overall');
-  const [caseSearchTerm, setCaseSearchTerm] = useState('');
+  const [selectedBenchmarkTable, setSelectedBenchmarkTable] = useState('domain/Academic&Knowledge');
 
   const filteredData = useMemo(() => {
-    let data = selectedCase === 'overall'
-      ? Object.entries(eloData.overall_elo_full_participation).map(([key, value]) => ({
-          systemKey: key,
-          elo: value.avg,
-          participated: value.participated_cases
-        }))
-      : Object.entries(eloData.cases[selectedCase]?.elo || {}).map(([key, value]) => ({
-          systemKey: key,
-          elo: value,
-          participated: 7
-        }));
+    let data = Object.entries(eloData.overall_elo).map(([key, value]) => ({
+      systemKey: key,
+      elo: value.avg,
+      participated: value.participated_cases
+    }));
 
     if (selectedBaseModel) {
       data = data.filter(d => d.systemKey.endsWith(`-${selectedBaseModel}`));
@@ -128,32 +264,47 @@ export default function Leaderboard() {
     }
 
     return data.sort((a, b) => b.elo - a.elo);
-  }, [selectedBaseModel, selectedMemorySystem, selectedCase]);
+  }, [selectedBaseModel, selectedMemorySystem]);
 
-  // Case-specific table data
-  const caseSpecificData = useMemo(() => {
-    if (selectedCase === 'overall') return [];
+  // Benchmark-specific table data
+  const benchmarkTableData = useMemo(() => {
+    if (selectedBenchmarkTable) {
+      const caseElo = eloData.cases[selectedBenchmarkTable]?.elo || {};
+      return Object.entries(caseElo)
+        .map(([key, elo]) => ({
+          systemKey: key,
+          memory: key.replace('-8B', '').replace('-32B', ''),
+          model: key.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B',
+          elo
+        }))
+        .sort((a, b) => b.elo - a.elo);
+    }
+    return [];
+  }, [selectedBenchmarkTable]);
 
-    const caseElo = eloData.cases[selectedCase]?.elo || {};
-    return Object.entries(caseElo)
-      .map(([key, elo]) => ({
-        systemKey: key,
-        memory: key.replace('-8B', '').replace('-32B', ''),
-        model: key.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B',
-        elo
-      }))
-      .filter(item => {
-        if (selectedBaseModel && !item.model.includes(selectedBaseModel)) return false;
-        if (selectedMemorySystem && item.memory !== selectedMemorySystem) return false;
-        return true;
-      })
-      .sort((a, b) => b.elo - a.elo);
-  }, [selectedCase, selectedBaseModel, selectedMemorySystem]);
+  // Calculate ELO min/max based on filtered data for proper bar scaling
+  const eloRange = useMemo(() => {
+    const allElos = filteredData.map(d => d.elo);
+    return {
+      min: Math.min(...allElos),
+      max: Math.max(...allElos)
+    };
+  }, [filteredData]);
+
+  // Calculate range for benchmark table data
+  const benchmarkEloRange = useMemo(() => {
+    const allElos = benchmarkTableData.map(d => d.elo);
+    if (allElos.length === 0) return { min: 800, max: 1200 };
+    return {
+      min: Math.min(...allElos),
+      max: Math.max(...allElos)
+    };
+  }, [benchmarkTableData]);
 
   const getMemorySystemName = (id) => memorySystems.find(m => m.id === id)?.name || id;
   const getBaseModelName = (key) => key.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B';
 
-  const selectedCaseInfo = cases.find(c => c.id === selectedCase);
+  const selectedBenchmarkInfo = cases.find(c => c.id === selectedBenchmarkTable);
 
   const clearFilters = () => {
     setSelectedBaseModel('');
@@ -163,99 +314,39 @@ export default function Leaderboard() {
   return (
     <div className="leaderboard">
       <div className="page-wrapper">
-        <section className="heatmap-section">
-          <h2 className="section-title">ELO Heatmap — Overall Performance</h2>
-          <div className="heatmap-container">
-            <table className="heatmap-table">
-              <thead>
-                <tr>
-                  <th className="heatmap-corner">Model / Memory</th>
-                  {memorySystems.map(mem => (
-                    <th key={mem.id} className="heatmap-col-header">{mem.name}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {baseModels.map(model => (
-                  <tr key={model.id}>
-                    <td className="heatmap-row-header">{model.name}</td>
-                    {memorySystems.map(mem => {
-                      const key = `${mem.id}-${model.id}`;
-                      const elo = eloData.overall_elo_full_participation[key]?.avg;
-                      return (
-                        <td key={mem.id} className="heatmap-cell-wrapper">
-                          {elo ? <HeatmapCell elo={elo} /> : <div className="heatmap-cell empty">-</div>}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="heatmap-legend">
-            <span className="legend-label">Lower ELO</span>
-            <div className="legend-gradient" />
-            <span className="legend-label">Higher ELO</span>
-          </div>
-        </section>
-
-        <div className="table-header">
-          <div className="filters">
-            <div className="filter-row">
-              <DropdownFilter
-                label="Base Model"
-                options={baseModels}
-                value={selectedBaseModel}
-                onChange={setSelectedBaseModel}
-                onClear={() => setSelectedBaseModel('')}
-              />
-              <DropdownFilter
-                label="Memory"
-                options={memorySystems}
-                value={selectedMemorySystem}
-                onChange={setSelectedMemorySystem}
-                onClear={() => setSelectedMemorySystem('')}
-              />
-              <button className="clear-all-btn" onClick={clearFilters}>
-                ✕ Clear All Filters
-              </button>
-            </div>
-
-            <div className="filter-group case-filter">
-              <label>Benchmark</label>
-              <div className="case-buttons">
-                <button
-                  className={`filter-btn ${selectedCase === 'overall' ? 'active' : ''}`}
-                  onClick={() => setSelectedCase('overall')}
-                >
-                  Overall
-                </button>
-                {cases.map(c => (
-                  <button
-                    key={c.id}
-                    className={`filter-btn ${selectedCase === c.id ? 'active' : ''}`}
-                    onClick={() => setSelectedCase(c.id)}
-                  >
-                    {c.name}
-                  </button>
-                ))}
+        {/* Main Leaderboard Section */}
+        <section className="ranking-section">
+          <div className="table-header">
+            <h2 className="section-title">
+              Overall Rankings
+            </h2>
+            <div className="filters">
+              <div className="filter-row">
+                <DropdownFilter
+                  label="Base Model"
+                  options={baseModels}
+                  value={selectedBaseModel}
+                  onChange={setSelectedBaseModel}
+                  onClear={() => setSelectedBaseModel('')}
+                />
+                <DropdownFilter
+                  label="Memory"
+                  options={memorySystems}
+                  value={selectedMemorySystem}
+                  onChange={setSelectedMemorySystem}
+                  onClear={() => setSelectedMemorySystem('')}
+                />
+                <button className="clear-all-btn" onClick={clearFilters}>✕ Clear All Filters</button>
               </div>
             </div>
           </div>
-        </div>
-
-        <section className="ranking-section">
-          <h2 className="section-title">
-            System Rankings
-            {selectedCaseInfo && <span className="section-subtitle"> — {selectedCaseInfo.name}</span>}
-          </h2>
           <div className="table-container fixed-height">
             <table className="leaderboard-table">
               <thead>
                 <tr>
                   <th className="rank-col">Rank</th>
-                  <th className="system-col">System</th>
+                  <th className="model-col">Model</th>
+                  <th className="memory-col">Memory</th>
                   <th className="elo-col">ELO Rating</th>
                   <th className="participated-col">Cases</th>
                   <th className="detail-col">Details</th>
@@ -264,29 +355,17 @@ export default function Leaderboard() {
               <tbody>
                 {filteredData.map((row, index) => (
                   <tr key={row.systemKey} className={index < 3 ? 'top-ranked' : ''}>
-                    <td className="rank-col">
-                      <span className={`rank-badge rank-${index + 1}`}>{index + 1}</span>
-                    </td>
-                    <td className="system-col">
-                      <div className="system-info">
-                        <span className="system-name">{getMemorySystemName(row.systemKey.replace('-8B', '').replace('-32B', ''))}</span>
-                        <span className="system-model">{getBaseModelName(row.systemKey)}</span>
-                      </div>
-                    </td>
+                    <td className="rank-col"><span className={`rank-badge rank-${index + 1}`}>{index + 1}</span></td>
+                    <td className="model-col"><span className="model-name">{getBaseModelName(row.systemKey)}</span></td>
+                    <td className="memory-col"><span className="memory-name">{getMemorySystemName(row.systemKey.replace('-8B', '').replace('-32B', ''))}</span></td>
                     <td className="elo-col">
                       <div className="elo-display">
                         <StarRating elo={row.elo} />
-                        <ELOBar elo={row.elo} />
+                        <ELOBar elo={row.elo} minElo={eloRange.min} maxElo={eloRange.max} />
                       </div>
                     </td>
-                    <td className="participated-col">
-                      <span className="cases-badge">{row.participated}/7</span>
-                    </td>
-                    <td className="detail-col">
-                      <Link to={`/detail/${row.systemKey}`} className="view-detail-btn">
-                        View →
-                      </Link>
-                    </td>
+                    <td className="participated-col"><span className="cases-badge">{row.participated}/7</span></td>
+                    <td className="detail-col"><Link to={`/detail/${row.systemKey}`} className="view-detail-btn">View →</Link></td>
                   </tr>
                 ))}
               </tbody>
@@ -294,56 +373,68 @@ export default function Leaderboard() {
           </div>
         </section>
 
-        {selectedCase !== 'overall' && caseSpecificData.length > 0 && (
-          <section className="case-ranking-section">
-            <h2 className="section-title">
-              {selectedCaseInfo?.name || selectedCase} — Detailed Rankings
-              <span className="section-subtitle"> (Filtered by {selectedBaseModel || 'All Models'}, {selectedMemorySystem || 'All Memory'})</span>
-            </h2>
-            <div className="case-filter-bar">
-              <input
-                type="text"
-                placeholder="Search memory system..."
-                value={caseSearchTerm}
-                onChange={e => setCaseSearchTerm(e.target.value)}
-                className="case-search-input"
-              />
-              <span className="case-count">{caseSpecificData.length} systems</span>
+        {/* Benchmark Tables Section */}
+        <section className="benchmark-tables-section">
+          <h2 className="section-title">Benchmark Rankings</h2>
+          <div className="filter-group case-filter">
+            <label>Select Benchmark</label>
+            <div className="case-buttons">
+              {cases.map(c => (
+                <button
+                  key={c.id}
+                  className={`filter-btn ${selectedBenchmarkTable === c.id ? 'active' : ''}`}
+                  onClick={() => setSelectedBenchmarkTable(selectedBenchmarkTable === c.id ? '' : c.id)}
+                >
+                  {c.name}
+                </button>
+              ))}
             </div>
-            <div className="table-container">
-              <table className="case-ranking-table">
+          </div>
+
+          {selectedBenchmarkTable && benchmarkTableData.length > 0 && (
+            <div className="table-container fixed-height benchmark-table">
+              <table className="leaderboard-table">
                 <thead>
                   <tr>
                     <th className="rank-col">Rank</th>
-                    <th className="system-col">Memory System</th>
+                    <th className="system-col">System</th>
+                    <th className="elo-col">ELO Rating</th>
                     <th className="model-col">Model</th>
-                    <th className="elo-col">ELO</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {caseSpecificData
-                    .filter(item => !caseSearchTerm || item.memory.includes(caseSearchTerm))
-                    .map((item, index) => (
-                    <tr key={item.systemKey} className={index < 3 ? 'top-ranked' : ''}>
-                      <td className="rank-col">
-                        <span className={`rank-badge rank-${index + 1}`}>{index + 1}</span>
-                      </td>
+                  {benchmarkTableData.map((row, index) => (
+                    <tr key={row.systemKey} className={index < 3 ? 'top-ranked' : ''}>
+                      <td className="rank-col"><span className={`rank-badge rank-${index + 1}`}>{index + 1}</span></td>
                       <td className="system-col">
-                        <span className="memory-name">{getMemorySystemName(item.memory)}</span>
-                      </td>
-                      <td className="model-col">
-                        <span className="model-badge">{item.model}</span>
+                        <span className="system-name">{getMemorySystemName(row.memory)}</span>
                       </td>
                       <td className="elo-col">
-                        <span className="elo-badge">{item.elo.toFixed(1)}</span>
+                        <div className="elo-display">
+                          <StarRating elo={row.elo} />
+                          <ELOBar elo={row.elo} minElo={benchmarkEloRange.min} maxElo={benchmarkEloRange.max} />
+                        </div>
                       </td>
+                      <td className="model-col"><span className="model-badge">{row.model}</span></td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </section>
-        )}
+          )}
+        </section>
+
+        {/* Heatmaps Section */}
+        <section className="benchmark-section">
+          <h2 className="section-title">Benchmark Performance Heatmaps</h2>
+          <div className="heatmaps-container">
+            {baseModels
+              .filter(model => !selectedBaseModel || model.id === selectedBaseModel)
+              .map(model => (
+                <HeatmapSection key={model.id} model={model} />
+              ))}
+          </div>
+        </section>
       </div>
     </div>
   );

@@ -66,10 +66,10 @@ export default function Detail() {
             <div className="system-icon">{memorySystem?.name?.charAt(0) || 'S'}</div>
             <div className="system-title">
               <h1>{memorySystem?.name || memorySystemId}</h1>
-              <p className="system-subtitle">{memorySystem?.description}</p>
+              <p className="system-subtitle">{baseModel?.name || baseModelId}</p>
             </div>
           </div>
-          <div className="base-model-badge">{baseModel?.name || baseModelId}</div>
+          <div className="base-model-badge">{memorySystem?.name || memorySystemId} + {baseModel?.name || baseModelId}</div>
         </div>
 
         <div className="metrics-overview">

@@ -1,15 +1,8 @@
-import { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { eloData } from '../data/eloData';
 import './Layout.css';
 
 export default function Layout({ children }) {
   const location = useLocation();
-
-  const avgElo = useMemo(() => {
-    const vals = Object.values(eloData.overall_elo_full_participation).map(v => v.avg);
-    return Math.round(vals.reduce((a, b) => a + b, 0) / vals.length);
-  }, []);
 
   return (
     <div className="layout">
@@ -35,25 +28,33 @@ export default function Layout({ children }) {
               Case Details
             </Link>
           </nav>
-          <div className="header-stats">
-            <div className="header-stat">
-              <span className="header-stat-value">16</span>
-              <span className="header-stat-label">Systems</span>
-            </div>
-            <div className="header-stat">
-              <span className="header-stat-value">7</span>
-              <span className="header-stat-label">Benchmarks</span>
-            </div>
-            <div className="header-stat">
-              <span className="header-stat-value">{avgElo}</span>
-              <span className="header-stat-label">Avg ELO</span>
-            </div>
-          </div>
         </div>
       </header>
       <main className="layout-main">
         {children}
       </main>
+      <footer className="layout-footer">
+        <div className="footer-content">
+          <div className="footer-stats">
+            <div className="footer-stat">
+              <span className="footer-stat-value">2</span>
+              <span className="footer-stat-label">MODELS</span>
+            </div>
+            <div className="footer-stat">
+              <span className="footer-stat-value">8</span>
+              <span className="footer-stat-label">MEMORYS</span>
+            </div>
+            <div className="footer-stat">
+              <span className="footer-stat-value">3</span>
+              <span className="footer-stat-label">DOMAINS</span>
+            </div>
+            <div className="footer-stat">
+              <span className="footer-stat-value">4</span>
+              <span className="footer-stat-label">TASKS</span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

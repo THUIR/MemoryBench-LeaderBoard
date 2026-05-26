@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useState, useMemo, useEffect } from 'react';
-import { cases, memorySystems, getMemorySystemId, getBaseModelId, eloData } from '../data/eloData';
+import { cases, memorySystems, baseModels, getMemorySystemId, getBaseModelId, eloData } from '../data/eloData';
 import './CaseSamples.css';
 
 const checklistLabels = [
@@ -48,46 +48,64 @@ function getMetricsDisplay(sample) {
 
   if (m.reasoning_bert_score !== undefined) {
     return (
-      <div className="metrics-grid">
-        <div className="metric-item">
-          <span className="metric-label">Reasoning BERT</span>
-          <span className="metric-value">{(m.reasoning_bert_score * 100).toFixed(1)}%</span>
-        </div>
-        <div className="metric-item">
-          <span className="metric-label">Judge BERT</span>
-          <span className="metric-value">{(m.judge_bert_score * 100).toFixed(1)}%</span>
-        </div>
-        <div className="metric-item">
-          <span className="metric-label">Crime Recall</span>
-          <span className="metric-value">{(m.crime_recall * 100).toFixed(1)}%</span>
-        </div>
-        <div className="metric-item">
-          <span className="metric-label">Crime Precision</span>
-          <span className="metric-value">{(m.crime_precision * 100).toFixed(1)}%</span>
-        </div>
-        {m.golden_answer && (
-          <div className="metric-item full-width">
-            <span className="metric-label">Golden Answer</span>
-            <span className="metric-value">{m.golden_answer}</span>
+      <div className="checklist-grid">
+        <div className="checklist-item">
+          <span className="checklist-label">Reasoning BERT</span>
+          <div className="checklist-bar-container">
+            <div
+              className="checklist-bar"
+              style={{ width: `${(m.reasoning_bert_score || 0) * 100}%` }}
+            />
           </div>
-        )}
+          <span className="checklist-score">{(m.reasoning_bert_score * 100).toFixed(1)}%</span>
+        </div>
+        <div className="checklist-item">
+          <span className="checklist-label">Judge BERT</span>
+          <div className="checklist-bar-container">
+            <div
+              className="checklist-bar"
+              style={{ width: `${(m.judge_bert_score || 0) * 100}%` }}
+            />
+          </div>
+          <span className="checklist-score">{(m.judge_bert_score * 100).toFixed(1)}%</span>
+        </div>
+        <div className="checklist-item">
+          <span className="checklist-label">Crime Recall</span>
+          <div className="checklist-bar-container">
+            <div
+              className="checklist-bar"
+              style={{ width: `${(m.crime_recall || 0) * 100}%` }}
+            />
+          </div>
+          <span className="checklist-score">{(m.crime_recall * 100).toFixed(1)}%</span>
+        </div>
+        <div className="checklist-item">
+          <span className="checklist-label">Crime Precision</span>
+          <div className="checklist-bar-container">
+            <div
+              className="checklist-bar"
+              style={{ width: `${(m.crime_precision || 0) * 100}%` }}
+            />
+          </div>
+          <span className="checklist-score">{(m.crime_precision * 100).toFixed(1)}%</span>
+        </div>
       </div>
     );
   }
 
   if (m.f1 !== undefined) {
     return (
-      <div className="metrics-grid">
-        <div className="metric-item">
-          <span className="metric-label">F1 Score</span>
-          <span className="metric-value">{(m.f1 * 100).toFixed(1)}%</span>
-        </div>
-        {m.golden_answer && (
-          <div className="metric-item full-width">
-            <span className="metric-label">Golden Answer</span>
-            <span className="metric-value">{m.golden_answer}</span>
+      <div className="checklist-grid">
+        <div className="checklist-item">
+          <span className="checklist-label">F1 Score</span>
+          <div className="checklist-bar-container">
+            <div
+              className="checklist-bar"
+              style={{ width: `${(m.f1 || 0) * 100}%` }}
+            />
           </div>
-        )}
+          <span className="checklist-score">{(m.f1 * 100).toFixed(1)}%</span>
+        </div>
       </div>
     );
   }
@@ -124,58 +142,60 @@ function SampleModal({ sample, onClose }) {
         </div>
 
         <div className="modal-body">
-          <div className="modal-section">
-            <h3>Score</h3>
-            <div className="modal-score">
-              <span className="score-value">{getScoreDisplay(sample)?.toFixed(4) || 'N/A'}</span>
+          {/* Top Section: Score + Metrics */}
+          <div className="modal-top-section">
+            <div className="modal-section modal-score-section">
+              <h3>Score</h3>
+              <div className="modal-score">
+                <span className="score-value">{getScoreDisplay(sample)?.toFixed(4) || 'N/A'}</span>
+              </div>
+            </div>
+
+            <div className="modal-section modal-metrics-section">
+              <h3>Metrics</h3>
+              {getMetricsDisplay(sample)}
             </div>
           </div>
 
-          <div className="modal-section">
-            <h3>Metrics</h3>
-            {getMetricsDisplay(sample)}
-          </div>
-
-          {sample.messages && sample.messages.length > 0 && (
-            <div className="modal-section">
-              <h3>Input Messages</h3>
-              <div className="messages-list">
-                {sample.messages.map((msg, idx) => (
-                  <div key={idx} className={`message-item ${msg.role}`}>
-                    <span className="message-role">{msg.role}</span>
-                    <p className="message-content">{msg.content}</p>
+          {/* Bottom Section: Two Columns */}
+          <div className="modal-bottom-section">
+            <div className="modal-column">
+              {sample.messages && sample.messages.length > 0 && (
+                <div className="modal-section">
+                  <h3>Input Messages</h3>
+                  <div className="messages-list">
+                    {sample.messages.map((msg, idx) => (
+                      <div key={idx} className={`message-item ${msg.role}`}>
+                        <span className="message-role">{msg.role}</span>
+                        <p className="message-content">{msg.content}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {sample.response && (
-            <div className="modal-section">
-              <h3>Model Response</h3>
-              <div className="response-content">
-                {sample.response}
-              </div>
-            </div>
-          )}
-
-          {sample.eval_details && (sample.eval_details.exp_reasoning || sample.eval_details.golden_answer) && (
-            <div className="modal-section">
-              <h3>Evaluation Details</h3>
-              {sample.eval_details.exp_reasoning && (
-                <div className="eval-detail">
-                  <span className="eval-label">Expected Reasoning:</span>
-                  <p>{sample.eval_details.exp_reasoning}</p>
-                </div>
-              )}
-              {sample.eval_details.golden_answer && (
-                <div className="eval-detail">
-                  <span className="eval-label">Golden Answer:</span>
-                  <p>{sample.eval_details.golden_answer}</p>
                 </div>
               )}
             </div>
-          )}
+
+            <div className="modal-column">
+              {sample.response && (
+                <div className="modal-section">
+                  <h3>Model Response</h3>
+                  <div className="response-content">
+                    {sample.response}
+                  </div>
+                </div>
+              )}
+
+              {sample.eval_details && sample.eval_details.exp_reasoning && (
+                <div className="modal-section">
+                  <h3>Evaluation Details</h3>
+                  <div className="eval-detail">
+                    <span className="eval-label">Expected Reasoning:</span>
+                    <p>{sample.eval_details.exp_reasoning}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -199,6 +219,7 @@ export default function CaseSamples() {
   const [selectedSample, setSelectedSample] = useState(null);
   const [filterMemory, setFilterMemory] = useState('all');
   const [filterModel, setFilterModel] = useState('all');
+  const [filterScore, setFilterScore] = useState('all');
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -210,22 +231,6 @@ export default function CaseSamples() {
       setLoading(false);
     });
   }, [caseId]);
-
-  const filteredSamples = useMemo(() => {
-    return samples.filter(s => {
-      if (filterMemory !== 'all' && s.memory_system !== filterMemory) return false;
-      if (filterModel !== 'all' && s.model !== filterModel) return false;
-      return true;
-    });
-  }, [samples, filterMemory, filterModel]);
-
-  const totalPages = Math.ceil(filteredSamples.length / ITEMS_PER_PAGE);
-  const paginatedSamples = filteredSamples.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
-
-  const caseInfo = cases.find(c => c.id === caseId);
 
   const rankedSystems = useMemo(() => {
     const caseData = eloData.cases[caseId];
@@ -240,9 +245,45 @@ export default function CaseSamples() {
       }));
   }, [caseId]);
 
+  const evaluatedSystemKeys = useMemo(() => {
+    return new Set(rankedSystems.map(s => s.systemKey));
+  }, [rankedSystems]);
+
+  const evaluatedSamples = useMemo(() => {
+    return samples.filter(s => {
+      const modelSuffix = s.model.includes("32B") ? "-32B" : "-8B";
+      const sysKey = `${s.memory_system}${modelSuffix}`;
+      return evaluatedSystemKeys.has(sysKey);
+    });
+  }, [samples, evaluatedSystemKeys]);
+
+  const filteredSamples = useMemo(() => {
+    return evaluatedSamples.filter(s => {
+      if (filterMemory !== 'all' && s.memory_system !== filterMemory) return false;
+      if (filterModel !== 'all' && s.model !== filterModel) return false;
+      if (filterScore !== 'all') {
+        const score = getScoreDisplay(s);
+        if (filterScore === 'high' && score < 0.8) return false;
+        if (filterScore === 'mid' && (score < 0.5 || score >= 0.8)) return false;
+        if (filterScore === 'low' && score >= 0.5) return false;
+      }
+      return true;
+    });
+  }, [evaluatedSamples, filterMemory, filterModel, filterScore]);
+
+  const totalPages = Math.ceil(filteredSamples.length / ITEMS_PER_PAGE);
+  const paginatedSamples = filteredSamples.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const caseInfo = cases.find(c => c.id === caseId);
+
   const uniqueMemories = useMemo(() => {
-    return [...new Set(samples.map(s => s.memory_system))];
-  }, [samples]);
+    return [...new Set(evaluatedSamples.map(s => s.memory_system))];
+  }, [evaluatedSamples]);
+
+  const systemsCount = rankedSystems.length;
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -274,23 +315,41 @@ export default function CaseSamples() {
           </div>
           <div className="case-header-stats">
             <div className="stat">
-              <span className="stat-value">{filteredSamples.length}</span>
+              <span className="stat-value">{evaluatedSamples.length}</span>
               <span className="stat-label">Samples</span>
             </div>
             <div className="stat">
-              <span className="stat-value">{uniqueMemories.length}</span>
-              <span className="stat-label">Memory Systems</span>
+              <span className="stat-value">{systemsCount}</span>
+              <span className="stat-label">Systems</span>
             </div>
           </div>
         </div>
 
+        <section className="systems-ranking">
+          <h2 className="section-title">Systems Ranking for This Case</h2>
+          <div className="ranking-list">
+            {rankedSystems.map((sys, idx) => (
+              <div key={sys.systemKey} className="ranking-item">
+                <span className={`rank-badge rank-${idx + 1}`}>{idx + 1}</span>
+                <div className="system-info">
+                  <span className="system-model">{baseModels.find(b => b.id === sys.baseModel)?.name || sys.baseModel}</span>
+                  <span className="system-name">{memorySystems.find(m => m.id === sys.memorySystem)?.name || sys.memorySystem}</span>
+                </div>
+                <span className="elo-value">{sys.elo.toFixed(1)}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <div className="sample-filters">
+          <h2 className="section-title">Sample Evaluations ({filteredSamples.length})</h2>
+          <div className="filter-row">
           <div className="filter-group">
             <label>Memory System</label>
             <select value={filterMemory} onChange={e => { setFilterMemory(e.target.value); setCurrentPage(1); }}>
               <option value="all">All</option>
               {uniqueMemories.map(m => (
-                <option key={m} value={m}>{m}</option>
+                <option key={m} value={m}>{memorySystems.find(mem => mem.id === m)?.name || m}</option>
               ))}
             </select>
           </div>
@@ -302,10 +361,22 @@ export default function CaseSamples() {
               <option value="Qwen3-32B">Qwen3-32B</option>
             </select>
           </div>
+          <div className="filter-group">
+            <label>Score</label>
+            <select value={filterScore} onChange={e => { setFilterScore(e.target.value); setCurrentPage(1); }}>
+              <option value="all">All</option>
+              <option value="high">High (&gt;=0.8)</option>
+              <option value="mid">Mid (0.5-0.8)</option>
+              <option value="low">Low (&lt;0.5)</option>
+            </select>
+          </div>
+          <button className="clear-filters-btn" onClick={() => { setFilterMemory('all'); setFilterModel('all'); setFilterScore('all'); setCurrentPage(1); }}>
+            ✕ Clear
+          </button>
+          </div>
         </div>
 
         <section className="samples-section">
-          <h2 className="section-title">Sample Evaluations ({filteredSamples.length})</h2>
           <div className="samples-list">
             {paginatedSamples.map((sample, idx) => (
               <div
@@ -385,24 +456,22 @@ export default function CaseSamples() {
               <span className="page-info">
                 Page {currentPage} of {totalPages}
               </span>
+              <input
+                type="number"
+                className="page-jump-input"
+                min={1}
+                max={totalPages}
+                placeholder="#"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    const val = parseInt(e.target.value);
+                    if (val >= 1 && val <= totalPages) handlePageChange(val);
+                    e.target.value = '';
+                  }
+                }}
+              />
             </div>
           )}
-        </section>
-
-        <section className="systems-ranking">
-          <h2 className="section-title">Systems Ranking for This Case</h2>
-          <div className="ranking-list">
-            {rankedSystems.map((sys, idx) => (
-              <div key={sys.systemKey} className="ranking-item">
-                <span className={`rank-badge rank-${idx + 1}`}>{idx + 1}</span>
-                <div className="system-info">
-                  <span className="system-name">{memorySystems.find(m => m.id === sys.memorySystem)?.name || sys.memorySystem}</span>
-                  <span className="system-model">{sys.baseModel}</span>
-                </div>
-                <span className="elo-value">{sys.elo.toFixed(1)}</span>
-              </div>
-            ))}
-          </div>
         </section>
       </div>
 

@@ -20,7 +20,7 @@ export const eloData = {
         "wo_memory-32B": 954.6
       },
       "n_systems": 16,
-      "n_samples": 154
+      "n_samples": 800
     },
     "domain/Legal": {
       "elo": {
@@ -42,7 +42,7 @@ export const eloData = {
         "wo_memory-32B": 1019.0
       },
       "n_systems": 16,
-      "n_samples": 181
+      "n_samples": 800
     },
     "domain/Open-Domain": {
       "elo": {
@@ -62,7 +62,7 @@ export const eloData = {
         "wo_memory-32B": 1287.4
       },
       "n_systems": 14,
-      "n_samples": 245
+      "n_samples": 750
     },
     "task/Long-Long": {
       "elo": {
@@ -81,7 +81,7 @@ export const eloData = {
         "wo_memory-32B": 941.1
       },
       "n_systems": 13,
-      "n_samples": 199
+      "n_samples": 650
     },
     "task/Long-Short": {
       "elo": {
@@ -99,7 +99,7 @@ export const eloData = {
         "wo_memory-32B": 913.0
       },
       "n_systems": 12,
-      "n_samples": 139
+      "n_samples": 600
     },
     "task/Short-Long": {
       "elo": {
@@ -118,7 +118,7 @@ export const eloData = {
         "wo_memory-32B": 1214.7
       },
       "n_systems": 13,
-      "n_samples": 140
+      "n_samples": 650
     },
     "task/Short-Short": {
       "elo": {
@@ -137,7 +137,7 @@ export const eloData = {
         "wo_memory-32B": 1138.6
       },
       "n_systems": 13,
-      "n_samples": 144
+      "n_samples": 650
     }
   },
   "overall_elo": {
@@ -191,13 +191,13 @@ export const baseModels = [
 ];
 
 export const cases = [
-  { id: "domain/Academic&Knowledge", name: "Academic & Knowledge", type: "domain", samples: 154 },
-  { id: "domain/Legal", name: "Legal", type: "domain", samples: 181 },
-  { id: "domain/Open-Domain", name: "Open-Domain", type: "domain", samples: 245 },
-  { id: "task/Long-Long", name: "Long-Long", type: "task", samples: 199 },
-  { id: "task/Long-Short", name: "Long-Short", type: "task", samples: 139 },
-  { id: "task/Short-Long", name: "Short-Long", type: "task", samples: 140 },
-  { id: "task/Short-Short", name: "Short-Short", type: "task", samples: 144 }
+  { id: "domain/Academic&Knowledge", name: "Academic & Knowledge", type: "domain", samples: 800 },
+  { id: "domain/Legal", name: "Legal", type: "domain", samples: 800 },
+  { id: "domain/Open-Domain", name: "Open-Domain", type: "domain", samples: 750 },
+  { id: "task/Long-Long", name: "Long-Long", type: "task", samples: 650 },
+  { id: "task/Long-Short", name: "Long-Short", type: "task", samples: 600 },
+  { id: "task/Short-Long", name: "Short-Long", type: "task", samples: 650 },
+  { id: "task/Short-Short", name: "Short-Short", type: "task", samples: 650 }
 ];
 
 export function getSystemKey(memorySystemId, baseModelId) {

@@ -41,7 +41,7 @@ body {
 .layout-header {
   background: var(--bg-secondary);
   border-bottom: 1px solid var(--border-subtle);
-  padding: 0 80px;
+  padding: 0 160px;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -86,9 +86,7 @@ body {
 .header-nav {
   display: flex;
   gap: 4px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  margin-left: auto;
 }
 
 .nav-link {
@@ -144,4 +142,125 @@ body {
 .layout-main {
   flex: 1;
   background: var(--bg-primary);
+}
+
+.layout-footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-subtle);
+  padding: 0 160px;
+  box-shadow: 0 -1px 3px rgba(139, 115, 85, 0.05);
+}
+
+.footer-content {
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 64px;
+}
+
+.footer-stats {
+  display: flex;
+  gap: 48px;
+}
+
+.footer-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.footer-stat-value {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1;
+  font-feature-settings: 'tnum';
+}
+
+.footer-stat-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .layout-header {
+    padding: 0 24px;
+  }
+
+  .header-stats {
+    display: none;
+  }
+
+  .layout-footer {
+    padding: 0 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-header {
+    padding: 0 12px;
+  }
+
+  .header-content {
+    height: 56px;
+  }
+
+  .logo-text {
+    font-size: 16px;
+  }
+
+  .logo-suffix {
+    display: none;
+  }
+
+  .nav-link {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .layout-footer {
+    padding: 0 12px;
+  }
+
+  .footer-content {
+    height: 56px;
+  }
+
+  .footer-stats {
+    gap: 24px;
+  }
+
+  .footer-stat-value {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-nav {
+    gap: 2px;
+  }
+
+  .nav-link {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+
+  .footer-stats {
+    gap: 16px;
+  }
+
+  .footer-stat-value {
+    font-size: 14px;
+  }
+
+  .footer-stat-label {
+    font-size: 9px;
+  }
 }

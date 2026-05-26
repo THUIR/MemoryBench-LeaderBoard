@@ -38,7 +38,7 @@ body {
 
 .page-wrapper {
   flex: 1;
-  padding: 40px 80px;
+  padding: 40px 160px;
   max-width: 1600px;
   margin: 0 auto;
 }
@@ -100,7 +100,7 @@ body {
 }
 
 .filter-btn.active {
-  background: linear-gradient(135deg, var(--accent-golden), var(--accent-caramel));
+  background: linear-gradient(135deg, var(--accent-golden), var(--accent-golden));
   border-color: transparent;
   color: white;
 }
@@ -116,15 +116,6 @@ body {
   cursor: pointer;
   border-radius: 6px;
   min-width: 160px;
-}
-
-.section-title {
-  font-family: 'IBM Plex Serif', serif;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-  letter-spacing: 0.02em;
 }
 
 .section-subtitle {
@@ -147,18 +138,18 @@ body {
 .heatmap-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;
+  min-width: 500px;
 }
 
 .heatmap-table th,
 .heatmap-table td {
-  padding: 10px 14px;
+  padding: 6px 8px;
   text-align: center;
 }
 
 .heatmap-corner {
   text-align: left;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -166,37 +157,37 @@ body {
 }
 
 .heatmap-col-header {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--text-secondary);
   writing-mode: vertical-lr;
   transform: rotate(180deg);
-  height: 70px;
+  height: 60px;
   vertical-align: bottom;
 }
 
 .heatmap-row-header {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   color: var(--text-primary);
   text-align: left;
-  padding-left: 16px;
+  padding-left: 12px;
 }
 
 .heatmap-cell-wrapper {
-  padding: 4px 6px !important;
+  padding: 3px 4px !important;
 }
 
 .heatmap-cell {
-  padding: 10px 14px;
-  border-radius: 6px;
+  padding: 6px 8px;
+  border-radius: 4px;
   transition: all 0.15s ease;
 }
 
 .heatmap-cell:hover {
-  transform: scale(1.08);
+  transform: scale(1.05);
   box-shadow: 0 4px 12px rgba(201, 169, 98, 0.25);
 }
 
@@ -206,7 +197,7 @@ body {
 }
 
 .heatmap-value {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--accent-deep);
 }
@@ -237,6 +228,15 @@ body {
   margin-top: 32px;
 }
 
+.ranking-section .section-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+
 .table-container {
   overflow-x: auto;
   background: var(--bg-card);
@@ -247,7 +247,7 @@ body {
 .leaderboard-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 600px;
+  min-width: 700px;
 }
 
 .leaderboard-table th {
@@ -281,11 +281,11 @@ body {
 }
 
 .leaderboard-table tbody tr.top-ranked {
-  background: linear-gradient(90deg, rgba(201, 169, 98, 0.05) 0%, transparent 50%);
+  background: linear-gradient(90deg, rgba(136, 118, 87, 0.05) 0%, transparent 50%);
 }
 
 .leaderboard-table tbody tr.top-ranked:hover {
-  background: linear-gradient(90deg, rgba(201, 169, 98, 0.08) 0%, var(--bg-card-hover) 50%);
+  background: linear-gradient(90deg, rgba(136, 118, 87, 0.08) 0%, var(--bg-card-hover) 50%);
 }
 
 .rank-col {
@@ -325,29 +325,38 @@ body {
   color: #ffffff;
 }
 
-.system-col {
+.model-col {
+  min-width: 120px;
+}
+
+.memory-col {
   min-width: 150px;
 }
 
-.system-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+.model-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.memory-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.system-col {
+  min-width: 120px;
 }
 
 .system-name {
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
-.system-model {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
 .elo-col {
-  min-width: 200px;
+  min-width: 220px;
 }
 
 .elo-display {
@@ -363,11 +372,11 @@ body {
 
 .star {
   font-size: 12px;
-  color: #e8dcc8;
+  color: var(--accent-honey);
 }
 
 .star.filled {
-  color: var(--accent-caramel);
+  color: var(--accent-golden);
 }
 
 .elo-bar-container {
@@ -377,17 +386,18 @@ body {
 }
 
 .elo-bar {
-  height: 5px;
+  height: 6px;
   background: linear-gradient(90deg, var(--accent-honey), var(--accent-golden));
   border-radius: 3px;
-  min-width: 3px;
-  max-width: 100px;
+  min-width: 4px;
+  max-width: 240px;
+  transition: width 0.3s ease;
 }
 
 .elo-value {
   font-size: 13px;
   font-weight: 600;
-  color: var(--accent-caramel);
+  color: var(--accent-golden);
   min-width: 45px;
 }
 
@@ -417,7 +427,7 @@ body {
   padding: 6px 12px;
   font-size: 11px;
   font-weight: 500;
-  color: var(--accent-caramel);
+  color: var(--accent-golden);
   text-decoration: none;
   border: 1px solid var(--accent-honey);
   border-radius: 6px;
@@ -425,7 +435,7 @@ body {
 }
 
 .view-detail-btn:hover {
-  background: linear-gradient(135deg, var(--accent-golden), var(--accent-caramel));
+  background: linear-gradient(135deg, var(--accent-golden), var(--accent-golden));
   border-color: transparent;
   color: white;
 }
@@ -503,8 +513,8 @@ body {
 }
 
 .dropdown-item.selected {
-  background: rgba(201, 169, 98, 0.1);
-  color: var(--accent-caramel);
+  background: rgba(228, 198, 208, 0.1);
+  color: var(--accent-golden);
 }
 
 .dropdown-item.clear-btn {
@@ -527,6 +537,7 @@ body {
 }
 
 .clear-all-btn {
+  margin-left: auto;
   padding: 10px 16px;
   background: var(--bg-card);
   border: 1px solid #c0392b;
@@ -546,8 +557,12 @@ body {
 
 /* Fixed Height Table */
 .table-container.fixed-height {
-  max-height: 400px;
+  max-height: 600px;
   overflow-y: auto;
+}
+
+.elo-col {
+  min-width: 280px;
 }
 
 /* Case Ranking Section */
@@ -633,7 +648,7 @@ body {
 }
 
 .case-ranking-table tbody tr.top-ranked {
-  background: linear-gradient(90deg, rgba(201, 169, 98, 0.05) 0%, transparent 50%);
+  background: linear-gradient(90deg, rgba(136, 118, 87, 0.05) 0%, transparent 50%);
 }
 
 .model-col {
@@ -645,8 +660,8 @@ body {
   padding: 4px 10px;
   font-size: 11px;
   font-weight: 500;
-  background: rgba(201, 169, 98, 0.1);
-  color: var(--accent-caramel);
+  background: rgba(228, 198, 208, 0.1);
+  color: var(--accent-golden);
   border-radius: 4px;
 }
 
@@ -675,4 +690,262 @@ body {
 
 .case-filter label {
   white-space: nowrap;
+}
+
+/* Benchmark Section */
+.benchmark-section {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.benchmark-section .section-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 24px;
+  letter-spacing: 0.02em;
+}
+
+.line-chart-fullwidth {
+  margin-bottom: 40px;
+}
+
+.line-chart-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.line-chart-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+}
+
+/* Benchmark Tables Section */
+.benchmark-tables-section {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.benchmark-tables-section .section-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  letter-spacing: 0.02em;
+}
+
+.benchmark-tables-section .case-filter {
+  margin-bottom: 20px;
+}
+
+.benchmark-table {
+  margin-top: 16px;
+}
+
+.heatmaps-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 24px;
+}
+
+.model-heatmap-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.model-heatmap-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.chart-axis-label {
+  font-size: 10px;
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.chart-tooltip-title {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.chart-tooltip-value {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chart-tooltip-case {
+  font-size: 9px;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.legend-name {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .page-wrapper {
+    padding: 24px 24px;
+  }
+
+  .filter-row {
+    gap: 12px;
+  }
+
+  .dropdown-filter {
+    min-width: 140px;
+  }
+
+  .elo-col {
+    min-width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-wrapper {
+    padding: 16px 12px;
+  }
+
+  .table-header {
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .filter-row {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .dropdown-filter {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .clear-all-btn {
+    width: 100%;
+  }
+
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 10px 12px;
+  }
+
+  .elo-col {
+    min-width: 140px;
+  }
+
+  .participated-col,
+  .detail-col {
+    display: none;
+  }
+
+  .model-col {
+    min-width: 80px;
+  }
+
+  .memory-col {
+    min-width: 100px;
+  }
+
+  .heatmaps-container {
+    grid-template-columns: 1fr;
+  }
+
+  .benchmark-tables-section .case-filter {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-wrapper {
+    padding: 12px 8px;
+  }
+
+  .rank-col {
+    width: 40px;
+  }
+
+  .rank-badge {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+  }
+
+  .model-col {
+    min-width: 60px;
+  }
+
+  .memory-col {
+    min-width: 80px;
+  }
+
+  .model-name {
+    font-size: 11px;
+  }
+
+  .memory-name {
+    font-size: 10px;
+  }
+
+  .elo-bar {
+    max-width: 80px;
+  }
+
+  .elo-value {
+    font-size: 11px;
+  }
+
+  .case-buttons {
+    gap: 4px;
+  }
+
+  .filter-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .heatmaps-container {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
 }
