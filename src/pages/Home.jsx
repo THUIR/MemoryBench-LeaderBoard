@@ -260,7 +260,6 @@ function HeroSection() {
             <h1 className="hero-title">
               Memory<span className="title-accent">Bench</span>
             </h1>
-            <p className="hero-subtitle">Leaderboard</p>
             <p className="hero-description">
               A standardized and extensible benchmark for evaluating memory and continual learning in LLM systems
             </p>

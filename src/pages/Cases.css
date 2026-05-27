@@ -15,7 +15,7 @@
 
 .cases-title {
   font-family: 'IBM Plex Serif', serif;
-  font-size: 32px;
+  font-size: 33px;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 8px;
@@ -23,7 +23,7 @@
 }
 
 .cases-subtitle {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text-secondary);
 }
 

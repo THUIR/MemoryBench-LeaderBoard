@@ -749,16 +749,16 @@
 .modal-score-section {
   flex: 0 0 200px;
   padding: 16px;
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.12), rgba(184, 134, 11, 0.06));
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.08), rgba(184, 134, 11, 0.04));
   border-radius: 10px;
-  border: 1px solid rgba(201, 169, 98, 0.2);
+  border: 1px solid rgba(201, 169, 98, 0.15);
 }
 
 .modal-metrics-section {
   flex: 1;
   padding: 16px;
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.12), rgba(184, 134, 11, 0.06));
-  border: 1px solid rgba(201, 169, 98, 0.2);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.08), rgba(184, 134, 11, 0.04));
+  border: 1px solid rgba(201, 169, 98, 0.15);
   border-radius: 10px;
   overflow-y: auto;
 }
@@ -766,8 +766,8 @@
 .modal-eval-section {
   flex-shrink: 0;
   padding: 16px;
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.12), rgba(184, 134, 11, 0.06));
-  border: 1px solid rgba(201, 169, 98, 0.2);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
   border-radius: 10px;
   max-height: 150px;
   overflow-y: auto;
@@ -787,8 +787,8 @@
   min-height: 0;
   overflow-y: auto;
   padding: 16px;
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.12), rgba(184, 134, 11, 0.06));
-  border: 1px solid rgba(201, 169, 98, 0.2);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.08), rgba(184, 134, 11, 0.04));
+  border: 1px solid rgba(201, 169, 98, 0.15);
   border-radius: 10px;
 }
 
@@ -1168,29 +1168,29 @@
 }
 
 [data-theme="dark"] .modal-score-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
-  border-color: rgba(201, 169, 98, 0.25);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
+  border-color: rgba(201, 169, 98, 0.2);
 }
 
 [data-theme="dark"] .modal-metrics-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
-  border-color: rgba(201, 169, 98, 0.25);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
+  border-color: rgba(201, 169, 98, 0.2);
 }
 
 [data-theme="dark"] .modal-eval-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
-  border-color: rgba(201, 169, 98, 0.25);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
+  border-color: rgba(201, 169, 98, 0.2);
 }
 
 [data-theme="dark"] .modal-messages-section,
 [data-theme="dark"] .modal-response-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
-  border-color: rgba(201, 169, 98, 0.25);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
+  border-color: rgba(201, 169, 98, 0.2);
 }
 
 [data-theme="dark"] .modal-column .modal-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
-  border-color: rgba(201, 169, 98, 0.25);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
+  border-color: rgba(201, 169, 98, 0.2);
 }
 
 [data-theme="dark"] .modal-header h2 {
@@ -1198,12 +1198,12 @@
 }
 
 [data-theme="dark"] .modal-meta .meta-badge {
-  background: #1e1e1e;
+  background: #1a1a1a;
   color: #b0a890;
 }
 
 [data-theme="dark"] .eval-detail {
-  background: #151515;
+  background: #0a0a0a;
 }
 
 [data-theme="dark"] .eval-detail p {
@@ -1211,12 +1211,12 @@
 }
 
 [data-theme="dark"] .response-content {
-  background: #151515;
+  background: #0a0a0a;
   color: #e8e0d0;
 }
 
 [data-theme="dark"] .message-item {
-  background: #151515;
+  background: #0a0a0a;
 }
 
 [data-theme="dark"] .message-role {
@@ -1225,4 +1225,16 @@
 
 [data-theme="dark"] .message-content {
   color: #e8e0d0;
+}
+
+.modal-eval-section h3,
+.modal-eval-section p {
+  color: var(--text-secondary);
+}
+
+.modal-messages-section h3,
+.modal-messages-section .message-content,
+.modal-response-section h3,
+.modal-response-section .response-content {
+  color: var(--text-primary);
 }
