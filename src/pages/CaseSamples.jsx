@@ -362,20 +362,20 @@ export default function CaseSamples() {
             <div className="sample-filters">
               <div className="filter-row">
               <div className="filter-group">
+                <label>Model</label>
+                <select value={filterModel} onChange={e => { setFilterModel(e.target.value); setCurrentPage(1); }}>
+                  <option value="all">All</option>
+                  <option value="Qwen3-8B">Qwen3-8B</option>
+                  <option value="Qwen3-32B">Qwen3-32B</option>
+                </select>
+              </div>
+              <div className="filter-group">
                 <label>Memory System</label>
                 <select value={filterMemory} onChange={e => { setFilterMemory(e.target.value); setCurrentPage(1); }}>
                   <option value="all">All</option>
                   {uniqueMemories.map(m => (
                     <option key={m} value={m}>{memorySystems.find(mem => mem.id === m)?.name || m}</option>
                   ))}
-                </select>
-              </div>
-              <div className="filter-group">
-                <label>Model</label>
-                <select value={filterModel} onChange={e => { setFilterModel(e.target.value); setCurrentPage(1); }}>
-                  <option value="all">All</option>
-                  <option value="Qwen3-8B">Qwen3-8B</option>
-                  <option value="Qwen3-32B">Qwen3-32B</option>
                 </select>
               </div>
               <div className="filter-group">

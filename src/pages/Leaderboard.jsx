@@ -332,7 +332,7 @@ export default function Leaderboard() {
       <div className="page-wrapper">
         <div className="page-header">
           <h1 className="page-title">Leaderboard</h1>
-          <p className="page-subtitle">Compare ELO ratings across 2 base models and 8 memory systems · Filter by model, memory, or view all</p>
+          <p className="page-subtitle">Compare ELO ratings across 2 base models and 8 memory systems · Filter by model, memory system, or view all</p>
         </div>
 
         {/* Main Leaderboard Section */}
@@ -350,7 +350,7 @@ export default function Leaderboard() {
               onClear={() => setSelectedBaseModel('')}
             />
             <DropdownFilter
-              label="Memory"
+              label="Memory System"
               options={memorySystems}
               value={selectedMemorySystem}
               onChange={setSelectedMemorySystem}
@@ -407,7 +407,7 @@ export default function Leaderboard() {
                 onClear={() => setSelectedBenchmarkModel('')}
               />
               <DropdownFilter
-                label="Memory"
+                label="Memory System"
                 options={memorySystems}
                 value={selectedBenchmarkMemory}
                 onChange={setSelectedBenchmarkMemory}
