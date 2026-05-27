@@ -1,28 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap');
 
-:root {
-  --bg-primary: #faf7f3;
-  --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f5efe8;
-  --border-subtle: rgba(139, 115, 85, 0.12);
-  --border-accent: rgba(139, 115, 85, 0.2);
-  --text-primary: #3d3225;
-  --text-secondary: #6b5d4d;
-  --text-muted: #a89b8a;
-  --accent-golden: #c9a962;
-  --accent-honey: #d4b896;
-  --accent-caramel: #b8860b;
-  --accent-warm-brown: #8b7355;
-  --accent-deep: #5c4a3a;
-}
-
 .detail-page {
   min-height: 100vh;
 }
 
 .page-wrapper {
-  padding: 40px 160px;
+  padding: 40px 160px 50px;
   max-width: 1600px;
   margin: 0 auto;
 }
@@ -290,7 +273,7 @@
 
 .case-card-footer {
   padding: 12px 20px;
-  background: #fdfaf7;
+  background: var(--bg-table-header);
   border-top: 1px solid var(--border-subtle);
 }
 
@@ -403,4 +386,72 @@
   .case-card-header h3 {
     font-size: 13px;
   }
+}
+
+/* Dark Mode */
+[data-theme="dark"] .back-link:hover {
+  background: var(--bg-card-hover);
+}
+
+[data-theme="dark"] .detail-header-section {
+  background: var(--bg-card);
+}
+
+[data-theme="dark"] .system-title h1 {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .system-subtitle {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .base-model-badge {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .metric-card {
+  background: var(--bg-card);
+}
+
+[data-theme="dark"] .metric-label {
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .metric-value {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .metric-unit {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .case-btn {
+  background: var(--bg-card);
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .case-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .case-card {
+  background: var(--bg-card);
+}
+
+[data-theme="dark"] .case-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .case-card-header h3 {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .case-card-footer {
+  background: var(--bg-table-header);
+}
+
+[data-theme="dark"] .case-id {
+  color: var(--text-muted);
 }

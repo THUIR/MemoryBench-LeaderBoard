@@ -1,46 +1,51 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Serif:wght@400;500;600;700&display=swap');
 
-:root {
-  --bg-primary: #faf7f3;
-  --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f5efe8;
-  --border-subtle: rgba(139, 115, 85, 0.12);
-  --border-accent: rgba(139, 115, 85, 0.2);
-  --text-primary: #3d3225;
-  --text-secondary: #6b5d4d;
-  --text-muted: #a89b8a;
-  --accent-golden: #c9a962;
-  --accent-honey: #d4b896;
-  --accent-caramel: #b8860b;
-  --accent-warm-brown: #8b7355;
-  --accent-deep: #5c4a3a;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: 'IBM Plex Sans', -apple-system, sans-serif;
-  min-height: 100vh;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
 .leaderboard {
   min-height: 100vh;
 }
 
 .page-wrapper {
   flex: 1;
-  padding: 40px 160px;
+  padding: 45px 160px 50px;
   max-width: 1600px;
   margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.page-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.leaderboard-header {
+  margin-bottom: 28px;
+}
+
+.leaderboard-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.leaderboard-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
 .table-header {
@@ -135,55 +140,60 @@ body {
   overflow-x: auto;
 }
 
-.heatmap-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 500px;
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: 105px repeat(8, 56px);
 }
 
-.heatmap-table th,
-.heatmap-table td {
-  padding: 6px 8px;
-  text-align: center;
+.heatmap-grid-corner {
+  background: transparent;
 }
 
-.heatmap-corner {
-  text-align: left;
+.heatmap-grid-header {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-}
-
-.heatmap-col-header {
-  font-size: 10px;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   color: var(--text-secondary);
-  writing-mode: vertical-lr;
-  transform: rotate(180deg);
-  height: 60px;
-  vertical-align: bottom;
+  text-align: center;
+  padding: 4px 2px 10px;
+  line-height: 1.2;
+  word-break: break-word;
+  white-space: normal;
+  height: 56px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
 }
 
-.heatmap-row-header {
-  font-size: 11px;
+.heatmap-grid-row-header {
+  font-size: 12px;
   font-weight: 500;
   color: var(--text-primary);
   text-align: left;
-  padding-left: 12px;
+  padding: 2px 10px;
+  display: flex;
+  align-items: center;
+  line-height: 1.2;
+  word-break: break-word;
+  white-space: normal;
 }
 
-.heatmap-cell-wrapper {
-  padding: 3px 4px !important;
+.heatmap-grid-cell {
+  padding: 1px;
+  height: 60px;
 }
 
 .heatmap-cell {
-  padding: 6px 8px;
-  border-radius: 4px;
+  padding: 2px;
+  border-radius: 2px;
   transition: all 0.15s ease;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .heatmap-cell:hover {
@@ -197,7 +207,7 @@ body {
 }
 
 .heatmap-value {
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--accent-deep);
 }
@@ -220,7 +230,7 @@ body {
 .legend-gradient {
   width: 120px;
   height: 6px;
-  background: linear-gradient(90deg, #f5efe8 0%, var(--accent-honey) 50%, var(--accent-golden) 100%);
+  background: linear-gradient(90deg, var(--bg-card-hover) 0%, var(--accent-honey) 50%, var(--accent-golden) 100%);
   border-radius: 3px;
 }
 
@@ -259,7 +269,7 @@ body {
   letter-spacing: 0.08em;
   color: var(--text-muted);
   border-bottom: 1px solid var(--border-subtle);
-  background: #fdfaf7;
+  background: var(--bg-table-header);
 }
 
 .leaderboard-table td {
@@ -281,11 +291,11 @@ body {
 }
 
 .leaderboard-table tbody tr.top-ranked {
-  background: linear-gradient(90deg, rgba(136, 118, 87, 0.05) 0%, transparent 50%);
+  background: linear-gradient(90deg, rgba(201, 169, 98, 0.06) 0%, transparent 50%);
 }
 
 .leaderboard-table tbody tr.top-ranked:hover {
-  background: linear-gradient(90deg, rgba(136, 118, 87, 0.08) 0%, var(--bg-card-hover) 50%);
+  background: linear-gradient(90deg, rgba(201, 169, 98, 0.08) 0%, var(--bg-card-hover) 50%);
 }
 
 .rank-col {
@@ -308,21 +318,21 @@ body {
 }
 
 .rank-badge.rank-1 {
-  background: linear-gradient(135deg, #fde68a, #facc15);
-  border-color: #facc15;
-  color: #713f12;
+  background: var(--rank-1-bg);
+  border-color: var(--rank-1-border);
+  color: var(--rank-1-color);
 }
 
 .rank-badge.rank-2 {
-  background: linear-gradient(135deg, #e8dcc8, #d4b896);
-  border-color: #d4b896;
-  color: #5c4a3a;
+  background: var(--rank-2-bg);
+  border-color: var(--rank-2-border);
+  color: var(--rank-2-color);
 }
 
 .rank-badge.rank-3 {
-  background: linear-gradient(135deg, #d4b896, #b8860b);
-  border-color: #b8860b;
-  color: #ffffff;
+  background: var(--rank-3-bg);
+  border-color: var(--rank-3-border);
+  color: var(--rank-3-color);
 }
 
 .model-col {
@@ -513,7 +523,7 @@ body {
 }
 
 .dropdown-item.selected {
-  background: rgba(228, 198, 208, 0.1);
+  background: rgba(201, 169, 98, 0.12);
   color: var(--accent-golden);
 }
 
@@ -524,7 +534,7 @@ body {
 }
 
 .dropdown-item.clear-btn:hover {
-  color: #c0392b;
+  color: var(--error-color);
 }
 
 /* Filter Row */
@@ -540,18 +550,18 @@ body {
   margin-left: auto;
   padding: 10px 16px;
   background: var(--bg-card);
-  border: 1px solid #c0392b;
+  border: 1px solid var(--error-color);
   border-radius: 6px;
   font-size: 11px;
   font-weight: 500;
-  color: #c0392b;
+  color: var(--error-color);
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
 }
 
 .clear-all-btn:hover {
-  background: #c0392b;
+  background: var(--error-color);
   color: white;
 }
 
@@ -630,7 +640,7 @@ body {
   letter-spacing: 0.08em;
   color: var(--text-muted);
   border-bottom: 1px solid var(--border-subtle);
-  background: #fdfaf7;
+  background: var(--bg-table-header);
 }
 
 .case-ranking-table td {
@@ -648,7 +658,7 @@ body {
 }
 
 .case-ranking-table tbody tr.top-ranked {
-  background: linear-gradient(90deg, rgba(136, 118, 87, 0.05) 0%, transparent 50%);
+  background: linear-gradient(90deg, rgba(201, 169, 98, 0.06) 0%, transparent 50%);
 }
 
 .model-col {
@@ -660,7 +670,7 @@ body {
   padding: 4px 10px;
   font-size: 11px;
   font-weight: 500;
-  background: rgba(228, 198, 208, 0.1);
+  background: rgba(201, 169, 98, 0.12);
   color: var(--accent-golden);
   border-radius: 4px;
 }
@@ -744,7 +754,7 @@ body {
 }
 
 .benchmark-tables-section .case-filter {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .benchmark-table {
@@ -753,8 +763,9 @@ body {
 
 .heatmaps-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
 }
 
 .model-heatmap-section {
@@ -762,6 +773,7 @@ body {
   border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 16px;
+  overflow-x: auto;
 }
 
 .model-heatmap-title {
@@ -769,7 +781,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .chart-axis-label {
@@ -889,10 +901,34 @@ body {
 
   .heatmaps-container {
     grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .benchmark-tables-section .case-filter {
     flex-wrap: wrap;
+  }
+
+  .heatmap-grid {
+    grid-template-columns: 80px repeat(8, 42px);
+  }
+
+  .heatmap-grid-header {
+    font-size: 9px;
+    padding: 4px 2px 8px;
+    height: 50px;
+  }
+
+  .heatmap-grid-row-header {
+    font-size: 11px;
+    padding: 2px 6px;
+  }
+
+  .heatmap-value {
+    font-size: 10px;
+  }
+
+  .heatmap-grid-cell {
+    height: 50px;
   }
 }
 
@@ -945,7 +981,7 @@ body {
   }
 
   .heatmaps-container {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: 1fr;
     gap: 16px;
   }
 }

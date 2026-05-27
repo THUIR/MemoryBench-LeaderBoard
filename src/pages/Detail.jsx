@@ -59,7 +59,7 @@ export default function Detail() {
   return (
     <div className="detail-page">
       <div className="page-wrapper">
-        <Link to="/" className="back-link">← Back to Leaderboard</Link>
+        <Link to="/leaderboard" className="back-link">← Back to Leaderboard</Link>
 
         <div className="detail-header-section">
           <div className="system-header">

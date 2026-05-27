@@ -157,11 +157,22 @@ function SampleModal({ sample, onClose }) {
             </div>
           </div>
 
-          {/* Bottom Section: Two Columns */}
+          {/* Evaluation Details Section (if exists) */}
+          {sample.eval_details && sample.eval_details.exp_reasoning && (
+            <div className="modal-section modal-eval-section">
+              <h3>Evaluation Details</h3>
+              <div className="eval-detail">
+                <span className="eval-label">Expected Reasoning:</span>
+                <p>{sample.eval_details.exp_reasoning}</p>
+              </div>
+            </div>
+          )}
+
+          {/* Bottom Section: Two Columns - Input Messages & Model Response */}
           <div className="modal-bottom-section">
             <div className="modal-column">
               {sample.messages && sample.messages.length > 0 && (
-                <div className="modal-section">
+                <div className="modal-section modal-messages-section">
                   <h3>Input Messages</h3>
                   <div className="messages-list">
                     {sample.messages.map((msg, idx) => (
@@ -177,20 +188,10 @@ function SampleModal({ sample, onClose }) {
 
             <div className="modal-column">
               {sample.response && (
-                <div className="modal-section">
+                <div className="modal-section modal-response-section">
                   <h3>Model Response</h3>
                   <div className="response-content">
                     {sample.response}
-                  </div>
-                </div>
-              )}
-
-              {sample.eval_details && sample.eval_details.exp_reasoning && (
-                <div className="modal-section">
-                  <h3>Evaluation Details</h3>
-                  <div className="eval-detail">
-                    <span className="eval-label">Expected Reasoning:</span>
-                    <p>{sample.eval_details.exp_reasoning}</p>
                   </div>
                 </div>
               )}
@@ -326,58 +327,73 @@ export default function CaseSamples() {
         </div>
 
         <section className="systems-ranking">
-          <h2 className="section-title">Systems Ranking for This Case</h2>
-          <div className="ranking-list">
-            {rankedSystems.map((sys, idx) => (
-              <div key={sys.systemKey} className="ranking-item">
-                <span className={`rank-badge rank-${idx + 1}`}>{idx + 1}</span>
-                <div className="system-info">
-                  <span className="system-model">{baseModels.find(b => b.id === sys.baseModel)?.name || sys.baseModel}</span>
-                  <span className="system-name">{memorySystems.find(m => m.id === sys.memorySystem)?.name || sys.memorySystem}</span>
+          <div className="section-header">
+            <h2 className="section-title">Systems Ranking for This Case</h2>
+            <p className="section-subtitle">Performance comparison of all memory systems on this benchmark case, ranked by ELO rating</p>
+          </div>
+          <div className="ranking-chart">
+            {rankedSystems.slice(0, 12).map((sys, idx) => {
+              const maxElo = rankedSystems[0]?.elo || 1;
+              const minElo = rankedSystems[rankedSystems.length - 1]?.elo || 0;
+              const score = Math.max(0.05, (sys.elo - minElo) / (maxElo - minElo || 1));
+              return (
+                <div key={sys.systemKey} className="ranking-bar-item">
+                  <div className="ranking-bar-label">
+                    <span className={`rank-badge rank-${idx + 1}`}>{idx + 1}</span>
+                    <span className="ranking-system-name">{memorySystems.find(m => m.id === sys.memorySystem)?.name || sys.memorySystem}</span>
+                    <span className="ranking-model-name">{baseModels.find(b => b.id === sys.baseModel)?.name || sys.baseModel}</span>
+                  </div>
+                  <div className="ranking-bar-track">
+                    <div className="ranking-bar-fill" style={{ width: `${score * 100}%` }} />
+                  </div>
+                  <span className="ranking-elo-value">{sys.elo.toFixed(1)}</span>
                 </div>
-                <span className="elo-value">{sys.elo.toFixed(1)}</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
-        <div className="sample-filters">
-          <h2 className="section-title">Sample Evaluations ({filteredSamples.length})</h2>
-          <div className="filter-row">
-          <div className="filter-group">
-            <label>Memory System</label>
-            <select value={filterMemory} onChange={e => { setFilterMemory(e.target.value); setCurrentPage(1); }}>
-              <option value="all">All</option>
-              {uniqueMemories.map(m => (
-                <option key={m} value={m}>{memorySystems.find(mem => mem.id === m)?.name || m}</option>
-              ))}
-            </select>
+        <section className="sample-section">
+          <div className="section-header">
+            <h2 className="section-title">Sample Evaluations ({filteredSamples.length})</h2>
+            <p className="section-subtitle">Individual evaluation results for each sample in this benchmark case</p>
           </div>
-          <div className="filter-group">
-            <label>Model</label>
-            <select value={filterModel} onChange={e => { setFilterModel(e.target.value); setCurrentPage(1); }}>
-              <option value="all">All</option>
-              <option value="Qwen3-8B">Qwen3-8B</option>
-              <option value="Qwen3-32B">Qwen3-32B</option>
-            </select>
-          </div>
-          <div className="filter-group">
-            <label>Score</label>
-            <select value={filterScore} onChange={e => { setFilterScore(e.target.value); setCurrentPage(1); }}>
-              <option value="all">All</option>
-              <option value="high">High (&gt;=0.8)</option>
-              <option value="mid">Mid (0.5-0.8)</option>
-              <option value="low">Low (&lt;0.5)</option>
-            </select>
-          </div>
-          <button className="clear-filters-btn" onClick={() => { setFilterMemory('all'); setFilterModel('all'); setFilterScore('all'); setCurrentPage(1); }}>
-            ✕ Clear
-          </button>
-          </div>
-        </div>
+          <div className="sample-section-container">
+            <div className="sample-filters">
+              <div className="filter-row">
+              <div className="filter-group">
+                <label>Memory System</label>
+                <select value={filterMemory} onChange={e => { setFilterMemory(e.target.value); setCurrentPage(1); }}>
+                  <option value="all">All</option>
+                  {uniqueMemories.map(m => (
+                    <option key={m} value={m}>{memorySystems.find(mem => mem.id === m)?.name || m}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="filter-group">
+                <label>Model</label>
+                <select value={filterModel} onChange={e => { setFilterModel(e.target.value); setCurrentPage(1); }}>
+                  <option value="all">All</option>
+                  <option value="Qwen3-8B">Qwen3-8B</option>
+                  <option value="Qwen3-32B">Qwen3-32B</option>
+                </select>
+              </div>
+              <div className="filter-group">
+                <label>Score</label>
+                <select value={filterScore} onChange={e => { setFilterScore(e.target.value); setCurrentPage(1); }}>
+                  <option value="all">All</option>
+                  <option value="high">High (&gt;=0.8)</option>
+                  <option value="mid">Mid (0.5-0.8)</option>
+                  <option value="low">Low (&lt;0.5)</option>
+                </select>
+              </div>
+              <button className="clear-filters-btn" onClick={() => { setFilterMemory('all'); setFilterModel('all'); setFilterScore('all'); setCurrentPage(1); }}>
+                ✕ Clear
+              </button>
+              </div>
+            </div>
 
-        <section className="samples-section">
-          <div className="samples-list">
+            <div className="samples-list">
             {paginatedSamples.map((sample, idx) => (
               <div
                 key={`${sample.model}-${sample.memory_system}-${sample.test_idx}-${idx}`}
@@ -472,6 +488,7 @@ export default function CaseSamples() {
               />
             </div>
           )}
+          </div>
         </section>
       </div>
 

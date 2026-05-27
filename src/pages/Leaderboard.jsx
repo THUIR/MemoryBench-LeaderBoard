@@ -27,7 +27,7 @@ function StarRating({ elo }) {
   );
 }
 
-function DropdownFilter({ label, options, value, onChange, onClear }) {
+function DropdownFilter({ label, options, value, onChange, onClear, showAllOption = true, showClearOption = true }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -49,17 +49,19 @@ function DropdownFilter({ label, options, value, onChange, onClear }) {
           className={`dropdown-trigger ${value ? 'has-value' : ''}`}
           onClick={() => setIsOpen(!isOpen)}
         >
-          <span>{value || `All ${label}s`}</span>
+          <span>{value || `All`}</span>
           <span className="dropdown-arrow">{isOpen ? '▲' : '▼'}</span>
         </button>
         {isOpen && (
           <div className="dropdown-menu">
-            <button
-              className="dropdown-item"
-              onClick={() => { onChange(''); setIsOpen(false); }}
-            >
-              All {label}s
-            </button>
+            {showAllOption && (
+              <button
+                className="dropdown-item"
+                onClick={() => { onChange(''); setIsOpen(false); }}
+              >
+                All {label}s
+              </button>
+            )}
             {options.map(opt => (
               <button
                 key={opt.id || opt}
@@ -69,7 +71,7 @@ function DropdownFilter({ label, options, value, onChange, onClear }) {
                 {opt.name || opt}
               </button>
             ))}
-            {value && (
+            {value && showClearOption && (
               <button
                 className="dropdown-item clear-btn"
                 onClick={() => { onClear(); setIsOpen(false); }}
@@ -106,41 +108,37 @@ function HeatmapCell({ value }) {
 
 function HeatmapSection({ model }) {
   const caseList = ['domain/Academic&Knowledge', 'domain/Legal', 'domain/Open-Domain', 'task/Long-Long', 'task/Long-Short', 'task/Short-Long', 'task/Short-Short'];
-  const caseNames = ['Academic&Knowledge', 'Legal', 'Open-Domain', 'Long-Long', 'Long-Short', 'Short-Long', 'Short-Short'];
+  const caseNames = ['Academic & Knowledge', 'Legal', 'Open-Domain', 'Long-Long', 'Long-Short', 'Short-Long', 'Short-Short'];
 
   return (
     <div className="model-heatmap-section">
       <h3 className="model-heatmap-title">{model.name}</h3>
       <div className="heatmap-container">
-        <table className="heatmap-table">
-          <thead>
-            <tr>
-              <th className="heatmap-corner">Benchmark</th>
-              {memorySystems.map(mem => (
-                <th key={mem.id} className="heatmap-col-header">{mem.name}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {caseList.map((caseId, idx) => {
-              const caseInfo = summaryAverages.cases[caseId];
-              return (
-                <tr key={caseId}>
-                  <td className="heatmap-row-header">{caseNames[idx]}</td>
-                  {memorySystems.map(mem => {
-                    const key = `${mem.id}-${model.id}`;
-                    const value = caseInfo?.[key];
-                    return (
-                      <td key={mem.id} className="heatmap-cell-wrapper">
-                        {value !== undefined ? <HeatmapCell value={value} /> : <div className="heatmap-cell empty">-</div>}
-                      </td>
-                    );
-                  })}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="heatmap-grid">
+          {/* Header row with memory system names */}
+          <div className="heatmap-grid-corner"></div>
+          {memorySystems.map(mem => (
+            <div key={mem.id} className="heatmap-grid-header">{mem.name}</div>
+          ))}
+          {/* Data rows */}
+          {caseList.map((caseId, idx) => {
+            const caseInfo = summaryAverages.cases[caseId];
+            return (
+              <>
+                <div key={`row-${caseId}`} className="heatmap-grid-row-header">{caseNames[idx]}</div>
+                {memorySystems.map(mem => {
+                  const key = `${mem.id}-${model.id}`;
+                  const value = caseInfo?.[key];
+                  return (
+                    <div key={mem.id} className="heatmap-grid-cell">
+                      {value !== undefined ? <HeatmapCell value={value} /> : <div className="heatmap-cell empty">-</div>}
+                    </div>
+                  );
+                })}
+              </>
+            );
+          })}
+        </div>
       </div>
       <div className="heatmap-legend">
         <span className="legend-label">Lower Score</span>
@@ -248,6 +246,8 @@ export default function Leaderboard() {
   const [selectedBaseModel, setSelectedBaseModel] = useState('');
   const [selectedMemorySystem, setSelectedMemorySystem] = useState('');
   const [selectedBenchmarkTable, setSelectedBenchmarkTable] = useState('domain/Academic&Knowledge');
+  const [selectedBenchmarkModel, setSelectedBenchmarkModel] = useState('');
+  const [selectedBenchmarkMemory, setSelectedBenchmarkMemory] = useState('');
 
   const filteredData = useMemo(() => {
     let data = Object.entries(eloData.overall_elo).map(([key, value]) => ({
@@ -255,6 +255,9 @@ export default function Leaderboard() {
       elo: value.avg,
       participated: value.participated_cases
     }));
+
+    // Only show systems that participated in all 7 cases
+    data = data.filter(d => d.participated === 7);
 
     if (selectedBaseModel) {
       data = data.filter(d => d.systemKey.endsWith(`-${selectedBaseModel}`));
@@ -270,17 +273,25 @@ export default function Leaderboard() {
   const benchmarkTableData = useMemo(() => {
     if (selectedBenchmarkTable) {
       const caseElo = eloData.cases[selectedBenchmarkTable]?.elo || {};
-      return Object.entries(caseElo)
+      let data = Object.entries(caseElo)
         .map(([key, elo]) => ({
           systemKey: key,
           memory: key.replace('-8B', '').replace('-32B', ''),
           model: key.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B',
           elo
-        }))
-        .sort((a, b) => b.elo - a.elo);
+        }));
+
+      if (selectedBenchmarkModel) {
+        data = data.filter(d => d.systemKey.endsWith(`-${selectedBenchmarkModel}`));
+      }
+      if (selectedBenchmarkMemory) {
+        data = data.filter(d => d.systemKey.startsWith(selectedBenchmarkMemory));
+      }
+
+      return data.sort((a, b) => b.elo - a.elo);
     }
     return [];
-  }, [selectedBenchmarkTable]);
+  }, [selectedBenchmarkTable, selectedBenchmarkModel, selectedBenchmarkMemory]);
 
   // Calculate ELO min/max based on filtered data for proper bar scaling
   const eloRange = useMemo(() => {
@@ -311,34 +322,41 @@ export default function Leaderboard() {
     setSelectedMemorySystem('');
   };
 
+  const clearBenchmarkFilters = () => {
+    setSelectedBenchmarkModel('');
+    setSelectedBenchmarkMemory('');
+  };
+
   return (
     <div className="leaderboard">
       <div className="page-wrapper">
+        <div className="page-header">
+          <h1 className="page-title">Leaderboard</h1>
+          <p className="page-subtitle">Compare ELO ratings across 2 base models and 8 memory systems · Filter by model, memory, or view all</p>
+        </div>
+
         {/* Main Leaderboard Section */}
         <section className="ranking-section">
-          <div className="table-header">
-            <h2 className="section-title">
-              Overall Rankings
-            </h2>
-            <div className="filters">
-              <div className="filter-row">
-                <DropdownFilter
-                  label="Base Model"
-                  options={baseModels}
-                  value={selectedBaseModel}
-                  onChange={setSelectedBaseModel}
-                  onClear={() => setSelectedBaseModel('')}
-                />
-                <DropdownFilter
-                  label="Memory"
-                  options={memorySystems}
-                  value={selectedMemorySystem}
-                  onChange={setSelectedMemorySystem}
-                  onClear={() => setSelectedMemorySystem('')}
-                />
-                <button className="clear-all-btn" onClick={clearFilters}>✕ Clear All Filters</button>
-              </div>
-            </div>
+          <div className="leaderboard-header">
+            <h2 className="leaderboard-title">Overall Rankings</h2>
+            <p className="leaderboard-subtitle">Comprehensive ELO ratings across all benchmark cases, filtered by model and memory system</p>
+          </div>
+          <div className="filter-row">
+            <DropdownFilter
+              label="Base Model"
+              options={baseModels}
+              value={selectedBaseModel}
+              onChange={setSelectedBaseModel}
+              onClear={() => setSelectedBaseModel('')}
+            />
+            <DropdownFilter
+              label="Memory"
+              options={memorySystems}
+              value={selectedMemorySystem}
+              onChange={setSelectedMemorySystem}
+              onClear={() => setSelectedMemorySystem('')}
+            />
+            <button className="clear-all-btn" onClick={clearFilters}>✕ Clear Filters</button>
           </div>
           <div className="table-container fixed-height">
             <table className="leaderboard-table">
@@ -375,21 +393,38 @@ export default function Leaderboard() {
 
         {/* Benchmark Tables Section */}
         <section className="benchmark-tables-section">
-          <h2 className="section-title">Benchmark Rankings</h2>
-          <div className="filter-group case-filter">
-            <label>Select Benchmark</label>
-            <div className="case-buttons">
-              {cases.map(c => (
-                <button
-                  key={c.id}
-                  className={`filter-btn ${selectedBenchmarkTable === c.id ? 'active' : ''}`}
-                  onClick={() => setSelectedBenchmarkTable(selectedBenchmarkTable === c.id ? '' : c.id)}
-                >
-                  {c.name}
-                </button>
-              ))}
-            </div>
+          <div className="leaderboard-header">
+            <h2 className="leaderboard-title">Benchmark Rankings</h2>
+            <p className="leaderboard-subtitle">Detailed performance breakdown by benchmark case, model and memory system</p>
           </div>
+          {selectedBenchmarkTable && (
+            <div className="filter-row">
+              <DropdownFilter
+                label="Base Model"
+                options={baseModels}
+                value={selectedBenchmarkModel}
+                onChange={setSelectedBenchmarkModel}
+                onClear={() => setSelectedBenchmarkModel('')}
+              />
+              <DropdownFilter
+                label="Memory"
+                options={memorySystems}
+                value={selectedBenchmarkMemory}
+                onChange={setSelectedBenchmarkMemory}
+                onClear={() => setSelectedBenchmarkMemory('')}
+              />
+              <DropdownFilter
+                label="Benchmark"
+                options={cases}
+                value={selectedBenchmarkTable}
+                onChange={setSelectedBenchmarkTable}
+                onClear={() => setSelectedBenchmarkTable('')}
+                showAllOption={false}
+                showClearOption={false}
+              />
+              <button className="clear-all-btn" onClick={clearBenchmarkFilters}>✕ Clear Filters</button>
+            </div>
+          )}
 
           {selectedBenchmarkTable && benchmarkTableData.length > 0 && (
             <div className="table-container fixed-height benchmark-table">
@@ -397,25 +432,23 @@ export default function Leaderboard() {
                 <thead>
                   <tr>
                     <th className="rank-col">Rank</th>
-                    <th className="system-col">System</th>
-                    <th className="elo-col">ELO Rating</th>
                     <th className="model-col">Model</th>
+                    <th className="memory-col">Memory</th>
+                    <th className="elo-col">ELO Rating</th>
                   </tr>
                 </thead>
                 <tbody>
                   {benchmarkTableData.map((row, index) => (
                     <tr key={row.systemKey} className={index < 3 ? 'top-ranked' : ''}>
                       <td className="rank-col"><span className={`rank-badge rank-${index + 1}`}>{index + 1}</span></td>
-                      <td className="system-col">
-                        <span className="system-name">{getMemorySystemName(row.memory)}</span>
-                      </td>
+                      <td className="model-col"><span className="model-name">{row.model}</span></td>
+                      <td className="memory-col"><span className="memory-name">{getMemorySystemName(row.memory)}</span></td>
                       <td className="elo-col">
                         <div className="elo-display">
                           <StarRating elo={row.elo} />
                           <ELOBar elo={row.elo} minElo={benchmarkEloRange.min} maxElo={benchmarkEloRange.max} />
                         </div>
                       </td>
-                      <td className="model-col"><span className="model-badge">{row.model}</span></td>
                     </tr>
                   ))}
                 </tbody>
@@ -426,7 +459,10 @@ export default function Leaderboard() {
 
         {/* Heatmaps Section */}
         <section className="benchmark-section">
-          <h2 className="section-title">Benchmark Performance Heatmaps</h2>
+          <div className="leaderboard-header">
+            <h2 className="leaderboard-title">Benchmark Performance Heatmaps</h2>
+            <p className="leaderboard-subtitle">Visual comparison of memory system performance across different benchmark cases</p>
+          </div>
           <div className="heatmaps-container">
             {baseModels
               .filter(model => !selectedBaseModel || model.id === selectedBaseModel)

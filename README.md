@@ -1,10 +1,32 @@
-# Memory Bench 评测平台
+# MemoryBench 评测平台
 
-基于 Memory Bench 论文构建的可持续学习评测平台，包含 ELO 排分机制与多维度数据展示。
+基于 MemoryBench 论文构建的可持续学习评测平台，包含 ELO 排分机制与多维度数据展示。
 
 ## 功能概述
 
-### Page 1 - Leaderboard（首页排行榜）
+### 首页（Home）
+
+1. **Hero 区域**：
+   - 标题：MemoryBench
+   - ICML 2026 SpotLight 标识
+   - GitHub / HuggingFace / Paper 链接
+
+2. **Intro 区域**：
+   - 三个 Tab：Paper / GitHub / HuggingFace
+   - 代码展示框（terminal 风格动画）
+
+3. **Leaderboard 预览**：
+   - 筛选：Base Model / Memory System
+   - 星级评分 + ELO 进度条
+
+4. **Tags 分类**：
+   - 4 categories: Models / Memory / Domain / Task
+   - 不同颜色区分标签类型
+
+5. **Chart 区域**：
+   - 模型性能柱状图展示
+
+### Page 1 - Leaderboard（排行榜）
 
 1. **Overall Rankings（总排行榜）**：
    - 表格列：Rank、Model、Memory、ELO Rating、Cases、Details
@@ -158,3 +180,7 @@ npm run build
 - React Router 7
 - Vite 8
 - CSS（无框架，纯手写样式，支持响应式）
+
+## 主题支持
+
+支持浅色/深色模式切换，点击右上角太阳/月亮图标即可切换。
