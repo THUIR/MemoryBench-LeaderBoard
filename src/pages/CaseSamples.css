@@ -1168,29 +1168,29 @@
 }
 
 [data-theme="dark"] .modal-score-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
-  border-color: rgba(201, 169, 98, 0.2);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
+  border-color: rgba(201, 169, 98, 0.25);
 }
 
 [data-theme="dark"] .modal-metrics-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
-  border-color: rgba(201, 169, 98, 0.2);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
+  border-color: rgba(201, 169, 98, 0.25);
 }
 
 [data-theme="dark"] .modal-eval-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
-  border-color: rgba(201, 169, 98, 0.2);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
+  border-color: rgba(201, 169, 98, 0.25);
 }
 
 [data-theme="dark"] .modal-messages-section,
 [data-theme="dark"] .modal-response-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
-  border-color: rgba(201, 169, 98, 0.2);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
+  border-color: rgba(201, 169, 98, 0.25);
 }
 
 [data-theme="dark"] .modal-column .modal-section {
-  background: linear-gradient(135deg, rgba(201, 169, 98, 0.15), rgba(184, 134, 11, 0.08));
-  border-color: rgba(201, 169, 98, 0.2);
+  background: linear-gradient(135deg, rgba(201, 169, 98, 0.2), rgba(184, 134, 11, 0.12));
+  border-color: rgba(201, 169, 98, 0.25);
 }
 
 [data-theme="dark"] .modal-header h2 {
@@ -1198,12 +1198,12 @@
 }
 
 [data-theme="dark"] .modal-meta .meta-badge {
-  background: #242418;
+  background: #1e1e1e;
   color: #b0a890;
 }
 
 [data-theme="dark"] .eval-detail {
-  background: #1a1a1a;
+  background: #151515;
 }
 
 [data-theme="dark"] .eval-detail p {
@@ -1211,12 +1211,12 @@
 }
 
 [data-theme="dark"] .response-content {
-  background: #1a1a1a;
+  background: #151515;
   color: #e8e0d0;
 }
 
 [data-theme="dark"] .message-item {
-  background: #1a1a1a;
+  background: #151515;
 }
 
 [data-theme="dark"] .message-role {

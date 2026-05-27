@@ -212,6 +212,39 @@
   color: var(--accent-deep);
 }
 
+[data-theme="dark"] .heatmap-value {
+  color: #1a1a1a;
+}
+
+/* Benchmark Tables Section Dark Mode */
+[data-theme="dark"] .benchmark-tables-section {
+  background: var(--bg-primary);
+}
+
+[data-theme="dark"] .benchmark-tables-section .case-filter-select {
+  background: var(--bg-card);
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .benchmark-table-container {
+  background: var(--bg-card);
+  border-color: var(--border-subtle);
+}
+
+[data-theme="dark"] .benchmark-table th {
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .benchmark-table td {
+  border-bottom-color: var(--border-subtle);
+}
+
+[data-theme="dark"] .benchmark-table tbody tr:hover {
+  background: var(--bg-card-hover);
+}
+
 .heatmap-legend {
   display: flex;
   align-items: center;
