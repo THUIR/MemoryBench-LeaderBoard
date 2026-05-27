@@ -869,7 +869,7 @@
   margin: 12px 16px 16px;
   font-size: 13px;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.6;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -920,7 +920,7 @@
   border-radius: 6px;
   font-size: 13px;
   color: var(--text-secondary);
-  line-height: 1.7;
+  line-height: 1.6;
   white-space: pre-wrap;
   word-break: break-word;
 }
@@ -1207,12 +1207,12 @@
 }
 
 [data-theme="dark"] .eval-detail p {
-  color: #e8e0d0;
+  color: #b0a890;
 }
 
 [data-theme="dark"] .response-content {
   background: #0a0a0a;
-  color: #e8e0d0;
+  color: #b0a890;
 }
 
 [data-theme="dark"] .message-item {
@@ -1224,17 +1224,5 @@
 }
 
 [data-theme="dark"] .message-content {
-  color: #e8e0d0;
-}
-
-.modal-eval-section h3,
-.modal-eval-section p {
-  color: var(--text-secondary);
-}
-
-.modal-messages-section h3,
-.modal-messages-section .message-content,
-.modal-response-section h3,
-.modal-response-section .response-content {
-  color: var(--text-primary);
+  color: #b0a890;
 }

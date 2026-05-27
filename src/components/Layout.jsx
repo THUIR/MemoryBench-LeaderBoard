@@ -13,7 +13,6 @@ export default function Layout({ children }) {
           <div className="header-left">
             <Link to="/" className="logo-link">
               <span className="logo-text">MemoryBench</span>
-              <span className="logo-suffix">Leaderboard</span>
             </Link>
           </div>
           <nav className="header-nav">
