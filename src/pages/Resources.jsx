@@ -213,16 +213,8 @@ export default function Resources() {
               <span className="summary-label">LLMs</span>
             </div>
             <div className="summary-card">
-              <span className="summary-number">1</span>
-              <span className="summary-label">Vanilla Baseline</span>
-            </div>
-            <div className="summary-card">
-              <span className="summary-number">4</span>
-              <span className="summary-label">RAG Systems</span>
-            </div>
-            <div className="summary-card">
-              <span className="summary-number">3</span>
-              <span className="summary-label">SOTA Systems</span>
+              <span className="summary-number">8</span>
+              <span className="summary-label">Memory Systems</span>
             </div>
           </div>
         </section>
