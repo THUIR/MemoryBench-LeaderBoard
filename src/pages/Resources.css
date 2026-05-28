@@ -1,0 +1,641 @@
+.resources-page {
+  min-height: 100vh;
+}
+
+.resources-page .page-wrapper {
+  padding: 45px 160px 50px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.resources-page .page-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.resources-page .page-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 33px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.resources-page .page-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.resource-section {
+  margin-bottom: 48px;
+}
+
+.resource-section .section-header {
+  margin-bottom: 20px;
+}
+
+.resource-section .section-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.resource-section .section-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* Link Cards */
+.link-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.link-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.link-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent-golden), var(--accent-honey));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.link-card:hover {
+  border-color: var(--accent-golden);
+  box-shadow: 0 8px 24px rgba(201, 169, 98, 0.15);
+  transform: translateY(-4px);
+}
+
+.link-card:hover::before {
+  opacity: 1;
+}
+
+.link-icon {
+  font-size: 28px;
+}
+
+.link-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent-golden);
+}
+
+.link-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.link-arrow {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.link-card:hover .link-arrow {
+  color: var(--accent-golden);
+  transform: translateX(4px);
+}
+
+/* Dataset Cards */
+.dataset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.dataset-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  transition: all 0.2s ease;
+}
+
+.dataset-card:hover {
+  border-color: var(--accent-honey);
+  box-shadow: 0 8px 24px rgba(139, 115, 85, 0.1);
+  transform: translateY(-2px);
+}
+
+.dataset-header {
+  margin-bottom: 16px;
+}
+
+.dataset-name {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.dataset-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.domain-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.domain-tag.domain-open-domain {
+  background: rgba(201, 169, 98, 0.1);
+  border-color: rgba(201, 169, 98, 0.3);
+  color: var(--accent-golden);
+}
+
+.domain-tag.domain-academic {
+  background: rgba(74, 144, 164, 0.1);
+  border-color: rgba(74, 144, 164, 0.3);
+  color: #4a90a4;
+}
+
+.domain-tag.domain-legal {
+  background: rgba(155, 89, 132, 0.1);
+  border-color: rgba(155, 89, 132, 0.3);
+  color: #9b5984;
+}
+
+.domain-tag.domain-multi-domain {
+  background: rgba(142, 115, 85, 0.1);
+  border-color: rgba(142, 115, 85, 0.3);
+  color: var(--accent-warm-brown);
+}
+
+.lang-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 12px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+}
+
+.dataset-info {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.info-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.info-label {
+  color: var(--text-muted);
+  min-width: 70px;
+}
+
+.info-value {
+  color: var(--text-secondary);
+}
+
+.dataset-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.dataset-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(201, 169, 98, 0.12);
+  color: var(--accent-golden);
+  border: 1px solid var(--accent-golden);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.dataset-link:hover {
+  background: var(--accent-golden);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 169, 98, 0.3);
+}
+
+/* Model Cards */
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.models-grid.single {
+  grid-template-columns: repeat(1, 1fr);
+  max-width: 500px;
+}
+
+.model-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  transition: all 0.2s ease;
+}
+
+.model-card:hover {
+  border-color: var(--accent-golden);
+  box-shadow: 0 8px 24px rgba(201, 169, 98, 0.12);
+  transform: translateY(-2px);
+}
+
+.model-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.model-name {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.param-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(201, 169, 98, 0.15);
+  border: 1px solid rgba(201, 169, 98, 0.3);
+  color: var(--accent-golden);
+  border-radius: 20px;
+}
+
+.model-info {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.model-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.model-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-accent);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.model-link:hover {
+  border-color: var(--accent-golden);
+  color: var(--accent-golden);
+  background: rgba(201, 169, 98, 0.05);
+}
+
+/* Memory Subsections */
+.memory-subsection {
+  margin-bottom: 28px;
+}
+
+.subsection-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+  padding-left: 14px;
+  border-left: 3px solid var(--accent-golden);
+}
+
+/* Baseline Card */
+.baseline-card {
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  max-width: 600px;
+}
+
+.baseline-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.baseline-name {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.config-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-family: monospace;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  border-radius: 8px;
+}
+
+.baseline-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Tables */
+.table-container {
+  overflow-x: auto;
+  background: var(--bg-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+}
+
+.resource-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+}
+
+.resource-table th {
+  text-align: left;
+  padding: 14px 16px;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-card);
+}
+
+.resource-table td {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+  vertical-align: middle;
+}
+
+.resource-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.resource-table tbody tr:hover {
+  background: var(--bg-card-hover);
+}
+
+.resource-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.resource-table .name-col {
+  font-weight: 600;
+  color: var(--text-primary);
+  min-width: 100px;
+}
+
+/* SOTA Memory Systems */
+.sota-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.sota-card {
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  transition: all 0.2s ease;
+}
+
+.sota-card:hover {
+  border-color: var(--accent-golden);
+  box-shadow: 0 8px 24px rgba(201, 169, 98, 0.12);
+  transform: translateY(-2px);
+}
+
+.sota-header {
+  margin-bottom: 16px;
+}
+
+.sota-name {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.sota-fullname {
+  font-size: 12px;
+  color: var(--accent-caramel);
+  font-weight: 500;
+}
+
+.sota-info {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sota-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  flex: 1;
+  margin-bottom: 16px;
+}
+
+.sota-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(201, 169, 98, 0.12);
+  color: var(--accent-golden);
+  border: 1px solid var(--accent-golden);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  align-self: flex-start;
+}
+
+.sota-link:hover {
+  background: var(--accent-golden);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(201, 169, 98, 0.3);
+}
+
+/* External Links */
+.ext-link {
+  text-decoration: none;
+  color: var(--accent-golden);
+  transition: all 0.15s ease;
+}
+
+.ext-link:hover {
+  color: var(--accent-caramel);
+}
+
+/* Summary Section */
+.summary-section .summary-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 24px 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  min-width: 140px;
+  transition: all 0.2s ease;
+}
+
+.summary-card:hover {
+  border-color: var(--accent-golden);
+  box-shadow: 0 4px 16px rgba(201, 169, 98, 0.12);
+  transform: translateY(-2px);
+}
+
+.summary-number {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--accent-golden);
+  font-family: 'IBM Plex Serif', serif;
+  line-height: 1;
+}
+
+.summary-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .resources-page .page-wrapper {
+    padding: 24px 24px;
+  }
+
+  .link-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .resources-page .page-wrapper {
+    padding: 16px 12px;
+  }
+
+  .link-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .dataset-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .models-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sota-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-cards {
+    gap: 12px;
+  }
+
+  .summary-card {
+    padding: 16px 20px;
+    min-width: 120px;
+  }
+
+  .summary-number {
+    font-size: 32px;
+  }
+}

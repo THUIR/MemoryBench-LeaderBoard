@@ -5,6 +5,7 @@ import Leaderboard from './pages/Leaderboard';
 import Cases from './pages/Cases';
 import CaseSamples from './pages/CaseSamples';
 import Detail from './pages/Detail';
+import Resources from './pages/Resources';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/cases" element={<Cases />} />
           <Route path="/case/:caseId" element={<CaseSamples />} />
           <Route path="/detail/:systemKey" element={<Detail />} />
+          <Route path="/resources" element={<Resources />} />
         </Routes>
       </Layout>
     </BrowserRouter>

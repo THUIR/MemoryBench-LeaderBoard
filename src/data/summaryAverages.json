@@ -1,0 +1,404 @@
+{
+  "domain/Academic&Knowledge": {
+    "a_mem-8B": {
+      "weighted_average": 0.7106329690346084,
+      "z_score": 0.11244757629705943
+    },
+    "bm25_dialog-8B": {
+      "weighted_average": 0.7120364949258393,
+      "z_score": 0.1361464073819213
+    },
+    "bm25_message-8B": {
+      "weighted_average": 0.6931059718969556,
+      "z_score": 0.029319801989726224
+    },
+    "embedder_dialog-8B": {
+      "weighted_average": 0.7184527062190997,
+      "z_score": 0.17750636425161762
+    },
+    "embedder_message-8B": {
+      "weighted_average": 0.70513108248764,
+      "z_score": 0.07600513692354591
+    },
+    "mem0-8B": {
+      "weighted_average": 0.7023012620348686,
+      "z_score": 0.025308501287609683
+    },
+    "memoryos-8B": {
+      "weighted_average": 0.6211716107207911,
+      "z_score": -0.26209875171809904
+    },
+    "wo_memory-8B": {
+      "weighted_average": 0.715359094457455,
+      "z_score": 0.1449726246113016
+    },
+    "a_mem-32B": {
+      "weighted_average": 0.7196509888108249,
+      "z_score": 0.1556698583480397
+    },
+    "bm25_dialog-32B": {
+      "weighted_average": 0.7384205048139474,
+      "z_score": 0.25931069808973867
+    },
+    "bm25_message-32B": {
+      "weighted_average": 0.7264214155607599,
+      "z_score": 0.23517036708610772
+    },
+    "embedder_dialog-32B": {
+      "weighted_average": 0.7369112672391361,
+      "z_score": 0.2736157031648122
+    },
+    "embedder_message-32B": {
+      "weighted_average": 0.7365469685141817,
+      "z_score": 0.2366465261992453
+    },
+    "mem0-32B": {
+      "weighted_average": 0.6896451340098882,
+      "z_score": -0.030734658268133618
+    },
+    "memoryos-32B": {
+      "weighted_average": 0.6450315508717149,
+      "z_score": -0.22409663707500985
+    },
+    "wo_memory-32B": {
+      "weighted_average": 0.7297488940931565,
+      "z_score": 0.22052334847274
+    }
+  },
+  "domain/Legal": {
+    "a_mem-8B": {
+      "weighted_average": 0.46839214095481757,
+      "z_score": 0.045764845987195046
+    },
+    "bm25_dialog-8B": {
+      "weighted_average": 0.4776099476362417,
+      "z_score": 0.04958455511558661
+    },
+    "bm25_message-8B": {
+      "weighted_average": 0.5011392800878205,
+      "z_score": 0.15308019749652682
+    },
+    "embedder_dialog-8B": {
+      "weighted_average": 0.4805802287187838,
+      "z_score": 0.06689214881789225
+    },
+    "embedder_message-8B": {
+      "weighted_average": 0.46346900232701,
+      "z_score": 0.008090719762842135
+    },
+    "mem0-8B": {
+      "weighted_average": 0.44506987170254675,
+      "z_score": -0.08434940122952586
+    },
+    "memoryos-8B": {
+      "weighted_average": 0.4290243838509824,
+      "z_score": -0.1560729046969425
+    },
+    "wo_memory-8B": {
+      "weighted_average": 0.4636677096959778,
+      "z_score": -0.0019461494839580367
+    },
+    "a_mem-32B": {
+      "weighted_average": 0.4943498141849365,
+      "z_score": 0.1497445210532249
+    },
+    "bm25_dialog-32B": {
+      "weighted_average": 0.4873828584651734,
+      "z_score": 0.1249502748386702
+    },
+    "bm25_message-32B": {
+      "weighted_average": 0.49501709517620773,
+      "z_score": 0.15041621382114334
+    },
+    "embedder_dialog-32B": {
+      "weighted_average": 0.4914951983591596,
+      "z_score": 0.12647537625128344
+    },
+    "embedder_message-32B": {
+      "weighted_average": 0.46629442968770274,
+      "z_score": 0.03424531263396449
+    },
+    "mem0-32B": {
+      "weighted_average": 0.47385670371554034,
+      "z_score": 0.04645457885017919
+    },
+    "memoryos-32B": {
+      "weighted_average": 0.4540854613480371,
+      "z_score": -0.02473665704960135
+    },
+    "wo_memory-32B": {
+      "weighted_average": 0.4629829405508501,
+      "z_score": -0.006124667359672014
+    }
+  },
+  "domain/Open-Domain": {
+    "a_mem-8B": {
+      "weighted_average": 0.6242959198003524,
+      "z_score": 0.03404950102781938
+    },
+    "bm25_dialog-8B": {
+      "weighted_average": 0.6503335313059133,
+      "z_score": 0.10297429730285748
+    },
+    "bm25_message-8B": {
+      "weighted_average": 0.5719571426054016,
+      "z_score": -0.18128126057974905
+    },
+    "embedder_dialog-8B": {
+      "weighted_average": 0.658163329808574,
+      "z_score": 0.10805002365580083
+    },
+    "embedder_message-8B": {
+      "weighted_average": 0.5760206704095516,
+      "z_score": -0.15793622787216727
+    },
+    "memoryos-8B": {
+      "weighted_average": 0.5893784229128937,
+      "z_score": -0.08749242742000757
+    },
+    "wo_memory-8B": {
+      "weighted_average": 0.652261585877871,
+      "z_score": 0.15832493890119323
+    },
+    "a_mem-32B": {
+      "weighted_average": 0.6301757101151388,
+      "z_score": 0.1041365163592125
+    },
+    "bm25_dialog-32B": {
+      "weighted_average": 0.7045356591536017,
+      "z_score": 0.32894003295042135
+    },
+    "bm25_message-32B": {
+      "weighted_average": 0.6521112865833574,
+      "z_score": 0.17433927284271855
+    },
+    "embedder_dialog-32B": {
+      "weighted_average": 0.6963937113987856,
+      "z_score": 0.31494783282088495
+    },
+    "embedder_message-32B": {
+      "weighted_average": 0.6325116788413496,
+      "z_score": 0.08089341219558366
+    },
+    "memoryos-32B": {
+      "weighted_average": 0.604688397003716,
+      "z_score": -0.029289821931666543
+    },
+    "wo_memory-32B": {
+      "weighted_average": 0.6777916987106324,
+      "z_score": 0.2916830271565992
+    }
+  },
+  "task/Long-Long": {
+    "a_mem-8B": {
+      "weighted_average": 0.6139202866093867,
+      "z_score": 0.05550429394759587
+    },
+    "bm25_dialog-8B": {
+      "weighted_average": 0.6309615963806818,
+      "z_score": 0.1339438790161068
+    },
+    "bm25_message-8B": {
+      "weighted_average": 0.6318116162675073,
+      "z_score": 0.11659815320012133
+    },
+    "embedder_dialog-8B": {
+      "weighted_average": 0.6328041028321963,
+      "z_score": 0.13731209851771975
+    },
+    "embedder_message-8B": {
+      "weighted_average": 0.5907652561545806,
+      "z_score": -0.034349475066979794
+    },
+    "mem0-8B": {
+      "weighted_average": 0.5956824555119178,
+      "z_score": -0.0049187391508636776
+    },
+    "memoryos-8B": {
+      "weighted_average": 0.4878765795725107,
+      "z_score": -0.4876246074886719
+    },
+    "wo_memory-8B": {
+      "weighted_average": 0.6417122056441326,
+      "z_score": 0.18279591320786218
+    },
+    "bm25_dialog-32B": {
+      "weighted_average": 0.6735631918329076,
+      "z_score": 0.3306157052619213
+    },
+    "bm25_message-32B": {
+      "weighted_average": 0.6803146134471523,
+      "z_score": 0.3459935712117324
+    },
+    "embedder_dialog-32B": {
+      "weighted_average": 0.6768393190993759,
+      "z_score": 0.3396075680477705
+    },
+    "embedder_message-32B": {
+      "weighted_average": 0.6304417447519047,
+      "z_score": 0.14660982000379835
+    },
+    "wo_memory-32B": {
+      "weighted_average": 0.667580103555201,
+      "z_score": 0.31660421030137187
+    }
+  },
+  "task/Long-Short": {
+    "a_mem-8B": {
+      "weighted_average": 0.43029060522395585,
+      "z_score": 0.07432231200008485
+    },
+    "bm25_dialog-8B": {
+      "weighted_average": 0.4560332610365593,
+      "z_score": 0.12012602943146417
+    },
+    "bm25_message-8B": {
+      "weighted_average": 0.3868807349199274,
+      "z_score": -0.03745396718097989
+    },
+    "embedder_dialog-8B": {
+      "weighted_average": 0.46614081987049444,
+      "z_score": 0.16285584644068232
+    },
+    "embedder_message-8B": {
+      "weighted_average": 0.38436557484915934,
+      "z_score": -0.05144807379287098
+    },
+    "memoryos-8B": {
+      "weighted_average": 0.37111902261326996,
+      "z_score": -0.08242752048548513
+    },
+    "wo_memory-8B": {
+      "weighted_average": 0.40912999384956134,
+      "z_score": 0.016215184930863734
+    },
+    "bm25_dialog-32B": {
+      "weighted_average": 0.49252132223598605,
+      "z_score": 0.26300177928450014
+    },
+    "bm25_message-32B": {
+      "weighted_average": 0.4134847461289876,
+      "z_score": 0.01436093431628092
+    },
+    "embedder_dialog-32B": {
+      "weighted_average": 0.4604674567106368,
+      "z_score": 0.17108004125629445
+    },
+    "embedder_message-32B": {
+      "weighted_average": 0.42225983725415317,
+      "z_score": 0.07019192320103237
+    },
+    "wo_memory-32B": {
+      "weighted_average": 0.4264282305734601,
+      "z_score": 0.039985407106588905
+    }
+  },
+  "task/Short-Long": {
+    "a_mem-8B": {
+      "weighted_average": 0.7172255401985393,
+      "z_score": -0.26503570148694866
+    },
+    "bm25_dialog-8B": {
+      "weighted_average": 0.7260040096785336,
+      "z_score": -0.21692917496385142
+    },
+    "bm25_message-8B": {
+      "weighted_average": 0.7286665850304613,
+      "z_score": -0.1929990792658888
+    },
+    "embedder_dialog-8B": {
+      "weighted_average": 0.7325086845067521,
+      "z_score": -0.1718431203351368
+    },
+    "embedder_message-8B": {
+      "weighted_average": 0.7119862801733661,
+      "z_score": -0.2970218590997318
+    },
+    "mem0-8B": {
+      "weighted_average": 0.7304525678260876,
+      "z_score": -0.1835595273159204
+    },
+    "memoryos-8B": {
+      "weighted_average": 0.7492896957866262,
+      "z_score": -0.06190272889024969
+    },
+    "wo_memory-8B": {
+      "weighted_average": 0.751682658112401,
+      "z_score": -0.046740749754368094
+    },
+    "bm25_dialog-32B": {
+      "weighted_average": 0.7582951663461484,
+      "z_score": 0.0012168314906450504
+    },
+    "bm25_message-32B": {
+      "weighted_average": 0.754298622190773,
+      "z_score": -0.026346141659031184
+    },
+    "embedder_dialog-32B": {
+      "weighted_average": 0.7577144028141575,
+      "z_score": -0.0015178706079420692
+    },
+    "embedder_message-32B": {
+      "weighted_average": 0.7296963941262309,
+      "z_score": -0.17780899164527414
+    },
+    "wo_memory-32B": {
+      "weighted_average": 0.7468440507327045,
+      "z_score": -0.07945111221352262
+    }
+  },
+  "task/Short-Short": {
+    "a_mem-8B": {
+      "weighted_average": 0.7147450049684689,
+      "z_score": -0.08135016003951973
+    },
+    "bm25_dialog-8B": {
+      "weighted_average": 0.7330289632314568,
+      "z_score": 0.08553269200023043
+    },
+    "bm25_message-8B": {
+      "weighted_average": 0.7275176651697451,
+      "z_score": -0.06413627216316774
+    },
+    "embedder_dialog-8B": {
+      "weighted_average": 0.7304862870616876,
+      "z_score": 0.04949442841963605
+    },
+    "embedder_message-8B": {
+      "weighted_average": 0.6918593642633626,
+      "z_score": -0.16075909823797885
+    },
+    "mem0-8B": {
+      "weighted_average": 0.6745387383610439,
+      "z_score": -0.2592634214681426
+    },
+    "memoryos-8B": {
+      "weighted_average": 0.7451992806939878,
+      "z_score": 0.10738254706207798
+    },
+    "wo_memory-8B": {
+      "weighted_average": 0.7302452908066688,
+      "z_score": 0.03915535094442936
+    },
+    "bm25_dialog-32B": {
+      "weighted_average": 0.738408282461311,
+      "z_score": 0.08934770252086942
+    },
+    "bm25_message-32B": {
+      "weighted_average": 0.7292514824759839,
+      "z_score": 0.006266531089226604
+    },
+    "embedder_dialog-32B": {
+      "weighted_average": 0.7438364367177864,
+      "z_score": 0.06893065945453156
+    },
+    "embedder_message-32B": {
+      "weighted_average": 0.6906961365450289,
+      "z_score": -0.19813871499359442
+    },
+    "wo_memory-32B": {
+      "weighted_average": 0.7573863949905435,
+      "z_score": 0.1804258960340223
+    }
+  }
+}

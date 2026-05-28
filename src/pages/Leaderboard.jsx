@@ -86,6 +86,21 @@ function DropdownFilter({ label, options, value, onChange, onClear, showAllOptio
   );
 }
 
+function SortIcon({ col, sortCol, sortDir }) {
+  if (col !== sortCol) return <span className="sort-icon">⇅</span>;
+  return <span className={`sort-icon sorted ${sortDir}`}>{sortDir === 'asc' ? '↑' : '↓'}</span>;
+}
+
+function Th({ label, col, sortState, onSort, sortable = true, className = '' }) {
+  const [sortCol, sortDir] = sortState;
+  return (
+    <th className={`sortable-header ${!sortable ? 'no-sort' : ''} ${className}`} onClick={() => sortable && onSort(col)}>
+      <span className="th-label">{label}</span>
+      {sortable && <SortIcon col={col} sortCol={sortCol} sortDir={sortDir} />}
+    </th>
+  );
+}
+
 function HeatmapCell({ value }) {
   const minVal = 0.3, maxVal = 0.8;
   const normalized = Math.max(0, Math.min(1, (value - minVal) / (maxVal - minVal)));
@@ -122,16 +137,17 @@ function HeatmapSection({ model }) {
           ))}
           {/* Data rows */}
           {caseList.map((caseId, idx) => {
-            const caseInfo = summaryAverages.cases[caseId];
+            const caseInfo = summaryAverages[caseId];
             return (
               <>
                 <div key={`row-${caseId}`} className="heatmap-grid-row-header">{caseNames[idx]}</div>
                 {memorySystems.map(mem => {
                   const key = `${mem.id}-${model.id}`;
-                  const value = caseInfo?.[key];
+                  const scoreData = caseInfo?.[key];
+                  const value = scoreData?.weighted_average ?? scoreData?.z_score ?? null;
                   return (
                     <div key={mem.id} className="heatmap-grid-cell">
-                      {value !== undefined ? <HeatmapCell value={value} /> : <div className="heatmap-cell empty">-</div>}
+                      {value !== null ? <HeatmapCell value={value} /> : <div className="heatmap-cell empty">-</div>}
                     </div>
                   );
                 })}
@@ -250,6 +266,8 @@ export default function Leaderboard() {
   const [selectedBenchmarkModel, setSelectedBenchmarkModel] = useState('');
   const [selectedBenchmarkMemory, setSelectedBenchmarkMemory] = useState('');
   const [highlightedSection, setHighlightedSection] = useState('');
+  const [overallSort, setOverallSort] = useState({ col: '', dir: 'desc' });
+  const [benchmarkSort, setBenchmarkSort] = useState({ col: '', dir: 'desc' });
 
   // Sync state changes to URL
   useEffect(() => {
@@ -303,32 +321,80 @@ export default function Leaderboard() {
       data = data.filter(d => d.systemKey.startsWith(selectedMemorySystem));
     }
 
-    return data.sort((a, b) => b.elo - a.elo);
-  }, [selectedBaseModel, selectedMemorySystem]);
+    // Apply sorting
+    const { col, dir } = overallSort;
+    if (col === 'elo') {
+      data = [...data].sort((a, b) => dir === 'asc' ? a.elo - b.elo : b.elo - a.elo);
+    } else if (col === 'model') {
+      data = [...data].sort((a, b) => {
+        const aVal = a.systemKey.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B';
+        const bVal = b.systemKey.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B';
+        return dir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      });
+    } else if (col === 'memory') {
+      data = [...data].sort((a, b) => {
+        const aVal = a.systemKey.replace('-8B', '').replace('-32B', '');
+        const bVal = b.systemKey.replace('-8B', '').replace('-32B', '');
+        return dir === 'asc' ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+      });
+    } else {
+      data = data.sort((a, b) => b.elo - a.elo);
+    }
+    return data;
+  }, [selectedBaseModel, selectedMemorySystem, overallSort]);
 
   // Benchmark-specific table data
   const benchmarkTableData = useMemo(() => {
-    if (selectedBenchmarkTable) {
-      const caseElo = eloData.cases[selectedBenchmarkTable]?.elo || {};
-      let data = Object.entries(caseElo)
-        .map(([key, elo]) => ({
+    const benchId = selectedBenchmarkTable;
+    if (!benchId) return [];
+    const caseElo = eloData.cases[benchId]?.elo || {};
+    const benchScores = summaryAverages[benchId] || {};
+    let data = Object.entries(caseElo)
+      .map(([key, elo]) => {
+        const msKey = key.replace('-8B', '').replace('-32B', '');
+        const scores = benchScores[key] || {};
+        return {
           systemKey: key,
-          memory: key.replace('-8B', '').replace('-32B', ''),
+          memory: msKey,
           model: key.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B',
-          elo
-        }));
+          elo,
+          weighted_average: scores.weighted_average ?? null,
+          z_score: scores.z_score ?? null
+        };
+      });
 
-      if (selectedBenchmarkModel) {
-        data = data.filter(d => d.systemKey.endsWith(`-${selectedBenchmarkModel}`));
-      }
-      if (selectedBenchmarkMemory) {
-        data = data.filter(d => d.systemKey.startsWith(selectedBenchmarkMemory));
-      }
-
-      return data.sort((a, b) => b.elo - a.elo);
+    if (selectedBenchmarkModel) {
+      data = data.filter(d => d.systemKey.endsWith(`-${selectedBenchmarkModel}`));
     }
-    return [];
-  }, [selectedBenchmarkTable, selectedBenchmarkModel, selectedBenchmarkMemory]);
+    if (selectedBenchmarkMemory) {
+      data = data.filter(d => d.systemKey.startsWith(selectedBenchmarkMemory));
+    }
+
+    // Apply sorting
+    const { col, dir } = benchmarkSort;
+    if (col === 'elo') {
+      data = [...data].sort((a, b) => dir === 'asc' ? a.elo - b.elo : b.elo - a.elo);
+    } else if (col === 'model') {
+      data = [...data].sort((a, b) => dir === 'asc' ? a.model.localeCompare(b.model) : b.model.localeCompare(a.model));
+    } else if (col === 'memory') {
+      data = [...data].sort((a, b) => dir === 'asc' ? a.memory.localeCompare(b.memory) : b.memory.localeCompare(a.memory));
+    } else if (col === 'weighted_average') {
+      data = [...data].sort((a, b) => {
+        const aVal = a.weighted_average ?? -1;
+        const bVal = b.weighted_average ?? -1;
+        return dir === 'asc' ? aVal - bVal : bVal - aVal;
+      });
+    } else if (col === 'z_score') {
+      data = [...data].sort((a, b) => {
+        const aVal = a.z_score ?? -1;
+        const bVal = b.z_score ?? -1;
+        return dir === 'asc' ? aVal - bVal : bVal - aVal;
+      });
+    } else {
+      data = data.sort((a, b) => b.elo - a.elo);
+    }
+    return data;
+  }, [selectedBenchmarkTable, selectedBenchmarkModel, selectedBenchmarkMemory, benchmarkSort]);
 
   // Calculate ELO min/max based on filtered data for proper bar scaling
   const eloRange = useMemo(() => {
@@ -399,18 +465,23 @@ export default function Leaderboard() {
             <button className="clear-all-btn" onClick={clearFilters}>✕ Clear Filters</button>
           </div>
           <div className="table-container fixed-height">
-            <table className="leaderboard-table">
-              <thead>
-                <tr>
-                  <th className="rank-col">Rank</th>
-                  <th className="model-col">Model</th>
-                  <th className="memory-col">Memory</th>
-                  <th className="elo-col">ELO Rating</th>
-                  <th className="participated-col">Cases</th>
-                  <th className="detail-col">Details</th>
-                </tr>
-              </thead>
-              <tbody>
+            <div className="table-header-sticky">
+              <table className="leaderboard-table">
+                <thead>
+                  <tr>
+                    <Th label="Rank" col="rank" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="rank-col" />
+                    <Th label="Model" col="model" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="model-col" />
+                    <Th label="Memory System" col="memory" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="memory-col" />
+                    <Th label="ELO Rating" col="elo" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
+                    <Th label="Cases" col="cases" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="participated-col" />
+                    <Th label="Details" col="details" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="detail-col" />
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <div className="table-body-scroll">
+              <table className="leaderboard-table">
+                <tbody>
                 {filteredData.map((row, index) => (
                   <tr key={row.systemKey} className={index < 3 ? 'top-ranked' : ''}>
                     <td className="rank-col"><span className={`rank-badge rank-${index + 1}`}>{index + 1}</span></td>
@@ -427,7 +498,8 @@ export default function Leaderboard() {
                   </tr>
                 ))}
               </tbody>
-            </table>
+              </table>
+            </div>
           </div>
         </section>
 
@@ -471,16 +543,23 @@ export default function Leaderboard() {
 
           {selectedBenchmarkTable && benchmarkTableData.length > 0 && (
             <div className="table-container fixed-height benchmark-table">
-              <table className="leaderboard-table">
-                <thead>
-                  <tr>
-                    <th className="rank-col">Rank</th>
-                    <th className="model-col">Model</th>
-                    <th className="memory-col">Memory</th>
-                    <th className="elo-col">ELO Rating</th>
-                  </tr>
-                </thead>
-                <tbody>
+              <div className="table-header-sticky">
+                <table className="leaderboard-table">
+                  <thead>
+                    <tr>
+                      <Th label="Rank" col="rank" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={() => {}} sortable={false} className="rank-col" />
+                      <Th label="Model" col="model" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="model-col" />
+                      <Th label="Memory System" col="memory" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="memory-col" />
+                      <Th label="ELO Rating" col="elo" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
+                      <Th label="MinMax" col="weighted_average" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="score-col" />
+                      <Th label="Z-Score" col="z_score" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="score-col" />
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+              <div className="table-body-scroll">
+                <table className="leaderboard-table">
+                  <tbody>
                   {benchmarkTableData.map((row, index) => (
                     <tr key={row.systemKey} className={index < 3 ? 'top-ranked' : ''}>
                       <td className="rank-col"><span className={`rank-badge rank-${index + 1}`}>{index + 1}</span></td>
@@ -492,10 +571,17 @@ export default function Leaderboard() {
                           <ELOBar elo={row.elo} minElo={benchmarkEloRange.min} maxElo={benchmarkEloRange.max} />
                         </div>
                       </td>
+                      <td className="score-col">
+                        {row.weighted_average !== null ? row.weighted_average.toFixed(4) : '-'}
+                      </td>
+                      <td className="score-col">
+                        {row.z_score !== null ? row.z_score.toFixed(4) : '-'}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           )}
         </section>
@@ -505,7 +591,6 @@ export default function Leaderboard() {
           <div className="leaderboard-header">
             <div className="leaderboard-header-row">
               <h2 className="leaderboard-title">Benchmark Performance Heatmaps</h2>
-              <Link to="/#tags-section" className="section-back-btn">← Back to Tags</Link>
             </div>
             <p className="leaderboard-subtitle">Visual comparison of memory system performance across different benchmark cases</p>
           </div>

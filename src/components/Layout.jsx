@@ -28,6 +28,12 @@ export default function Layout({ children }) {
             >
               Case Details
             </Link>
+            <Link
+              to="/resources"
+              className={`nav-link ${location.pathname === '/resources' ? 'active' : ''}`}
+            >
+              Resources
+            </Link>
             <button className="theme-toggle" onClick={toggleTheme} title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
               {isDark ? (
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">

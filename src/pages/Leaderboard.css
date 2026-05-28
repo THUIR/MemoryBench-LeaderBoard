@@ -333,6 +333,7 @@
   width: 100%;
   border-collapse: collapse;
   min-width: 700px;
+  table-layout: fixed;
 }
 
 .leaderboard-table th {
@@ -344,7 +345,10 @@
   letter-spacing: 0.08em;
   color: var(--text-muted);
   border-bottom: 1px solid var(--border-subtle);
-  background: var(--bg-table-header);
+  background: var(--bg-card);
+  position: sticky;
+  top: 0;
+  z-index: 15;
 }
 
 .leaderboard-table td {
@@ -363,6 +367,51 @@
 
 .leaderboard-table tbody tr:last-child td {
   border-bottom: none;
+}
+
+/* Sortable header styles */
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.sortable-header:hover {
+  color: var(--accent-golden);
+}
+
+.sortable-header .th-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sort-icon {
+  font-size: 10px;
+  opacity: 0.4;
+  margin-left: 4px;
+}
+
+.sort-icon.sorted {
+  opacity: 1;
+  color: var(--accent-golden);
+}
+
+.no-sort {
+  cursor: default;
+}
+
+/* Score column alignment fix */
+.score-col {
+  text-align: center;
+  min-width: 90px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+th.score-col {
+  text-align: center;
+  padding-left: 16px;
 }
 
 .leaderboard-table tbody tr.top-ranked {
@@ -414,14 +463,14 @@
   min-width: 120px;
 }
 
-.memory-col {
-  min-width: 150px;
+.model-col .model-name {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--text-secondary) !important;
 }
 
-.model-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
+.memory-col {
+  min-width: 150px;
 }
 
 .memory-name {
@@ -440,8 +489,9 @@
   color: var(--text-primary);
 }
 
-.elo-col {
-  min-width: 220px;
+.score-col {
+  font-size: 13px;
+  color: var(--text-secondary);
 }
 
 .elo-display {
@@ -644,11 +694,58 @@
 .table-container.fixed-height {
   max-height: 600px;
   overflow-y: auto;
+  overflow-x: auto;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-honey) var(--bg-card);
 }
 
-.elo-col {
-  min-width: 280px;
+.table-container.fixed-height::-webkit-scrollbar {
+  width: 8px;
 }
+
+.table-container.fixed-height::-webkit-scrollbar-track {
+  background: var(--bg-card);
+  border-radius: 4px;
+}
+
+.table-container.fixed-height::-webkit-scrollbar-thumb {
+  background: var(--accent-honey);
+  border-radius: 4px;
+}
+
+.table-header-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg-card);
+  box-shadow: 0 2px 4px rgba(139, 115, 85, 0.08);
+  overflow-x: auto;
+}
+
+.table-header-sticky .leaderboard-table,
+.table-body-scroll .leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.table-header-sticky .leaderboard-table th {
+  background: var(--bg-card);
+}
+
+.table-body-scroll .leaderboard-table thead {
+  display: none;
+}
+
+/* Column widths for alignment - must match between header and body */
+.rank-col, th.rank-col { width: 50px; min-width: 50px; max-width: 50px; }
+.model-col, th.model-col { width: 90px; min-width: 90px; max-width: 90px; }
+.memory-col, th.memory-col { width: 120px; min-width: 120px; max-width: 120px; }
+.elo-col, th.elo-col { width: 240px; min-width: 240px; max-width: 240px; }
+.participated-col, th.participated-col { width: 30px; min-width: 30px; max-width: 30px; }
+.detail-col, th.detail-col { width: 40px; min-width: 40px; max-width: 40px; }
+.score-col, th.score-col { width: 80px; min-width: 80px; max-width: 80px; text-align: center; }
 
 /* Case Ranking Section */
 .case-ranking-section {
@@ -1031,7 +1128,9 @@
   }
 
   .model-name {
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 500;
+    word-break: break-word;
   }
 
   .memory-name {
