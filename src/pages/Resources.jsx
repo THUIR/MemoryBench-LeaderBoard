@@ -67,7 +67,7 @@ export default function Resources() {
                     <span className={`domain-tag domain-${ds.domain.toLowerCase().replace(/\s+/g, '-')}`}>
                       {ds.domain}
                     </span>
-                    <span className="lang-tag">{ds.language}</span>
+                    <span className="lang-tag">{ds.language === 'EN' ? 'EN' : ds.language === 'EN/ZH' ? 'EN/CN' : 'CN'}</span>
                   </div>
                 </div>
                 <div className="dataset-info">
