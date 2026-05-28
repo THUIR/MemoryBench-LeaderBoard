@@ -405,12 +405,17 @@ function HomeLeaderboard() {
   );
 }
 
-function TagsSection() {
+function TagsSection({ lastClickedTag, setLastClickedTag, highlightedTag, setHighlightedTag }) {
   const domainCases = cases.filter(c => c.type === 'domain');
   const taskCases = cases.filter(c => c.type === 'task');
 
+  const handleTagClick = (tagId) => {
+    setLastClickedTag(tagId);
+    setHighlightedTag('');
+  };
+
   return (
-    <section className="tags-section">
+    <section className="tags-section" id="tags-section">
       <div className="page-wrapper">
         <div className="tags-grid">
           <div className="tag-category">
@@ -421,7 +426,14 @@ function TagsSection() {
             </div>
             <div className="tag-list">
               {baseModels.map(m => (
-                <span key={m.id} className="tag tag-model">{m.name}</span>
+                <Link
+                  key={m.id}
+                  to={`/leaderboard?model=${m.id}&section=overall-rankings`}
+                  className={`tag tag-model${highlightedTag === `model-${m.id}` ? ' highlighted-tag' : ''}`}
+                  onClick={() => handleTagClick(`model-${m.id}`)}
+                >
+                  {m.name}
+                </Link>
               ))}
             </div>
           </div>
@@ -433,7 +445,14 @@ function TagsSection() {
             </div>
             <div className="tag-list">
               {memorySystems.map(m => (
-                <span key={m.id} className="tag tag-memory">{m.name}</span>
+                <Link
+                  key={m.id}
+                  to={`/leaderboard?memory=${m.id}&section=overall-rankings`}
+                  className={`tag tag-memory${highlightedTag === `memory-${m.id}` ? ' highlighted-tag' : ''}`}
+                  onClick={() => handleTagClick(`memory-${m.id}`)}
+                >
+                  {m.name}
+                </Link>
               ))}
             </div>
           </div>
@@ -445,7 +464,14 @@ function TagsSection() {
             </div>
             <div className="tag-list">
               {domainCases.map(c => (
-                <span key={c.id} className="tag tag-domain">{c.name}</span>
+                <Link
+                  key={c.id}
+                  to={`/leaderboard?benchmark=${encodeURIComponent(c.id)}&section=benchmark-rankings`}
+                  className={`tag tag-domain${highlightedTag === `domain-${c.id}` ? ' highlighted-tag' : ''}`}
+                  onClick={() => handleTagClick(`domain-${c.id}`)}
+                >
+                  {c.name}
+                </Link>
               ))}
             </div>
           </div>
@@ -457,7 +483,14 @@ function TagsSection() {
             </div>
             <div className="tag-list">
               {taskCases.map(c => (
-                <span key={c.id} className="tag tag-task">{c.name}</span>
+                <Link
+                  key={c.id}
+                  to={`/leaderboard?benchmark=${encodeURIComponent(c.id)}&section=benchmark-rankings`}
+                  className={`tag tag-task${highlightedTag === `task-${c.id}` ? ' highlighted-tag' : ''}`}
+                  onClick={() => handleTagClick(`task-${c.id}`)}
+                >
+                  {c.name}
+                </Link>
               ))}
             </div>
           </div>
@@ -543,12 +576,30 @@ function ChartSection() {
 }
 
 export default function Home() {
+  const [highlightedTag, setHighlightedTag] = useState('');
+  const [lastClickedTag, setLastClickedTag] = useState('');
+
+  // Handle hash navigation and highlight from Leaderboard
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === '#tags-section') {
+      const element = document.getElementById('tags-section');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (lastClickedTag) {
+          setHighlightedTag(lastClickedTag);
+          setTimeout(() => setHighlightedTag(''), 2000);
+        }
+      }
+    }
+  }, [lastClickedTag]);
+
   return (
     <div className="home-page">
       <HeroSection />
       <IntroSection />
       <HomeLeaderboard />
-      <TagsSection />
+      <TagsSection lastClickedTag={lastClickedTag} setLastClickedTag={setLastClickedTag} highlightedTag={highlightedTag} setHighlightedTag={setHighlightedTag} />
     </div>
   );
 }

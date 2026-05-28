@@ -14,6 +14,7 @@
 2. **Intro 区域**：
    - 三个 Tab：Paper / GitHub / HuggingFace
    - 代码展示框（terminal 风格动画）
+   - 固定高度，切换 Tab 时内容稳定不抖动
 
 3. **Leaderboard 预览**：
    - 筛选：Base Model / Memory System
@@ -22,6 +23,8 @@
 4. **Tags 分类**：
    - 4 categories: Models / Memory / Domain / Task
    - 不同颜色区分标签类型
+   - 点击标签跳转到 Leaderboard 对应筛选视图
+   - 从 Leaderboard 返回时标签会高亮闪烁 2 秒
 
 5. **Chart 区域**：
    - 模型性能柱状图展示
@@ -34,11 +37,13 @@
    - ELO 值显示一位小数（如 1053.9）
    - 下拉筛选菜单（Base Model / Memory System），带"Clear All Filters"按钮
    - 星级评价 + ELO 进度条
+   - 点击标签跳转后该区域会高亮闪烁 2 秒
 
 2. **Benchmark Rankings（分榜排行榜）**：
    - 默认选中 "Academic & Knowledge"
    - 独立显示，不受 Overall Rankings 筛选影响
    - 可切换不同 case 查看排名
+   - 每个 section 右上角有"← Back to Tags"返回按钮
 
 3. **Benchmark Performance Heatmaps（热力图）**：
    - 按 Model 分组展示（Qwen3-8B / Qwen3-32B）
@@ -47,6 +52,7 @@
 
 4. **页面样式**：
    - 页面宽度：padding 40px 160px，最大宽度 1600px
+   - 热力图无横向滚动，完整显示 8 个 memory 系统
    - 响应式设计，支持 1024px / 768px / 480px 断点
 
 ### Page 2 - Case 详情
@@ -95,6 +101,7 @@ memorybench/
 │   │       ├── task_Short-Long.json
 │   │       └── task_Short-Short.json
 │   ├── pages/
+│   │   ├── Home.jsx             # 首页（Hero + Intro + Leaderboard预览 + Tags）
 │   │   ├── Leaderboard.jsx      # Page1 - 排行榜
 │   │   ├── Cases.jsx            # Case 卡片列表
 │   │   ├── CaseSamples.jsx      # Page2 - 样本详情
@@ -137,6 +144,22 @@ memorybench/
 **字体：**
 - IBM Plex Sans（正文）
 - IBM Plex Serif（标题）
+
+## 导航交互
+
+### 标签跳转
+- Models 标签 → Overall Rankings（按 Model 筛选）
+- Memory Systems 标签 → Overall Rankings（按 Memory 筛选）
+- Domain Benchmarks 标签 → Benchmark Rankings（按 Benchmark 筛选）
+- Task Benchmarks 标签 → Benchmark Rankings（按 Benchmark 筛选）
+
+### 返回功能
+- Leaderboard 各 section 右上角有"← Back to Tags"按钮
+- 点击后返回首页 Tags 区域，滚动到标签位置并高亮闪烁 2 秒
+
+### 高亮效果
+- 跳转时目标 section 高亮闪烁 2 秒（`highlight-flash` 动画）
+- 返回时对应标签高亮闪烁 2 秒（`tag-highlight` 动画）
 
 ## 数据处理
 

@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { eloData, memorySystems, baseModels, cases } from '../data/eloData';
 import { summaryAverages } from '../data/summaryAverages';
 import './Leaderboard.css';
@@ -243,11 +243,48 @@ function LineChart({ data, title }) {
 }
 
 export default function Leaderboard() {
-  const [selectedBaseModel, setSelectedBaseModel] = useState('');
-  const [selectedMemorySystem, setSelectedMemorySystem] = useState('');
-  const [selectedBenchmarkTable, setSelectedBenchmarkTable] = useState('domain/Academic&Knowledge');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [selectedBaseModel, setSelectedBaseModel] = useState(searchParams.get('model') || '');
+  const [selectedMemorySystem, setSelectedMemorySystem] = useState(searchParams.get('memory') || '');
+  const [selectedBenchmarkTable, setSelectedBenchmarkTable] = useState(searchParams.get('benchmark') || 'domain/Academic&Knowledge');
   const [selectedBenchmarkModel, setSelectedBenchmarkModel] = useState('');
   const [selectedBenchmarkMemory, setSelectedBenchmarkMemory] = useState('');
+  const [highlightedSection, setHighlightedSection] = useState('');
+
+  // Sync state changes to URL
+  useEffect(() => {
+    const params = {};
+    if (selectedBaseModel) params.model = selectedBaseModel;
+    if (selectedMemorySystem) params.memory = selectedMemorySystem;
+    if (selectedBenchmarkTable) params.benchmark = selectedBenchmarkTable;
+    if (highlightedSection) params.section = highlightedSection;
+    setSearchParams(params);
+  }, [selectedBaseModel, selectedMemorySystem, selectedBenchmarkTable, highlightedSection, setSearchParams]);
+
+  // Initialize from URL and scroll to section
+  useEffect(() => {
+    const modelParam = searchParams.get('model');
+    const memoryParam = searchParams.get('memory');
+    const benchmarkParam = searchParams.get('benchmark');
+    const sectionParam = searchParams.get('section');
+    if (modelParam) setSelectedBaseModel(modelParam);
+    if (memoryParam) setSelectedMemorySystem(memoryParam);
+    if (benchmarkParam) {
+      setSelectedBenchmarkTable(benchmarkParam);
+      setSelectedBenchmarkModel('');
+      setSelectedBenchmarkMemory('');
+    }
+    if (sectionParam) {
+      setHighlightedSection(sectionParam);
+      setTimeout(() => {
+        const element = document.getElementById(sectionParam);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        setTimeout(() => setHighlightedSection(''), 2000);
+      }, 100);
+    }
+  }, []);
 
   const filteredData = useMemo(() => {
     let data = Object.entries(eloData.overall_elo).map(([key, value]) => ({
@@ -336,9 +373,12 @@ export default function Leaderboard() {
         </div>
 
         {/* Main Leaderboard Section */}
-        <section className="ranking-section">
+        <section className={`ranking-section${highlightedSection === 'overall-rankings' ? ' highlighted-section' : ''}`} id="overall-rankings">
           <div className="leaderboard-header">
-            <h2 className="leaderboard-title">Overall Rankings</h2>
+            <div className="leaderboard-header-row">
+              <h2 className="leaderboard-title">Overall Rankings</h2>
+              <Link to="/#tags-section" className="section-back-btn">← Back to Tags</Link>
+            </div>
             <p className="leaderboard-subtitle">Comprehensive ELO ratings across all benchmark cases, filtered by model and memory system</p>
           </div>
           <div className="filter-row">
@@ -392,9 +432,12 @@ export default function Leaderboard() {
         </section>
 
         {/* Benchmark Tables Section */}
-        <section className="benchmark-tables-section">
+        <section className={`benchmark-tables-section${highlightedSection === 'benchmark-rankings' ? ' highlighted-section' : ''}`} id="benchmark-rankings">
           <div className="leaderboard-header">
-            <h2 className="leaderboard-title">Benchmark Rankings</h2>
+            <div className="leaderboard-header-row">
+              <h2 className="leaderboard-title">Benchmark Rankings</h2>
+              <Link to="/#tags-section" className="section-back-btn">← Back to Tags</Link>
+            </div>
             <p className="leaderboard-subtitle">Detailed performance breakdown by benchmark case, model and memory system</p>
           </div>
           {selectedBenchmarkTable && (
@@ -458,9 +501,12 @@ export default function Leaderboard() {
         </section>
 
         {/* Heatmaps Section */}
-        <section className="benchmark-section">
+        <section className={`benchmark-section${highlightedSection === 'benchmark-heatmaps' ? ' highlighted-section' : ''}`} id="benchmark-heatmaps">
           <div className="leaderboard-header">
-            <h2 className="leaderboard-title">Benchmark Performance Heatmaps</h2>
+            <div className="leaderboard-header-row">
+              <h2 className="leaderboard-title">Benchmark Performance Heatmaps</h2>
+              <Link to="/#tags-section" className="section-back-btn">← Back to Tags</Link>
+            </div>
             <p className="leaderboard-subtitle">Visual comparison of memory system performance across different benchmark cases</p>
           </div>
           <div className="heatmaps-container">
