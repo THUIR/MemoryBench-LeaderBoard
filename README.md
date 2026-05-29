@@ -1,6 +1,6 @@
 # MemoryBench Evaluation Platform
 
-**Live Demo: https://memorybench-web.vercel.app**
+**Live Demo: https://memorybench-leaderboard.vercel.app/**
 
 A sustainable learning evaluation platform built on the MemoryBench paper, featuring ELO scoring mechanism and multi-dimensional data visualization.
 
