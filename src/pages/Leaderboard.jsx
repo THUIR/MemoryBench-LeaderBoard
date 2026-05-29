@@ -161,6 +161,7 @@ function HeatmapSection({ model }) {
         <div className="legend-gradient" style={{ background: 'linear-gradient(90deg, #f5efe8 0%, #d4b896 50%, #c9a962 100%)' }} />
         <span className="legend-label">Higher Score</span>
       </div>
+      <p className="heatmap-note">MinMax Normalization Score</p>
     </div>
   );
 }

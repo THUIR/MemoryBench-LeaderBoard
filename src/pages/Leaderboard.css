@@ -309,6 +309,14 @@
   border-radius: 3px;
 }
 
+.heatmap-note {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  font-style: italic;
+}
+
 .ranking-section {
   margin-top: 32px;
 }
