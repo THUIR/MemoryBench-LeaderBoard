@@ -1167,3 +1167,43 @@ th.score-col {
     gap: 16px;
   }
 }
+
+/* Metrics Footnote */
+.metrics-footnote {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.metrics-footnote .footnote-title {
+  font-family: 'IBM Plex Serif', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.footnote-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.footnote-item {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  padding-left: 20px;
+  text-indent: -20px;
+}
+
+.footnote-item sup {
+  color: var(--accent-golden);
+  font-weight: 600;
+}
+
+.footnote-item strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
