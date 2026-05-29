@@ -1181,12 +1181,11 @@ th.score-col {
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 20px;
-  text-align: center;
+  text-align: left;
 }
 
 .footnote-list {
-  max-width: 900px;
-  margin: 0 auto;
+  text-align: left;
 }
 
 .footnote-item {

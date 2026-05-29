@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, Fragment } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { eloData, memorySystems, baseModels, cases } from '../data/eloData';
 import { summaryAverages } from '../data/summaryAverages';
@@ -139,7 +139,7 @@ function HeatmapSection({ model }) {
           {caseList.map((caseId, idx) => {
             const caseInfo = summaryAverages[caseId];
             return (
-              <>
+              <Fragment>
                 <div key={`row-${caseId}`} className="heatmap-grid-row-header">{caseNames[idx]}</div>
                 {memorySystems.map(mem => {
                   const key = `${mem.id}-${model.id}`;
@@ -151,7 +151,7 @@ function HeatmapSection({ model }) {
                     </div>
                   );
                 })}
-              </>
+              </Fragment>
             );
           })}
         </div>
@@ -473,7 +473,7 @@ export default function Leaderboard() {
                     <Th label="Rank" col="rank" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="rank-col" />
                     <Th label="Model" col="model" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="model-col" />
                     <Th label="Memory System" col="memory" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="memory-col" />
-                    <Th label='ELO Rating¹' col="elo" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
+                    <Th label='ELO¹' col="elo" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
                     <Th label="Cases" col="cases" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="participated-col" />
                     <Th label="Details" col="details" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="detail-col" />
                   </tr>
@@ -551,7 +551,7 @@ export default function Leaderboard() {
                       <Th label="Rank" col="rank" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={() => {}} sortable={false} className="rank-col" />
                       <Th label="Model" col="model" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="model-col" />
                       <Th label="Memory System" col="memory" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="memory-col" />
-                      <Th label='ELO Rating¹' col="elo" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
+                      <Th label='ELO¹' col="elo" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
                       <Th label='MinMax²' col="weighted_average" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="score-col" />
                       <Th label='Z-Score³' col="z_score" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="score-col" />
                     </tr>
@@ -612,10 +612,10 @@ export default function Leaderboard() {
               <sup>1</sup> <strong>ELO:</strong> Mimics the Elo rating system used in competitive games. Within each domain/task, every pair of systems is compared case by case based on their scores; the system with a higher score on a case gains points from the opponent, and the final Elo ratings reflect the relative strengths of all systems after iterative updates.
             </div>
             <div className="footnote-item">
-              <sup>2</sup> <strong>Min-max normalization:</strong> Linear scaling of each indicator based on the minimum and maximum values across all systems, mapping the original scores onto a fixed interval (e.g., [0,1]) to remove scale effects.
+              <sup>2</sup> <strong>MinMax Normalization:</strong> Linear scaling of each indicator based on the minimum and maximum values across all systems, mapping the original scores onto a fixed interval (e.g., [0,1]) to remove scale effects.
             </div>
             <div className="footnote-item">
-              <sup>3</sup> <strong>Z-score:</strong> Transforms raw scores into standardized scores with a mean of 0 and a standard deviation of 1, reflecting how far a data point deviates from the mean.
+              <sup>3</sup> <strong>Z-Score:</strong> Transforms raw scores into standardized scores with a mean of 0 and a standard deviation of 1, reflecting how far a data point deviates from the mean.
             </div>
           </div>
         </div>
