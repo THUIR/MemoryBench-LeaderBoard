@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Contributors.css';
 
 const contributors = [
@@ -43,14 +44,14 @@ const contributors = [
 function ContributorCard({ contributor, index }) {
   return (
     <div className="contributor-card" style={{ animationDelay: `${index * 0.1}s` }}>
+      {contributor.isPI && <span className="pi-badge">PI</span>}
       <div className="contributor-avatar">
         <span className="avatar-placeholder">{contributor.name[0]}</span>
       </div>
       <div className="contributor-info">
         <h3 className="contributor-name">{contributor.name}</h3>
         <p className="contributor-affiliation">{contributor.affiliation}</p>
-        {contributor.isPI && <span className="contributor-role pi-badge">PI</span>}
-        {!contributor.isPI && <span className="contributor-role">{contributor.role}</span>}
+        <span className="contributor-role">{contributor.role}</span>
         <p className="contributor-desc">{contributor.description}</p>
       </div>
     </div>
