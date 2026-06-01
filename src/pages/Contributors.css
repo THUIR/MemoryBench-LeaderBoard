@@ -129,6 +129,12 @@
   margin-bottom: 8px;
 }
 
+.pi-badge {
+  background: rgba(201, 169, 98, 0.25);
+  border-color: var(--accent-golden);
+  font-weight: 700;
+}
+
 .contributor-desc {
   font-size: 13px;
   color: var(--text-secondary);

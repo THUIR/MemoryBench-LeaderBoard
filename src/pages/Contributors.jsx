@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
 import './Contributors.css';
 
 const contributors = [
   {
     name: 'To Be Confirmed',
     affiliation: 'To Be Confirmed',
+    isPI: true,
     role: 'Project Lead',
     description: 'Lead of the MemoryBench project',
   },
@@ -40,14 +40,6 @@ const contributors = [
   },
 ];
 
-const advisors = [
-  {
-    name: 'To Be Confirmed',
-    affiliation: 'To Be Confirmed',
-    description: 'Research advisor',
-  },
-];
-
 function ContributorCard({ contributor, index }) {
   return (
     <div className="contributor-card" style={{ animationDelay: `${index * 0.1}s` }}>
@@ -57,23 +49,9 @@ function ContributorCard({ contributor, index }) {
       <div className="contributor-info">
         <h3 className="contributor-name">{contributor.name}</h3>
         <p className="contributor-affiliation">{contributor.affiliation}</p>
-        <span className="contributor-role">{contributor.role}</span>
+        {contributor.isPI && <span className="contributor-role pi-badge">PI</span>}
+        {!contributor.isPI && <span className="contributor-role">{contributor.role}</span>}
         <p className="contributor-desc">{contributor.description}</p>
-      </div>
-    </div>
-  );
-}
-
-function AdvisorCard({ advisor, index }) {
-  return (
-    <div className="advisor-card" style={{ animationDelay: `${index * 0.1}s` }}>
-      <div className="advisor-avatar">
-        <span className="avatar-placeholder">{advisor.name[0]}</span>
-      </div>
-      <div className="advisor-info">
-        <h3 className="advisor-name">{advisor.name}</h3>
-        <p className="advisor-affiliation">{advisor.affiliation}</p>
-        <p className="advisor-desc">{advisor.description}</p>
       </div>
     </div>
   );
@@ -97,19 +75,6 @@ export default function Contributors() {
           <div className="contributors-grid">
             {contributors.map((contributor, index) => (
               <ContributorCard key={index} contributor={contributor} index={index} />
-            ))}
-          </div>
-        </section>
-
-        {/* Advisors */}
-        <section className="contributors-section">
-          <div className="section-header">
-            <h2 className="section-title">Advisors</h2>
-            <p className="section-subtitle">Research advisors and mentors</p>
-          </div>
-          <div className="advisors-grid">
-            {advisors.map((advisor, index) => (
-              <AdvisorCard key={index} advisor={advisor} index={index} />
             ))}
           </div>
         </section>
