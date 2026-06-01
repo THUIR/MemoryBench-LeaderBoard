@@ -6,6 +6,7 @@ import Cases from './pages/Cases';
 import CaseSamples from './pages/CaseSamples';
 import Detail from './pages/Detail';
 import Resources from './pages/Resources';
+import Contributors from './pages/Contributors';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/case/:caseId" element={<CaseSamples />} />
           <Route path="/detail/:systemKey" element={<Detail />} />
           <Route path="/resources" element={<Resources />} />
+          <Route path="/contributors" element={<Contributors />} />
         </Routes>
       </Layout>
     </BrowserRouter>

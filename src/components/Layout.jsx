@@ -34,6 +34,12 @@ export default function Layout({ children }) {
             >
               Resources
             </Link>
+            <Link
+              to="/contributors"
+              className={`nav-link ${location.pathname === '/contributors' ? 'active' : ''}`}
+            >
+              Contributors
+            </Link>
             <button className="theme-toggle" onClick={toggleTheme} title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
               {isDark ? (
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
