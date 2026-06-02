@@ -1532,8 +1532,22 @@
     font-size: 11px;
   }
 
+  .leaderboard-chart .chart-bar-item {
+    grid-template-columns: 180px 1fr 50px;
+    gap: 8px;
+  }
+
+  .leaderboard-chart .bar-label {
+    min-width: 0;
+  }
+
   .leaderboard-chart .bar-value {
     font-size: 11px;
+    text-align: left;
+  }
+
+  .leaderboard-chart .bar-track {
+    display: block;
   }
 
   .tags-grid {
@@ -1665,6 +1679,29 @@
 
   .leaderboard-chart .bar-value {
     font-size: 10px;
+    text-align: left;
+  }
+
+  .leaderboard-chart .bar-track {
+    display: none;
+  }
+
+  .leaderboard-chart .chart-bar-item {
+    grid-template-columns: 120px 1fr 45px;
+    gap: 6px;
+  }
+
+  .leaderboard-chart .bar-label {
+    min-width: 0;
+  }
+
+  .leaderboard-chart .bar-value {
+    font-size: 10px;
+    text-align: left;
+  }
+
+  .leaderboard-chart .bar-track {
+    display: block;
   }
 
   .leaderboard-chart .rank-badge {

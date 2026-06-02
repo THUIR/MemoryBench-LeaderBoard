@@ -1153,7 +1153,9 @@ th.score-col {
   }
 
   .heatmap-grid-row-header {
-    display: none;
+    font-size: 9px;
+    padding: 2px 4px;
+    display: flex;
   }
 
   .heatmap-value {
