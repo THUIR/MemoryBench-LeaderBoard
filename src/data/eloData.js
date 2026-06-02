@@ -1,178 +1,4 @@
-export const eloData = {
-  "cases": {
-    "domain/Academic&Knowledge": {
-      "elo": {
-        "a_mem-8B": 1062.8,
-        "bm25_dialog-8B": 1015.7,
-        "bm25_message-8B": 1235.3,
-        "embedder_dialog-8B": 830.3,
-        "embedder_message-8B": 1027.6,
-        "mem0-8B": 960.8,
-        "memoryos-8B": 880.3,
-        "wo_memory-8B": 851.8,
-        "a_mem-32B": 1078.3,
-        "bm25_dialog-32B": 1134.3,
-        "bm25_message-32B": 1173.9,
-        "embedder_dialog-32B": 925.6,
-        "embedder_message-32B": 1078.4,
-        "mem0-32B": 954.5,
-        "memoryos-32B": 835.7,
-        "wo_memory-32B": 954.6
-      },
-      "n_systems": 16,
-      "n_samples": 800
-    },
-    "domain/Legal": {
-      "elo": {
-        "a_mem-8B": 932.6,
-        "bm25_dialog-8B": 813.2,
-        "bm25_message-8B": 974.0,
-        "embedder_dialog-8B": 945.8,
-        "embedder_message-8B": 915.2,
-        "mem0-8B": 982.1,
-        "memoryos-8B": 892.5,
-        "wo_memory-8B": 952.9,
-        "a_mem-32B": 1139.3,
-        "bm25_dialog-32B": 938.2,
-        "bm25_message-32B": 1128.0,
-        "embedder_dialog-32B": 1108.2,
-        "embedder_message-32B": 1064.0,
-        "mem0-32B": 1253.9,
-        "memoryos-32B": 941.2,
-        "wo_memory-32B": 1019.0
-      },
-      "n_systems": 16,
-      "n_samples": 800
-    },
-    "domain/Open-Domain": {
-      "elo": {
-        "a_mem-8B": 1012.2,
-        "bm25_dialog-8B": 1080.2,
-        "bm25_message-8B": 953.5,
-        "embedder_dialog-8B": 866.0,
-        "embedder_message-8B": 890.6,
-        "memoryos-8B": 906.8,
-        "wo_memory-8B": 1091.6,
-        "a_mem-32B": 892.1,
-        "bm25_dialog-32B": 962.1,
-        "bm25_message-32B": 999.6,
-        "embedder_dialog-32B": 1173.7,
-        "embedder_message-32B": 854.3,
-        "memoryos-32B": 1029.9,
-        "wo_memory-32B": 1287.4
-      },
-      "n_systems": 14,
-      "n_samples": 750
-    },
-    "task/Long-Long": {
-      "elo": {
-        "a_mem-8B": 924.5,
-        "bm25_dialog-8B": 976.6,
-        "bm25_message-8B": 1145.7,
-        "embedder_dialog-8B": 960.9,
-        "embedder_message-8B": 1010.7,
-        "mem0-8B": 932.6,
-        "memoryos-8B": 971.3,
-        "wo_memory-8B": 1008.9,
-        "bm25_dialog-32B": 986.0,
-        "bm25_message-32B": 1169.5,
-        "embedder_dialog-32B": 961.3,
-        "embedder_message-32B": 1011.0,
-        "wo_memory-32B": 941.1
-      },
-      "n_systems": 13,
-      "n_samples": 650
-    },
-    "task/Long-Short": {
-      "elo": {
-        "a_mem-8B": 1088.3,
-        "bm25_dialog-8B": 1093.5,
-        "bm25_message-8B": 1183.2,
-        "embedder_dialog-8B": 898.3,
-        "embedder_message-8B": 890.2,
-        "memoryos-8B": 964.8,
-        "wo_memory-8B": 956.0,
-        "bm25_dialog-32B": 971.6,
-        "bm25_message-32B": 1099.1,
-        "embedder_dialog-32B": 929.4,
-        "embedder_message-32B": 1012.6,
-        "wo_memory-32B": 913.0
-      },
-      "n_systems": 12,
-      "n_samples": 600
-    },
-    "task/Short-Long": {
-      "elo": {
-        "a_mem-8B": 713.2,
-        "bm25_dialog-8B": 901.6,
-        "bm25_message-8B": 936.9,
-        "embedder_dialog-8B": 1160.5,
-        "embedder_message-8B": 1101.0,
-        "mem0-8B": 1021.0,
-        "memoryos-8B": 864.2,
-        "wo_memory-8B": 1046.7,
-        "bm25_dialog-32B": 994.2,
-        "bm25_message-32B": 924.4,
-        "embedder_dialog-32B": 1089.3,
-        "embedder_message-32B": 1032.1,
-        "wo_memory-32B": 1214.7
-      },
-      "n_systems": 13,
-      "n_samples": 650
-    },
-    "task/Short-Short": {
-      "elo": {
-        "a_mem-8B": 1217.3,
-        "bm25_dialog-8B": 988.9,
-        "bm25_message-8B": 873.5,
-        "embedder_dialog-8B": 952.8,
-        "embedder_message-8B": 968.4,
-        "mem0-8B": 824.1,
-        "memoryos-8B": 825.4,
-        "wo_memory-8B": 1161.5,
-        "bm25_dialog-32B": 1093.4,
-        "bm25_message-32B": 882.9,
-        "embedder_dialog-32B": 1153.2,
-        "embedder_message-32B": 920.0,
-        "wo_memory-32B": 1138.6
-      },
-      "n_systems": 13,
-      "n_samples": 650
-    }
-  },
-  "overall_elo": {
-    "a_mem-8B": { "avg": 993.0, "participated_cases": 7 },
-    "bm25_dialog-8B": { "avg": 981.4, "participated_cases": 7 },
-    "bm25_message-8B": { "avg": 1043.2, "participated_cases": 7 },
-    "embedder_dialog-8B": { "avg": 944.9, "participated_cases": 7 },
-    "embedder_message-8B": { "avg": 972.0, "participated_cases": 7 },
-    "mem0-8B": { "avg": 944.1, "participated_cases": 5 },
-    "memoryos-8B": { "avg": 900.7, "participated_cases": 7 },
-    "wo_memory-8B": { "avg": 1009.9, "participated_cases": 7 },
-    "a_mem-32B": { "avg": 1036.5, "participated_cases": 3 },
-    "bm25_dialog-32B": { "avg": 1011.4, "participated_cases": 7 },
-    "bm25_message-32B": { "avg": 1053.9, "participated_cases": 7 },
-    "embedder_dialog-32B": { "avg": 1048.7, "participated_cases": 7 },
-    "embedder_message-32B": { "avg": 996.1, "participated_cases": 7 },
-    "mem0-32B": { "avg": 1104.2, "participated_cases": 2 },
-    "memoryos-32B": { "avg": 935.6, "participated_cases": 3 },
-    "wo_memory-32B": { "avg": 1066.9, "participated_cases": 7 }
-  },
-  "overall_elo_full_participation": {
-    "a_mem-8B": { "avg": 993.0, "participated_cases": 7 },
-    "bm25_dialog-8B": { "avg": 981.4, "participated_cases": 7 },
-    "bm25_message-8B": { "avg": 1043.2, "participated_cases": 7 },
-    "embedder_dialog-8B": { "avg": 944.9, "participated_cases": 7 },
-    "embedder_message-8B": { "avg": 972.0, "participated_cases": 7 },
-    "memoryos-8B": { "avg": 900.7, "participated_cases": 7 },
-    "wo_memory-8B": { "avg": 1009.9, "participated_cases": 7 },
-    "bm25_dialog-32B": { "avg": 1011.4, "participated_cases": 7 },
-    "bm25_message-32B": { "avg": 1053.9, "participated_cases": 7 },
-    "embedder_dialog-32B": { "avg": 1048.7, "participated_cases": 7 },
-    "embedder_message-32B": { "avg": 996.1, "participated_cases": 7 },
-    "wo_memory-32B": { "avg": 1066.9, "participated_cases": 7 }
-  }
-};
+export const eloData = {"cases":{"domain/Academic&Knowledge":{"elo":{"a_mem-DeepSeek-V4-Flash":1102.5,"bm25_dialog-DeepSeek-V4-Flash":1215.7,"bm25_message-DeepSeek-V4-Flash":1423.0,"embedder_dialog-DeepSeek-V4-Flash":872.9,"embedder_message-DeepSeek-V4-Flash":1230.9,"wo_memory-DeepSeek-V4-Flash":1135.9,"a_mem-Mistral-Small-3.2-24B-Instruct-2506":1138.6,"bm25_dialog-Mistral-Small-3.2-24B-Instruct-2506":956.2,"bm25_message-Mistral-Small-3.2-24B-Instruct-2506":922.4,"embedder_dialog-Mistral-Small-3.2-24B-Instruct-2506":899.7,"embedder_message-Mistral-Small-3.2-24B-Instruct-2506":922.5,"mem0-Mistral-Small-3.2-24B-Instruct-2506":1129.4,"memoryos-Mistral-Small-3.2-24B-Instruct-2506":1190.2,"wo_memory-Mistral-Small-3.2-24B-Instruct-2506":1190.1,"a_mem-Qwen3-32B":1041.5,"bm25_dialog-Qwen3-32B":1067.3,"bm25_message-Qwen3-32B":1090.4,"embedder_dialog-Qwen3-32B":781.5,"embedder_message-Qwen3-32B":1041.9,"mem0-Qwen3-32B":939.0,"memoryos-Qwen3-32B":695.3,"wo_memory-Qwen3-32B":924.2,"a_mem-Qwen3-8B":998.1,"bm25_dialog-Qwen3-8B":833.5,"bm25_message-Qwen3-8B":1240.0,"embedder_dialog-Qwen3-8B":695.2,"embedder_message-Qwen3-8B":986.3,"mem0-Qwen3-8B":926.2,"memoryos-Qwen3-8B":720.8,"wo_memory-Qwen3-8B":688.5},"n_systems":30,"n_samples":154},"domain/Legal":{"elo":{"a_mem-DeepSeek-V4-Flash":945.5,"bm25_dialog-DeepSeek-V4-Flash":944.7,"bm25_message-DeepSeek-V4-Flash":1025.7,"embedder_dialog-DeepSeek-V4-Flash":999.0,"embedder_message-DeepSeek-V4-Flash":991.4,"mem0-DeepSeek-V4-Flash":964.4,"wo_memory-DeepSeek-V4-Flash":959.7,"a_mem-Mistral-Small-3.2-24B-Instruct-2506":1088.8,"bm25_dialog-Mistral-Small-3.2-24B-Instruct-2506":925.5,"bm25_message-Mistral-Small-3.2-24B-Instruct-2506":1107.6,"embedder_dialog-Mistral-Small-3.2-24B-Instruct-2506":947.2,"embedder_message-Mistral-Small-3.2-24B-Instruct-2506":822.2,"mem0-Mistral-Small-3.2-24B-Instruct-2506":1149.2,"memoryos-Mistral-Small-3.2-24B-Instruct-2506":879.5,"wo_memory-Mistral-Small-3.2-24B-Instruct-2506":1155.3,"a_mem-Qwen3-32B":1222.2,"bm25_dialog-Qwen3-32B":931.4,"bm25_message-Qwen3-32B":1054.1,"embedder_dialog-Qwen3-32B":1054.6,"embedder_message-Qwen3-32B":1033.2,"mem0-Qwen3-32B":1373.9,"memoryos-Qwen3-32B":952.7,"wo_memory-Qwen3-32B":1009.0,"a_mem-Qwen3-8B":930.2,"bm25_dialog-Qwen3-8B":848.7,"bm25_message-Qwen3-8B":972.4,"embedder_dialog-Qwen3-8B":921.9,"embedder_message-Qwen3-8B":946.9,"mem0-Qwen3-8B":981.6,"memoryos-Qwen3-8B":891.9,"wo_memory-Qwen3-8B":969.7},"n_systems":31,"n_samples":181},"domain/Open-Domain":{"elo":{"bm25_dialog-DeepSeek-V4-Flash":1112.0,"bm25_message-DeepSeek-V4-Flash":775.5,"embedder_dialog-DeepSeek-V4-Flash":903.5,"embedder_message-DeepSeek-V4-Flash":872.8,"wo_memory-DeepSeek-V4-Flash":1180.1,"a_mem-Mistral-Small-3.2-24B-Instruct-2506":543.7,"bm25_dialog-Mistral-Small-3.2-24B-Instruct-2506":937.7,"bm25_message-Mistral-Small-3.2-24B-Instruct-2506":780.2,"embedder_dialog-Mistral-Small-3.2-24B-Instruct-2506":910.9,"embedder_message-Mistral-Small-3.2-24B-Instruct-2506":1176.9,"memoryos-Mistral-Small-3.2-24B-Instruct-2506":760.9,"wo_memory-Mistral-Small-3.2-24B-Instruct-2506":1342.2,"a_mem-Qwen3-32B":1009.8,"bm25_dialog-Qwen3-32B":923.2,"bm25_message-Qwen3-32B":1076.5,"embedder_dialog-Qwen3-32B":1234.0,"embedder_message-Qwen3-32B":881.2,"memoryos-Qwen3-32B":1090.1,"wo_memory-Qwen3-32B":1383.7,"a_mem-Qwen3-8B":1068.9,"bm25_dialog-Qwen3-8B":1109.2,"bm25_message-Qwen3-8B":1044.7,"embedder_dialog-Qwen3-8B":838.8,"embedder_message-Qwen3-8B":916.7,"memoryos-Qwen3-8B":1005.6,"wo_memory-Qwen3-8B":1121.1},"n_systems":26,"n_samples":245},"task/Long-Long":{"elo":{"a_mem-DeepSeek-V4-Flash":941.3,"bm25_dialog-DeepSeek-V4-Flash":968.2,"bm25_message-DeepSeek-V4-Flash":937.4,"embedder_dialog-DeepSeek-V4-Flash":968.9,"embedder_message-DeepSeek-V4-Flash":967.8,"wo_memory-DeepSeek-V4-Flash":937.9,"a_mem-Mistral-Small-3.2-24B-Instruct-2506":1215.2,"bm25_dialog-Mistral-Small-3.2-24B-Instruct-2506":969.0,"bm25_message-Mistral-Small-3.2-24B-Instruct-2506":1197.6,"embedder_dialog-Mistral-Small-3.2-24B-Instruct-2506":955.7,"embedder_message-Mistral-Small-3.2-24B-Instruct-2506":973.7,"mem0-Mistral-Small-3.2-24B-Instruct-2506":1179.7,"memoryos-Mistral-Small-3.2-24B-Instruct-2506":951.3,"wo_memory-Mistral-Small-3.2-24B-Instruct-2506":949.3,"bm25_dialog-Qwen3-32B":957.9,"bm25_message-Qwen3-32B":1251.7,"embedder_dialog-Qwen3-32B":932.7,"embedder_message-Qwen3-32B":963.4,"wo_memory-Qwen3-32B":930.0,"a_mem-Qwen3-8B":927.1,"bm25_dialog-Qwen3-8B":950.9,"bm25_message-Qwen3-8B":1232.5,"embedder_dialog-Qwen3-8B":929.1,"embedder_message-Qwen3-8B":966.8,"mem0-Qwen3-8B":925.5,"memoryos-Qwen3-8B":950.9,"wo_memory-Qwen3-8B":968.4},"n_systems":27,"n_samples":199},"task/Long-Short":{"elo":{"bm25_message-DeepSeek-V4-Flash":1191.5,"embedder_dialog-DeepSeek-V4-Flash":973.7,"embedder_message-DeepSeek-V4-Flash":1217.5,"wo_memory-DeepSeek-V4-Flash":1196.0,"a_mem-Mistral-Small-3.2-24B-Instruct-2506":1215.2,"bm25_dialog-Mistral-Small-3.2-24B-Instruct-2506":962.4,"bm25_message-Mistral-Small-3.2-24B-Instruct-2506":1268.1,"embedder_dialog-Mistral-Small-3.2-24B-Instruct-2506":1195.8,"embedder_message-Mistral-Small-3.2-24B-Instruct-2506":1229.4,"memoryos-Mistral-Small-3.2-24B-Instruct-2506":1284.3,"wo_memory-Mistral-Small-3.2-24B-Instruct-2506":502.9,"bm25_dialog-Qwen3-32B":805.9,"bm25_message-Qwen3-32B":1023.0,"embedder_dialog-Qwen3-32B":774.0,"embedder_message-Qwen3-32B":967.0,"wo_memory-Qwen3-32B":886.2,"a_mem-Qwen3-8B":1015.6,"bm25_dialog-Qwen3-8B":899.8,"bm25_message-Qwen3-8B":1174.8,"embedder_dialog-Qwen3-8B":749.0,"embedder_message-Qwen3-8B":864.5,"memoryos-Qwen3-8B":818.6,"wo_memory-Qwen3-8B":784.7},"n_systems":23,"n_samples":139},"task/Short-Long":{"elo":{"a_mem-DeepSeek-V4-Flash":1468.5,"bm25_dialog-DeepSeek-V4-Flash":987.8,"bm25_message-DeepSeek-V4-Flash":1255.4,"embedder_dialog-DeepSeek-V4-Flash":1198.7,"embedder_message-DeepSeek-V4-Flash":937.7,"mem0-DeepSeek-V4-Flash":990.2,"wo_memory-DeepSeek-V4-Flash":1269.1,"a_mem-Mistral-Small-3.2-24B-Instruct-2506":635.2,"bm25_dialog-Mistral-Small-3.2-24B-Instruct-2506":905.1,"bm25_message-Mistral-Small-3.2-24B-Instruct-2506":1247.3,"embedder_dialog-Mistral-Small-3.2-24B-Instruct-2506":1457.7,"embedder_message-Mistral-Small-3.2-24B-Instruct-2506":966.0,"mem0-Mistral-Small-3.2-24B-Instruct-2506":839.9,"memoryos-Mistral-Small-3.2-24B-Instruct-2506":928.7,"wo_memory-Mistral-Small-3.2-24B-Instruct-2506":-174.9,"bm25_dialog-Qwen3-32B":949.1,"bm25_message-Qwen3-32B":800.7,"embedder_dialog-Qwen3-32B":1160.6,"embedder_message-Qwen3-32B":1064.1,"wo_memory-Qwen3-32B":1270.7,"a_mem-Qwen3-8B":629.8,"bm25_dialog-Qwen3-8B":861.0,"bm25_message-Qwen3-8B":903.3,"embedder_dialog-Qwen3-8B":1237.2,"embedder_message-Qwen3-8B":1198.1,"mem0-Qwen3-8B":1076.9,"memoryos-Qwen3-8B":810.9,"wo_memory-Qwen3-8B":1125.4},"n_systems":28,"n_samples":140},"task/Short-Short":{"elo":{"a_mem-DeepSeek-V4-Flash":1113.7,"bm25_dialog-DeepSeek-V4-Flash":1068.4,"bm25_message-DeepSeek-V4-Flash":1181.3,"embedder_dialog-DeepSeek-V4-Flash":1239.0,"embedder_message-DeepSeek-V4-Flash":1283.0,"mem0-DeepSeek-V4-Flash":976.3,"wo_memory-DeepSeek-V4-Flash":1045.1,"a_mem-Mistral-Small-3.2-24B-Instruct-2506":837.4,"bm25_dialog-Mistral-Small-3.2-24B-Instruct-2506":1204.1,"bm25_message-Mistral-Small-3.2-24B-Instruct-2506":874.4,"embedder_dialog-Mistral-Small-3.2-24B-Instruct-2506":1172.0,"embedder_message-Mistral-Small-3.2-24B-Instruct-2506":1099.6,"mem0-Mistral-Small-3.2-24B-Instruct-2506":801.7,"memoryos-Mistral-Small-3.2-24B-Instruct-2506":740.4,"wo_memory-Mistral-Small-3.2-24B-Instruct-2506":1256.9,"bm25_dialog-Qwen3-32B":1117.3,"bm25_message-Qwen3-32B":731.4,"embedder_dialog-Qwen3-32B":1042.9,"embedder_message-Qwen3-32B":910.2,"wo_memory-Qwen3-32B":1069.5,"a_mem-Qwen3-8B":1118.6,"bm25_dialog-Qwen3-8B":931.3,"bm25_message-Qwen3-8B":717.2,"embedder_dialog-Qwen3-8B":891.6,"embedder_message-Qwen3-8B":917.7,"mem0-Qwen3-8B":771.4,"memoryos-Qwen3-8B":694.9,"wo_memory-Qwen3-8B":1193.0},"n_systems":28,"n_samples":144}},"overall_elo":{"a_mem-DeepSeek-V4-Flash":{"avg":1114.3,"participated_cases":5},"bm25_dialog-DeepSeek-V4-Flash":{"avg":1049.5,"participated_cases":6},"bm25_message-DeepSeek-V4-Flash":{"avg":1112.8,"participated_cases":7},"embedder_dialog-DeepSeek-V4-Flash":{"avg":1022.2,"participated_cases":7},"embedder_message-DeepSeek-V4-Flash":{"avg":1071.6,"participated_cases":7},"wo_memory-DeepSeek-V4-Flash":{"avg":1103.4,"participated_cases":7},"a_mem-Mistral-Small-3.2-24B-Instruct-2506":{"avg":953.4,"participated_cases":7},"bm25_dialog-Mistral-Small-3.2-24B-Instruct-2506":{"avg":980.0,"participated_cases":7},"bm25_message-Mistral-Small-3.2-24B-Instruct-2506":{"avg":1056.8,"participated_cases":7},"embedder_dialog-Mistral-Small-3.2-24B-Instruct-2506":{"avg":1077.0,"participated_cases":7},"embedder_message-Mistral-Small-3.2-24B-Instruct-2506":{"avg":1027.2,"participated_cases":7},"mem0-Mistral-Small-3.2-24B-Instruct-2506":{"avg":1020.0,"participated_cases":5},"memoryos-Mistral-Small-3.2-24B-Instruct-2506":{"avg":962.2,"participated_cases":7},"wo_memory-Mistral-Small-3.2-24B-Instruct-2506":{"avg":888.8,"participated_cases":7},"a_mem-Qwen3-32B":{"avg":1091.2,"participated_cases":3},"bm25_dialog-Qwen3-32B":{"avg":964.6,"participated_cases":7},"bm25_message-Qwen3-32B":{"avg":1004.0,"participated_cases":7},"embedder_dialog-Qwen3-32B":{"avg":997.2,"participated_cases":7},"embedder_message-Qwen3-32B":{"avg":980.1,"participated_cases":7},"mem0-Qwen3-32B":{"avg":1156.5,"participated_cases":2},"memoryos-Qwen3-32B":{"avg":912.7,"participated_cases":3},"wo_memory-Qwen3-32B":{"avg":1067.6,"participated_cases":7},"a_mem-Qwen3-8B":{"avg":955.5,"participated_cases":7},"bm25_dialog-Qwen3-8B":{"avg":919.2,"participated_cases":7},"bm25_message-Qwen3-8B":{"avg":1040.7,"participated_cases":7},"embedder_dialog-Qwen3-8B":{"avg":894.7,"participated_cases":7},"embedder_message-Qwen3-8B":{"avg":971.0,"participated_cases":7},"mem0-Qwen3-8B":{"avg":936.3,"participated_cases":5},"memoryos-Qwen3-8B":{"avg":841.9,"participated_cases":7},"wo_memory-Qwen3-8B":{"avg":978.7,"participated_cases":7},"mem0-DeepSeek-V4-Flash":{"avg":977.0,"participated_cases":3}},"overall_elo_full_participation":{"bm25_message-DeepSeek-V4-Flash":{"avg":1112.8,"participated_cases":7},"embedder_dialog-DeepSeek-V4-Flash":{"avg":1022.2,"participated_cases":7},"embedder_message-DeepSeek-V4-Flash":{"avg":1071.6,"participated_cases":7},"wo_memory-DeepSeek-V4-Flash":{"avg":1103.4,"participated_cases":7},"a_mem-Mistral-Small-3.2-24B-Instruct-2506":{"avg":953.4,"participated_cases":7},"bm25_dialog-Mistral-Small-3.2-24B-Instruct-2506":{"avg":980.0,"participated_cases":7},"bm25_message-Mistral-Small-3.2-24B-Instruct-2506":{"avg":1056.8,"participated_cases":7},"embedder_dialog-Mistral-Small-3.2-24B-Instruct-2506":{"avg":1077.0,"participated_cases":7},"embedder_message-Mistral-Small-3.2-24B-Instruct-2506":{"avg":1027.2,"participated_cases":7},"memoryos-Mistral-Small-3.2-24B-Instruct-2506":{"avg":962.2,"participated_cases":7},"wo_memory-Mistral-Small-3.2-24B-Instruct-2506":{"avg":888.8,"participated_cases":7},"bm25_dialog-Qwen3-32B":{"avg":964.6,"participated_cases":7},"bm25_message-Qwen3-32B":{"avg":1004.0,"participated_cases":7},"embedder_dialog-Qwen3-32B":{"avg":997.2,"participated_cases":7},"embedder_message-Qwen3-32B":{"avg":980.1,"participated_cases":7},"wo_memory-Qwen3-32B":{"avg":1067.6,"participated_cases":7},"a_mem-Qwen3-8B":{"avg":955.5,"participated_cases":7},"bm25_dialog-Qwen3-8B":{"avg":919.2,"participated_cases":7},"bm25_message-Qwen3-8B":{"avg":1040.7,"participated_cases":7},"embedder_dialog-Qwen3-8B":{"avg":894.7,"participated_cases":7},"embedder_message-Qwen3-8B":{"avg":971.0,"participated_cases":7},"memoryos-Qwen3-8B":{"avg":841.9,"participated_cases":7},"wo_memory-Qwen3-8B":{"avg":978.7,"participated_cases":7}}};
 
 export const memorySystems = [
   { id: "a_mem", name: "A-Mem", description: "全量记忆存储" },
@@ -186,18 +12,20 @@ export const memorySystems = [
 ];
 
 export const baseModels = [
-  { id: "8B", name: "Qwen3-8B" },
-  { id: "32B", name: "Qwen3-32B" }
+  { id: "DeepSeek-V4-Flash", name: "DeepSeek-V4-Flash" },
+  { id: "Mistral-Small-3.2-24B-Instruct-2506", name: "Mistral-Small-3.2-24B-Instruct-2506" },
+  { id: "Qwen3-32B", name: "Qwen3-32B" },
+  { id: "Qwen3-8B", name: "Qwen3-8B" }
 ];
 
 export const cases = [
-  { id: "domain/Academic&Knowledge", name: "Academic & Knowledge", type: "domain", samples: 800 },
-  { id: "domain/Legal", name: "Legal", type: "domain", samples: 800 },
-  { id: "domain/Open-Domain", name: "Open-Domain", type: "domain", samples: 750 },
-  { id: "task/Long-Long", name: "Long-Long", type: "task", samples: 650 },
-  { id: "task/Long-Short", name: "Long-Short", type: "task", samples: 600 },
-  { id: "task/Short-Long", name: "Short-Long", type: "task", samples: 650 },
-  { id: "task/Short-Short", name: "Short-Short", type: "task", samples: 650 }
+  { id: "domain/Academic&Knowledge", name: "Academic & Knowledge", type: "domain", samples: 7564 },
+  { id: "domain/Legal", name: "Legal", type: "domain", samples: 7230 },
+  { id: "domain/Open-Domain", name: "Open-Domain", type: "domain", samples: 8759 },
+  { id: "task/Long-Long", name: "Long-Long", type: "task", samples: 7425 },
+  { id: "task/Long-Short", name: "Long-Short", type: "task", samples: 5773 },
+  { id: "task/Short-Long", name: "Short-Long", type: "task", samples: 4004 },
+  { id: "task/Short-Short", name: "Short-Short", type: "task", samples: 4200 }
 ];
 
 export function getSystemKey(memorySystemId, baseModelId) {
@@ -205,9 +33,12 @@ export function getSystemKey(memorySystemId, baseModelId) {
 }
 
 export function getMemorySystemId(systemKey) {
-  return systemKey.replace("-8B", "").replace("-32B", "");
+  return systemKey.replace(/-DeepSeek-V4-Flash$/, "").replace(/-Mistral-Small-3.2-24B-Instruct-2506$/, "").replace(/-Qwen3-32B$/, "").replace(/-Qwen3-8B$/, "");
 }
 
 export function getBaseModelId(systemKey) {
-  return systemKey.includes("-32B") ? "32B" : "8B";
+  if (systemKey.includes("-DeepSeek-V4-Flash")) return "DeepSeek-V4-Flash";
+  if (systemKey.includes("-Mistral-Small-3.2-24B-Instruct-2506")) return "Mistral-Small-3.2-24B-Instruct-2506";
+  if (systemKey.includes("-Qwen3-32B")) return "Qwen3-32B";
+  return "Qwen3-8B";
 }

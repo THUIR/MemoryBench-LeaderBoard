@@ -10,16 +10,29 @@ const checklistLabels = [
 
 const ITEMS_PER_PAGE = 10;
 
+// Helper function to get baseModel ID from model name (e.g., "DeepSeek-V4-Flash" -> "DeepSeek-V4-Flash")
+function getBaseModelIdFromModel(modelName) {
+  // Find matching baseModel
+  const found = baseModels.find(b => modelName.includes(b.name));
+  if (found) return found.id;
+
+  // Fallback logic
+  if (modelName.includes("32B")) return "32B";
+  if (modelName.includes("8B")) return "8B";
+  if (modelName.includes("DeepSeek")) return "DeepSeek-V4-Flash";
+  if (modelName.includes("Mistral")) return "Mistral-Small-3.2-24B-Instruct-2506";
+  return modelName;
+}
+
 function getScoreDisplay(sample) {
-  if (sample.metrics?.avg_score !== undefined) {
-    return sample.metrics.avg_score;
-  }
-  if (sample.metrics?.f1 !== undefined) {
-    return sample.metrics.f1;
-  }
-  if (sample.metrics?.reasoning_bert_score !== undefined) {
-    return sample.metrics.reasoning_bert_score;
-  }
+  const m = sample.metrics;
+  if (!m) return null;
+  // Try different score fields
+  if (m.avg_score !== undefined) return m.avg_score;
+  if (m.score !== undefined) return m.score;
+  if (m.f1 !== undefined) return m.f1;
+  if (m.reasoning_bert_score !== undefined) return m.reasoning_bert_score;
+  if (m.rougel !== undefined) return m.rougel;
   return null;
 }
 
@@ -153,7 +166,11 @@ function SampleModal({ sample, onClose }) {
 
             <div className="modal-section modal-metrics-section">
               <h3>Metrics</h3>
-              {getMetricsDisplay(sample)}
+              {getMetricsDisplay(sample) || (sample.metrics?.reason ? (
+                <div className="metrics-reason">
+                  <p>{sample.metrics.reason}</p>
+                </div>
+              ) : null)}
             </div>
           </div>
 
@@ -252,8 +269,9 @@ export default function CaseSamples() {
 
   const evaluatedSamples = useMemo(() => {
     return samples.filter(s => {
-      const modelSuffix = s.model.includes("32B") ? "-32B" : "-8B";
-      const sysKey = `${s.memory_system}${modelSuffix}`;
+      // Build systemKey using the actual model name (full model id)
+      const modelId = getBaseModelIdFromModel(s.model);
+      const sysKey = `${s.memory_system}-${modelId}`;
       return evaluatedSystemKeys.has(sysKey);
     });
   }, [samples, evaluatedSystemKeys]);
@@ -331,15 +349,15 @@ export default function CaseSamples() {
             <h2 className="section-title">Systems Ranking for This Case</h2>
             <p className="section-subtitle">Performance comparison of all memory systems on this benchmark case, ranked by ELO rating</p>
           </div>
-          <div className="ranking-chart">
-            {rankedSystems.slice(0, 12).map((sys, idx) => {
+          <div className="ranking-chart ranking-scroll">
+            {rankedSystems.map((sys, idx) => {
               const maxElo = rankedSystems[0]?.elo || 1;
               const minElo = rankedSystems[rankedSystems.length - 1]?.elo || 0;
               const score = Math.max(0.05, (sys.elo - minElo) / (maxElo - minElo || 1));
               return (
                 <div key={sys.systemKey} className="ranking-bar-item">
                   <div className="ranking-bar-label">
-                    <span className={`rank-badge rank-${idx + 1}`}>{idx + 1}</span>
+                    <span className="rank-badge">{idx + 1}</span>
                     <span className="ranking-system-name">{memorySystems.find(m => m.id === sys.memorySystem)?.name || sys.memorySystem}</span>
                     <span className="ranking-model-name">{baseModels.find(b => b.id === sys.baseModel)?.name || sys.baseModel}</span>
                   </div>
@@ -365,8 +383,9 @@ export default function CaseSamples() {
                 <label>Model</label>
                 <select value={filterModel} onChange={e => { setFilterModel(e.target.value); setCurrentPage(1); }}>
                   <option value="all">All</option>
-                  <option value="Qwen3-8B">Qwen3-8B</option>
-                  <option value="Qwen3-32B">Qwen3-32B</option>
+                  {baseModels.map(m => (
+                    <option key={m.id} value={m.name}>{m.name}</option>
+                  ))}
                 </select>
               </div>
               <div className="filter-group">

@@ -283,7 +283,7 @@ function HeroSection() {
               <span className="stat-label">Memory Systems</span>
             </div>
             <div className="hero-stat-card bounce-3">
-              <span className="stat-value">2</span>
+              <span className="stat-value">4</span>
               <span className="stat-label">models</span>
             </div>
           </div>
@@ -298,7 +298,10 @@ function getMemorySystemName(id) {
 }
 
 function getBaseModelName(key) {
-  return key.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B';
+  if (key.includes('-DeepSeek-V4-Flash')) return 'DeepSeek-V4-Flash';
+  if (key.includes('-Mistral-Small-3.2-24B-Instruct-2506')) return 'Mistral-Small-3.2-24B-Instruct-2506';
+  if (key.includes('-Qwen3-32B')) return 'Qwen3-32B';
+  return 'Qwen3-8B';
 }
 
 function HomeLeaderboard() {
@@ -411,7 +414,7 @@ function TagsSection({ lastClickedTag, setLastClickedTag, highlightedTag, setHig
             <div className="tag-category-header">
               <span className="category-icon">🤖</span>
               <span className="category-label">Models</span>
-              <span className="category-count">2</span>
+              <span className="category-count">{baseModels.length}</span>
             </div>
             <div className="tag-list">
               {baseModels.map(m => (
@@ -486,7 +489,7 @@ function TagsSection({ lastClickedTag, setLastClickedTag, highlightedTag, setHig
         </div>
         <div className="tags-note">
           <span className="note-icon">📊</span>
-          <span>28 datasets · 8 memory systems · 3 domains · 4 tasks · 2 models</span>
+          <span>28 datasets · 8 memory systems · 3 domains · 4 tasks · 4 models</span>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef, useEffect, Fragment } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { eloData, memorySystems, baseModels, cases } from '../data/eloData';
+import { eloData, memorySystems, baseModels, cases, getMemorySystemId, getBaseModelId } from '../data/eloData';
 import { summaryAverages } from '../data/summaryAverages';
 import './Leaderboard.css';
 
@@ -352,12 +352,14 @@ export default function Leaderboard() {
     const benchScores = summaryAverages[benchId] || {};
     let data = Object.entries(caseElo)
       .map(([key, elo]) => {
-        const msKey = key.replace('-8B', '').replace('-32B', '');
+        const msKey = getMemorySystemId(key);
+        const modelId = getBaseModelId(key);
+        const modelName = baseModels.find(b => b.id === modelId)?.name || modelId;
         const scores = benchScores[key] || {};
         return {
           systemKey: key,
           memory: msKey,
-          model: key.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B',
+          model: modelName,
           elo,
           weighted_average: scores.weighted_average ?? null,
           z_score: scores.z_score ?? null
@@ -417,7 +419,12 @@ export default function Leaderboard() {
   }, [benchmarkTableData]);
 
   const getMemorySystemName = (id) => memorySystems.find(m => m.id === id)?.name || id;
-  const getBaseModelName = (key) => key.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B';
+  const getBaseModelName = (key) => {
+    if (key.includes('-DeepSeek-V4-Flash')) return 'DeepSeek-V4-Flash';
+    if (key.includes('-Mistral-Small-3.2-24B-Instruct-2506')) return 'Mistral-Small-3.2-24B-Instruct-2506';
+    if (key.includes('-Qwen3-32B')) return 'Qwen3-32B';
+    return 'Qwen3-8B';
+  };
 
   const selectedBenchmarkInfo = cases.find(c => c.id === selectedBenchmarkTable);
 
@@ -436,7 +443,7 @@ export default function Leaderboard() {
       <div className="page-wrapper">
         <div className="page-header">
           <h1 className="page-title">Leaderboard</h1>
-          <p className="page-subtitle">Compare ELO ratings across 2 base models and 8 memory systems · Filter by model, memory system, or view all</p>
+          <p className="page-subtitle">Compare ELO ratings across 4 base models and 8 memory systems · Filter by model, memory system, or view all</p>
         </div>
 
         {/* Main Leaderboard Section */}
@@ -487,7 +494,7 @@ export default function Leaderboard() {
                   <tr key={row.systemKey} className={index < 3 ? 'top-ranked' : ''}>
                     <td className="rank-col"><span className={`rank-badge rank-${index + 1}`}>{index + 1}</span></td>
                     <td className="model-col"><span className="model-name">{getBaseModelName(row.systemKey)}</span></td>
-                    <td className="memory-col"><span className="memory-name">{getMemorySystemName(row.systemKey.replace('-8B', '').replace('-32B', ''))}</span></td>
+                    <td className="memory-col"><span className="memory-name">{getMemorySystemName(getMemorySystemId(row.systemKey))}</span></td>
                     <td className="elo-col">
                       <div className="elo-display">
                         <StarRating elo={row.elo} />

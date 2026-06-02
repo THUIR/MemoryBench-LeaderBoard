@@ -16,6 +16,8 @@ const datasets = [
 ];
 
 const backboneModels = [
+  { name: 'DeepSeek-V4-Flash', parameters: '-', usage: 'High-performance reasoning model with flash attention', description: 'Latest DeepSeek model optimized for speed and efficiency.', link: 'https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash' },
+  { name: 'Mistral-Small-3.2-24B-Instruct-2506', parameters: '24B', usage: 'Efficient instruct-tuned model', description: 'Mistral small model with 24B parameters, instruct-tuned for对话.', link: 'https://huggingface.co/mistralai/Mistral-Small-3.2-24B-Instruct-2506' },
   { name: 'Qwen3-8B', parameters: '8B', usage: 'Main backbone for all memory systems', description: 'Primary experiment backbone; non-thinking mode deployment.', link: 'https://huggingface.co/Qwen/Qwen3-8B' },
   { name: 'Qwen3-32B', parameters: '32B', usage: 'Used as backbone model or user simulator', description: 'Larger-parameter Qwen3 model demonstrating stronger performance in tests.', link: 'https://huggingface.co/Qwen/Qwen3-32B' },
 ];
@@ -209,7 +211,7 @@ export default function Resources() {
               <span className="summary-label">Datasets</span>
             </div>
             <div className="summary-card">
-              <span className="summary-number">2</span>
+              <span className="summary-number">4</span>
               <span className="summary-label">LLMs</span>
             </div>
             <div className="summary-card">

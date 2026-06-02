@@ -127,8 +127,8 @@ memorybench/
 **Memory Systems (8 total):**
 - A-Mem, BM25-Dialog, BM25-Message, Embedder-Dialog, Embedder-Message, Mem0, MemoryOS, No Memory
 
-**Base Models (2 total):**
-- Qwen3-8B, Qwen3-32B
+**Base Models (4 total):**
+- DeepSeek-V4-Flash, Mistral-Small-3.2-24B-Instruct-2506, Qwen3-32B, Qwen3-8B
 
 **Cases (7 total):**
 - Domain: Academic & Knowledge, Legal, Open-Domain

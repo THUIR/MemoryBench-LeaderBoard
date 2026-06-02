@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Test</title></head>
+<body>
+<h1>Testing JSON load</h1>
+<script type="module">
+const caseId = 'domain/Academic&Knowledge';
+const decodedId = decodeURIComponent(caseId);
+const safeName = decodedId.replace('/', '_').replace('&', '_');
+console.log('safeName:', safeName);
+try {
+  const response = await import('./src/data/samples/' + safeName + '.json');
+  console.log('Loaded samples:', response.default.length);
+  console.log('First sample model:', response.default[0].model);
+  document.body.innerHTML += '<p>Loaded ' + response.default.length + ' samples</p>';
+} catch(e) {
+  console.error('Error:', e);
+  document.body.innerHTML += '<p>Error: ' + e.message + '</p>';
+}
+</script>
+</body>
+</html>
