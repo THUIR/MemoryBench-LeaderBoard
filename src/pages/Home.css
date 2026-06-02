@@ -1380,11 +1380,28 @@
 
 @media (max-width: 600px) {
   .hero-title {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .hero-subtitle {
+    font-size: 20px;
+  }
+
+  .hero-description {
+    font-size: 13px;
+  }
+
+  .hero-badge {
+    font-size: 10px;
+    padding: 6px 14px;
+  }
+
+  .hero-stat-value {
     font-size: 22px;
+  }
+
+  .hero-stat-label {
+    font-size: 9px;
   }
 
   .hero-links {
@@ -1393,12 +1410,14 @@
 
   .hero-link {
     justify-content: center;
+    font-size: 12px;
+    padding: 8px 12px;
   }
 
   .hero-stats {
     flex-wrap: wrap;
-    gap: 16px;
-    padding: 20px;
+    gap: 12px;
+    padding: 16px;
   }
 
   .hero-stat-divider {
@@ -1406,12 +1425,34 @@
   }
 
   .hero-stat {
-    min-width: 80px;
+    min-width: 70px;
+    padding: 12px 16px;
   }
 
   .intro-tabs {
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .intro-tab {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+
+  .intro-content-title {
+    font-size: 18px;
+  }
+
+  .intro-content-desc {
+    font-size: 12px;
+  }
+
+  .intro-detail-item {
+    font-size: 11px;
+  }
+
+  .intro-detail-special {
+    font-size: 11px;
   }
 
   .intro-left {
@@ -1420,16 +1461,29 @@
 
   .intro-right {
     height: auto;
-    min-height: 350px;
+    min-height: 280px;
     width: 100%;
+    position: relative;
   }
 
   .code-block {
-    position: static;
+    position: relative;
     transform: none;
     width: 100%;
     height: auto;
-    min-height: 300px;
+    min-height: 260px;
+    opacity: 1;
+    z-index: 0;
+  }
+
+  .code-block.active {
+    opacity: 1;
+    z-index: 0;
+  }
+
+  .code-content {
+    font-size: 10px;
+    min-height: 200px;
   }
 
   .section-header {
@@ -1437,15 +1491,260 @@
     align-items: flex-start;
   }
 
+  .section-title {
+    font-size: 18px;
+  }
+
+  .section-subtitle {
+    font-size: 11px;
+  }
+
   .home-leaderboard .filter-row {
     flex-wrap: wrap;
+  }
+
+  .home-leaderboard .elo-col {
+    min-width: 100px;
+  }
+
+  .home-leaderboard .model-name {
+    font-size: 11px;
+  }
+
+  .home-leaderboard .memory-name {
+    font-size: 11px;
+  }
+
+  .home-leaderboard .elo-value {
+    font-size: 10px;
+  }
+
+  .home-leaderboard .elo-col {
+    min-width: 100px;
+  }
+
+  .home-leaderboard .cases-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+  }
+
+  .leaderboard-chart .bar-name {
+    font-size: 11px;
+  }
+
+  .leaderboard-chart .bar-value {
+    font-size: 11px;
   }
 
   .tags-grid {
     grid-template-columns: 1fr;
   }
 
+  .tag-category {
+    padding: 12px;
+  }
+
+  .tag {
+    padding: 4px 10px;
+    font-size: 10px;
+  }
+
   .chart-bar-item {
     grid-template-columns: 70px 1fr 35px;
+  }
+
+  .bar-label {
+    font-size: 10px;
+  }
+
+  .bar-value {
+    font-size: 10px;
+  }
+
+  .chart-section .section-title {
+    font-size: 18px;
+  }
+
+  .chart-container {
+    padding: 20px;
+  }
+
+  .tags-note {
+    font-size: 10px;
+  }
+
+  .note-icon {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-description {
+    font-size: 13px;
+  }
+
+  .hero-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hero-link {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .intro-tab {
+    font-size: 10px;
+    padding: 6px 10px;
+  }
+
+  .intro-content-title {
+    font-size: 16px;
+  }
+
+  .hero-stats {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .hero-stat {
+    min-width: 70px;
+  }
+
+  .hero-stat-value {
+    font-size: 20px;
+  }
+
+  .hero-stat-label {
+    font-size: 9px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .intro-content-desc {
+    font-size: 11px;
+  }
+
+  .intro-detail-item {
+    font-size: 10px;
+  }
+
+  .intro-detail-special {
+    font-size: 10px;
+  }
+
+  .home-leaderboard .model-name {
+    font-size: 10px;
+  }
+
+  .home-leaderboard .memory-name {
+    font-size: 10px;
+  }
+
+  .home-leaderboard .elo-value {
+    font-size: 9px;
+  }
+
+  .home-leaderboard .elo-col {
+    min-width: 100px;
+  }
+
+  .home-leaderboard .star {
+    font-size: 9px;
+  }
+
+  .leaderboard-chart .bar-name {
+    font-size: 10px;
+  }
+
+  .leaderboard-chart .bar-value {
+    font-size: 10px;
+  }
+
+  .leaderboard-chart .rank-badge {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+
+  .category-label {
+    font-size: 9px;
+  }
+
+  .category-count {
+    font-size: 8px;
+    padding: 2px 6px;
+  }
+
+  .tag {
+    padding: 3px 8px;
+    font-size: 9px;
+  }
+
+  .chart-bar-item {
+    grid-template-columns: 60px 1fr 30px;
+    padding: 8px 10px;
+  }
+
+  .bar-label {
+    font-size: 9px;
+  }
+
+  .bar-value {
+    font-size: 9px;
+  }
+
+  .chart-section .section-title {
+    font-size: 16px;
+  }
+
+  .chart-container {
+    padding: 16px;
+  }
+
+  .tags-note {
+    font-size: 9px;
+  }
+
+  .note-icon {
+    font-size: 12px;
+  }
+
+  .tags-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .tag-category {
+    padding: 12px;
+  }
+
+  .tag-list {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .tag {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  .chart-bar-item {
+    grid-template-columns: 60px 1fr 30px;
+    padding: 8px 10px;
+  }
+
+  .bar-name {
+    font-size: 11px;
+  }
+
+  .bar-value {
+    font-size: 11px;
   }
 }

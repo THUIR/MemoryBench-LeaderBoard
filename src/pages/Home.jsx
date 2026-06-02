@@ -141,7 +141,6 @@ const codeSnippets = {
 function IntroSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [codeVisibleLines, setCodeVisibleLines] = useState(0);
-  const [visibleCodeId, setVisibleCodeId] = useState(introData[0].id);
   const intervalRef = useRef(null);
 
   useEffect(() => {
@@ -152,10 +151,8 @@ function IntroSection() {
   }, []);
 
   useEffect(() => {
-    const newId = introData[activeIndex].id;
-    setVisibleCodeId(newId);
     setCodeVisibleLines(0);
-    const lines = codeSnippets[newId].length;
+    const lines = codeSnippets[currentData.id].length;
     let line = 0;
     const lineInterval = setInterval(() => {
       line++;
@@ -207,37 +204,29 @@ function IntroSection() {
             </div>
           </div>
           <div className="intro-right">
-            {introData.map((item) => {
-              const codeLines = codeSnippets[item.id];
-              return (
-                <div
-                  key={item.id}
-                  className={`code-block ${visibleCodeId === item.id ? 'active' : ''}`}
-                >
-                  <div className="code-header">
-                    <span className="code-dot red"></span>
-                    <span className="code-dot yellow"></span>
-                    <span className="code-dot green"></span>
-                    <span className="code-title">
-                      {item.id === 'paper' && '📄 Paper'}
-                      {item.id === 'github' && '🚀 GitHub'}
-                      {item.id === 'huggingface' && '🤗 HuggingFace'}
-                    </span>
+            <div className="code-block active">
+              <div className="code-header">
+                <span className="code-dot red"></span>
+                <span className="code-dot yellow"></span>
+                <span className="code-dot green"></span>
+                <span className="code-title">
+                  {currentData.id === 'paper' && '📄 Paper'}
+                  {currentData.id === 'github' && '🚀 GitHub'}
+                  {currentData.id === 'huggingface' && '🤗 HuggingFace'}
+                </span>
+              </div>
+              <pre className="code-content terminal">
+                {currentCode.map((line, idx) => (
+                  <div
+                    key={idx}
+                    className={`code-line ${idx < codeVisibleLines ? 'visible' : ''}`}
+                    style={{ animationDelay: `${idx * 0.08}s` }}
+                  >
+                    {line}
                   </div>
-                  <pre className="code-content terminal">
-                    {codeLines.map((line, idx) => (
-                      <div
-                        key={idx}
-                        className={`code-line ${visibleCodeId === item.id && idx < codeVisibleLines ? 'visible' : ''}`}
-                        style={{ animationDelay: `${idx * 0.08}s` }}
-                      >
-                        {line}
-                      </div>
-                    ))}
-                  </pre>
-                </div>
-              );
-            })}
+                ))}
+              </pre>
+            </div>
           </div>
         </div>
       </div>

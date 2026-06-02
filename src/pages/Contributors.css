@@ -238,31 +238,172 @@
 
 @media (max-width: 768px) {
   .contributors-page .page-wrapper {
-    padding: 16px 12px;
+    padding: 12px 8px;
+  }
+
+  .contributors-page .page-title {
+    font-size: 24px;
+  }
+
+  .contributors-page .page-subtitle {
+    font-size: 12px;
+  }
+
+  .section-header {
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 14px !important;
+  }
+
+  .contributors-section .section-title {
+    font-size: 14px !important;
+  }
+
+  .contributors-section {
+    margin-bottom: 24px;
   }
 
   .contributors-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .advisors-grid {
     grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .contributor-card {
-    padding: 24px 16px;
+    padding: 20px 16px;
+  }
+
+  .contributor-name {
+    font-size: 18px !important;
+  }
+
+  .contributors-section .contributor-name {
+    font-size: 18px !important;
+  }
+
+  .contributor-affiliation {
+    font-size: 12px;
+  }
+
+  .contributor-role {
+    font-size: 10px;
+    padding: 3px 10px;
+  }
+
+  .contributor-desc {
+    font-size: 12px;
   }
 
   .acknowledgment-section {
-    padding: 20px;
+    padding: 16px;
+  }
+
+  .acknowledgment-text {
+    font-size: 13px;
   }
 
   .contact-card {
-    padding: 20px;
+    padding: 16px;
+  }
+
+  .contact-text {
+    font-size: 12px;
   }
 
   .contact-links {
     flex-direction: column;
     align-items: center;
+    gap: 10px;
+  }
+
+  .contact-link {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .contributors-page .page-wrapper {
+    padding: 8px 4px;
+  }
+
+  .contributors-page .page-title {
+    font-size: 20px;
+  }
+
+  .contributors-page .page-subtitle {
+    font-size: 11px;
+  }
+
+  .section-header {
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: 13px !important;
+  }
+
+  .contributors-section .section-title {
+    font-size: 13px !important;
+  }
+
+  .section-subtitle {
+    font-size: 10px;
+  }
+
+  .contributors-section {
+    margin-bottom: 16px;
+  }
+
+  .contributor-card {
+    padding: 16px 12px;
+  }
+
+  .contributor-avatar {
+    width: 64px;
+    height: 64px;
+  }
+
+  .avatar-placeholder {
+    font-size: 26px;
+  }
+
+  .contributor-name {
+    font-size: 14px !important;
+  }
+
+  .contributors-section .contributor-name {
+    font-size: 14px !important;
+  }
+
+  .contributor-role {
+    font-size: 9px;
+    padding: 2px 8px;
+  }
+
+  .contributor-desc {
+    font-size: 11px;
+  }
+
+  .acknowledgment-section {
+    padding: 12px;
+  }
+
+  .acknowledgment-text {
+    font-size: 12px;
+  }
+
+  .contact-card {
+    padding: 12px;
+  }
+
+  .contact-text {
+    font-size: 11px;
   }
 }
