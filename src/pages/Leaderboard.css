@@ -1138,6 +1138,10 @@ th.score-col {
     gap: 12px;
   }
 
+  .heatmap-container {
+    justify-content: flex-start;
+  }
+
   .benchmark-tables-section .case-filter {
     flex-wrap: wrap;
   }
@@ -1259,6 +1263,10 @@ th.score-col {
   .heatmaps-container {
     grid-template-columns: 1fr;
     gap: 12px;
+  }
+
+  .heatmap-container {
+    justify-content: flex-start;
   }
 
   .heatmap-grid {
