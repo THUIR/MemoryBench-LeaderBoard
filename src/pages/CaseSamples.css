@@ -1068,9 +1068,15 @@
 
   .modal-content {
     max-width: 95%;
-    margin: 12px;
-    max-height: 95vh;
-    height: 90vh;
+    margin: 8px;
+    max-height: 98vh;
+    height: auto;
+  }
+
+  .modal-score-section,
+  .modal-metrics-section {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .modal-top-section {
@@ -1080,21 +1086,57 @@
   .modal-score-section {
     flex: none;
     width: 100%;
+    padding: 6px 10px;
+  }
+
+  .modal-score-section h3 {
+    display: none;
+  }
+
+  .modal-score {
+    padding: 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .modal-score .score-value {
+    font-size: 20px;
+  }
+
+  .modal-score-section + .modal-metrics-section {
+    flex: 1;
+  }
+
+  .modal-metrics-section {
+    padding: 8px;
+  }
+
+  .modal-metrics-section p {
+    font-size: 9px;
+  }
+
+  .modal-eval-section {
+    max-height: 60px;
   }
 
   .modal-bottom-section {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
 
   .modal-two-column {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
 
   .modal-body {
     height: auto;
-    min-height: 60vh;
+    min-height: 50vh;
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .modal-column {
@@ -1157,6 +1199,99 @@
 
   .page-info {
     font-size: 10px;
+  }
+
+  .modal-header h2 {
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+
+  .modal-header {
+    padding: 8px 12px 6px;
+  }
+
+  .modal-body {
+    padding: 8px 12px;
+    max-height: 60vh;
+  }
+
+  .modal-top-section {
+    gap: 8px;
+  }
+
+  .modal-score-section {
+    padding: 4px 8px;
+  }
+
+  .modal-score-section h3 {
+    display: none;
+  }
+
+  .modal-score {
+    padding: 0;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .modal-score .score-value {
+    font-size: 16px;
+  }
+
+  .modal-metrics-section {
+    padding: 6px;
+  }
+
+  .modal-metrics-section p {
+    font-size: 8px;
+  }
+
+  .modal-eval-section {
+    padding: 6px;
+    max-height: 50px;
+  }
+
+  .modal-section h3 {
+    font-size: 9px;
+    padding: 6px 8px;
+  }
+
+  .modal-section p {
+    font-size: 8px;
+  }
+
+  .modal-messages-section,
+  .modal-response-section {
+    padding: 6px;
+  }
+
+  .modal-messages-section p,
+  .modal-response-section p {
+    font-size: 8px;
+  }
+
+  .message-item {
+    font-size: 9px;
+    padding: 5px 6px;
+  }
+
+  .message-role {
+    font-size: 7px;
+  }
+
+  .response-item {
+    font-size: 9px;
+    padding: 5px 6px;
+  }
+
+  .response-label {
+    font-size: 7px;
+  }
+
+  .response-content {
+    font-size: 9px;
+    padding: 8px;
   }
 }
 
