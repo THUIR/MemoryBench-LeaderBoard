@@ -1,10 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
+import { useState } from 'react';
 import './Layout.css';
 
 export default function Layout({ children }) {
   const location = useLocation();
   const { isDark, toggleTheme } = useTheme();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <div className="layout">
@@ -15,28 +17,43 @@ export default function Layout({ children }) {
               <span className="logo-text">MemoryBench</span>
             </Link>
           </div>
-          <nav className="header-nav">
+          <button
+            className="mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span className={`hamburger ${mobileMenuOpen ? 'open' : ''}`}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </button>
+          <nav className={`header-nav ${mobileMenuOpen ? 'mobile-open' : ''}`}>
             <Link
               to="/leaderboard"
               className={`nav-link ${location.pathname === '/leaderboard' ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Leaderboard
             </Link>
             <Link
               to="/cases"
               className={`nav-link ${location.pathname === '/cases' ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Case Details
             </Link>
             <Link
               to="/resources"
               className={`nav-link ${location.pathname === '/resources' ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Resources
             </Link>
             <Link
               to="/contributors"
               className={`nav-link ${location.pathname === '/contributors' ? 'active' : ''}`}
+              onClick={() => setMobileMenuOpen(false)}
             >
               Contributors
             </Link>

@@ -1153,7 +1153,8 @@ th.score-col {
   .heatmap-grid-header {
     font-size: 8px;
     padding: 4px 2px 8px;
-    height: 50px;
+    height: auto;
+    min-height: 50px;
   }
 
   .heatmap-grid-row-header {
@@ -1276,7 +1277,8 @@ th.score-col {
   .heatmap-grid-header {
     font-size: 7px;
     padding: 2px 1px 6px;
-    height: 44px;
+    height: auto;
+    min-height: 44px;
   }
 
   .heatmap-grid-row-header {

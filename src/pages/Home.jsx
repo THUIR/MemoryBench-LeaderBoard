@@ -280,7 +280,7 @@ function HeroSection() {
             </div>
             <div className="hero-stat-card bounce-2">
               <span className="stat-value">8</span>
-              <span className="stat-label">Memory Systems</span>
+              <span className="stat-label stat-label-wrap">MEMORY SYSTEMS</span>
             </div>
             <div className="hero-stat-card bounce-3">
               <span className="stat-value">4</span>
@@ -362,12 +362,22 @@ function HomeLeaderboard() {
             const globalMinElo = 850;
             const globalMaxElo = 1150;
             const score = Math.max(0.05, (row.elo - globalMinElo) / (globalMaxElo - globalMinElo));
-            const fullName = `${getBaseModelName(row.systemKey)} + ${getMemorySystemName(row.systemKey.replace('-8B', '').replace('-32B', ''))}`;
+            const modelName = getBaseModelName(row.systemKey);
+            const memoryKey = row.systemKey
+              .replace('-DeepSeek-V4-Flash', '')
+              .replace('-Mistral-Small-3.2-24B-Instruct-2506', '')
+              .replace('-Qwen3-32B', '')
+              .replace('-Qwen3-8B', '');
+            const memoryName = getMemorySystemName(memoryKey);
+            const fullName = `${modelName} + ${memoryName}`;
             return (
               <div key={row.systemKey} className="chart-bar-item">
                 <div className="bar-label">
                   <span className={`rank-badge rank-${index + 1}`}>{index + 1}</span>
-                  <span className="bar-name" title={fullName}>{fullName}</span>
+                  <div className="bar-name-container">
+                    <span className="bar-name" title={modelName}>{modelName}</span>
+                    <span className="bar-name bar-name-secondary" title={memoryName}>{memoryName}</span>
+                  </div>
                 </div>
                 <div className="bar-track">
                   <div

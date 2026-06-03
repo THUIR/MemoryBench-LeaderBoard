@@ -205,7 +205,12 @@ table {
   background: var(--bg-card-hover);
   color: var(--accent-golden);
   border-color: var(--accent-golden);
-  transform: rotate(15deg);
+}
+
+@media (max-width: 480px) {
+  .theme-toggle:hover {
+    transform: none;
+  }
 }
 
 .header-stats {
@@ -358,23 +363,98 @@ table {
 }
 
 @media (max-width: 480px) {
-  .header-nav {
-    gap: 2px;
-  }
-
-  .nav-link {
-    padding: 5px 4px;
-    font-size: 7px;
-  }
-
-  .theme-toggle {
-    width: 36px;
-    height: 36px;
-    margin-left: 2px;
-  }
-
   .footer-tagline {
     font-size: 10px;
     gap: 6px;
+  }
+
+  .hamburger span {
+    height: 2px;
+  }
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 8px;
+}
+
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 20px;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(4px, 4px);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(4px, -4px);
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .header-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-subtle);
+    border-radius: 8px;
+    flex-direction: column;
+    gap: 0;
+    padding: 8px 0;
+    box-shadow: var(--shadow-md);
+    z-index: 99;
+    min-width: 150px;
+  }
+
+  .header-nav.mobile-open {
+    display: flex;
+  }
+
+  .header-nav .nav-link {
+    padding: 10px 14px;
+    font-size: 12px;
+    border-radius: 0;
+  }
+
+  .header-nav .theme-toggle {
+    margin: 8px 14px;
+    width: auto;
+    height: auto;
+  }
+
+  .header-content {
+    position: relative;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .hamburger span {
+    height: 2px;
   }
 }

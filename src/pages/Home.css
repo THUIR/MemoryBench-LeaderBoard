@@ -154,14 +154,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 4px;
-  padding: 16px 24px;
+  padding: 16px 20px;
   background: var(--bg-card);
   border: 1px solid var(--border-accent);
   border-radius: 12px;
-  min-width: 100px;
+  min-width: 110px;
+  min-height: 90px;
   position: relative;
   z-index: 1;
+  text-align: center;
 }
 
 .hero-stat-card .stat-value {
@@ -176,6 +179,10 @@
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.hero-stat-card .stat-label.stat-label-wrap {
+  white-space: nowrap;
 }
 
 .hero-stat-card.bounce-1 {
@@ -549,6 +556,23 @@
   font-size: 13px;
   font-weight: 500;
   color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+.leaderboard-chart .bar-name-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.leaderboard-chart .bar-name-secondary {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1346,12 +1370,13 @@
   }
 
   .intro-left {
-    min-height: auto;
+    min-height: 400px;
+    height: 400px;
   }
 
   .intro-right {
-    height: auto;
-    min-height: 350px;
+    height: 400px;
+    min-height: 400px;
     width: 100%;
   }
 
@@ -1360,8 +1385,17 @@
     transform: none;
     margin-top: 20px;
     width: 100%;
-    height: auto;
-    min-height: 300px;
+    height: 400px;
+    min-height: 400px;
+  }
+
+  .code-block:not(.active) {
+    display: none;
+  }
+
+  .code-content {
+    height: 350px;
+    min-height: 350px;
   }
 
   .tags-grid {
@@ -1402,6 +1436,29 @@
 
   .hero-stat-label {
     font-size: 9px;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .hero-stat-card .stat-label {
+    font-size: 9px;
+    text-align: center;
+    line-height: 1.3;
+  }
+
+  .hero-stat-card .stat-label.stat-label-wrap {
+    white-space: normal;
+    display: block;
+  }
+
+  .hero-stat-card {
+    min-width: 90px;
+    min-height: 80px;
+    padding: 12px 16px;
+  }
+
+  .hero-stat-card .stat-value {
+    font-size: 22px;
   }
 
   .hero-links {
@@ -1456,12 +1513,13 @@
   }
 
   .intro-left {
-    min-height: auto;
+    min-height: 400px;
+    height: 400px;
   }
 
   .intro-right {
-    height: auto;
-    min-height: 280px;
+    height: 400px;
+    min-height: 400px;
     width: 100%;
     position: relative;
   }
@@ -1470,8 +1528,8 @@
     position: relative;
     transform: none;
     width: 100%;
-    height: auto;
-    min-height: 260px;
+    height: 400px;
+    min-height: 400px;
     opacity: 1;
     z-index: 0;
   }
@@ -1481,9 +1539,14 @@
     z-index: 0;
   }
 
+  .code-block:not(.active) {
+    display: none;
+  }
+
   .code-content {
     font-size: 10px;
-    min-height: 200px;
+    height: 350px;
+    min-height: 350px;
   }
 
   .section-header {
@@ -1529,16 +1592,31 @@
   }
 
   .leaderboard-chart .bar-name {
-    font-size: 11px;
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+  }
+
+  .leaderboard-chart .bar-name-container {
+    min-width: 0;
+    gap: 1px;
+  }
+
+  .leaderboard-chart .bar-name-secondary {
+    font-size: 9px;
   }
 
   .leaderboard-chart .chart-bar-item {
-    grid-template-columns: 180px 1fr 50px;
+    grid-template-columns: 120px 1fr 50px;
     gap: 8px;
   }
 
   .leaderboard-chart .bar-label {
     min-width: 0;
+    flex-wrap: nowrap;
+    align-items: flex-start;
   }
 
   .leaderboard-chart .bar-value {
@@ -1637,6 +1715,21 @@
     font-size: 9px;
   }
 
+  .hero-stat-card {
+    min-width: 70px;
+    min-height: 70px;
+    padding: 8px 10px;
+  }
+
+  .hero-stat-card .stat-value {
+    font-size: 18px;
+  }
+
+  .hero-stat-card .stat-label {
+    font-size: 8px;
+    line-height: 1.3;
+  }
+
   .section-title {
     font-size: 16px;
   }
@@ -1674,25 +1767,20 @@
   }
 
   .leaderboard-chart .bar-name {
-    font-size: 10px;
+    font-size: 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
   }
 
-  .leaderboard-chart .bar-value {
-    font-size: 10px;
-    text-align: left;
-  }
-
-  .leaderboard-chart .bar-track {
-    display: none;
-  }
-
-  .leaderboard-chart .chart-bar-item {
-    grid-template-columns: 120px 1fr 45px;
-    gap: 6px;
-  }
-
-  .leaderboard-chart .bar-label {
+  .leaderboard-chart .bar-name-container {
     min-width: 0;
+    gap: 1px;
+  }
+
+  .leaderboard-chart .bar-name-secondary {
+    font-size: 8px;
   }
 
   .leaderboard-chart .bar-value {
