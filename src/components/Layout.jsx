@@ -14,6 +14,37 @@ export default function Layout({ children }) {
         <div className="header-content">
           <div className="header-left">
             <Link to="/" className="logo-link">
+              <svg className="logo-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#c9a962"/>
+                    <stop offset="50%" stopColor="#d4b896"/>
+                    <stop offset="100%" stopColor="#b8860b"/>
+                  </linearGradient>
+                  <linearGradient id="goldFill" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#c9a962" stopOpacity="0.15"/>
+                    <stop offset="100%" stopColor="#b8860b" stopOpacity="0.25"/>
+                  </linearGradient>
+                </defs>
+                {/* Seahorse body with gradient fill */}
+                <path d="M24 6 C30 6 36 10 38 16 L42 14 C44 13 46 15 44 17 L38 20 C42 22 44 26 42 30 L38 34 C36 40 28 44 20 42 C14 40 10 36 12 30 L10 26 C8 20 12 14 18 12 L20 10 C18 8 20 6 24 6"
+                      fill="url(#goldFill)" stroke="url(#goldGrad)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                {/* Neural circuit lines */}
+                <path d="M26 14 C28 16 30 18 32 18" stroke="#c9a962" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.8"/>
+                <path d="M24 18 C26 20 30 22 32 20" stroke="#d4b896" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.7"/>
+                <path d="M20 22 C22 24 26 26 28 24" stroke="#c9a962" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.6"/>
+                <path d="M18 28 C20 30 24 32 26 30" stroke="#b8860b" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.7"/>
+                <path d="M16 34 C18 36 22 38 24 36" stroke="#d4b896" strokeWidth="1.2" fill="none" strokeLinecap="round" opacity="0.6"/>
+                {/* Neural nodes */}
+                <circle cx="26" cy="14" r="1.2" fill="#c9a962" opacity="0.9"/>
+                <circle cx="32" cy="18" r="1.2" fill="#d4b896" opacity="0.8"/>
+                <circle cx="28" cy="20" r="1" fill="#b8860b" opacity="0.8"/>
+                <circle cx="24" cy="24" r="1.2" fill="#c9a962" opacity="0.7"/>
+                <circle cx="20" cy="28" r="1" fill="#d4b896" opacity="0.8"/>
+                <circle cx="18" cy="32" r="1.2" fill="#b8860b" opacity="0.7"/>
+                <circle cx="22" cy="36" r="1" fill="#c9a962" opacity="0.6"/>
+                <circle cx="34" cy="16" r="2" fill="url(#goldGrad)"/>
+              </svg>
               <span className="logo-text">MemoryBench</span>
             </Link>
           </div>

@@ -20,9 +20,17 @@
       "weighted_average": 0.7175172391360916,
       "z_score": 0.05281233969359545
     },
+    "mem0-DeepSeek-V4-Flash": {
+      "weighted_average": 0.7504082097319802,
+      "z_score": 0.30878471850984707
+    },
+    "memoryos-DeepSeek-V4-Flash": {
+      "weighted_average": 0.7606085740307053,
+      "z_score": 0.3664225507411011
+    },
     "wo_memory-DeepSeek-V4-Flash": {
-      "weighted_average": 0.7837691907364038,
-      "z_score": 0.5203229549164189
+      "weighted_average": 0.7869307832422586,
+      "z_score": 0.5479022623310713
     },
     "a_mem-Mistral-Small-3.2-24B-Instruct-2506": {
       "weighted_average": 0,
@@ -88,6 +96,10 @@
       "weighted_average": 0.7297488940931565,
       "z_score": 0.22052334847274
     },
+    "autoskill-Qwen3-8B": {
+      "weighted_average": 0.7306853369763208,
+      "z_score": 0.24939551851829223
+    },
     "a_mem-Qwen3-8B": {
       "weighted_average": 0.7106329690346084,
       "z_score": 0.11244757629705943
@@ -141,6 +153,14 @@
     "embedder_message-DeepSeek-V4-Flash": {
       "weighted_average": 0.43508464991338414,
       "z_score": -0.13121028171071353
+    },
+    "mem0-DeepSeek-V4-Flash": {
+      "weighted_average": 0.4541483374876183,
+      "z_score": -0.038699039850473835
+    },
+    "memoryos-DeepSeek-V4-Flash": {
+      "weighted_average": 0.4610657560553344,
+      "z_score": -0.007436454762905941
     },
     "wo_memory-DeepSeek-V4-Flash": {
       "weighted_average": 0.443070955505021,
@@ -210,6 +230,10 @@
       "weighted_average": 0.4629829405508501,
       "z_score": -0.006124667359672014
     },
+    "autoskill-Qwen3-8B": {
+      "weighted_average": 0.5172451336235501,
+      "z_score": 0.27447377867735157
+    },
     "a_mem-Qwen3-8B": {
       "weighted_average": 0.46839214095481757,
       "z_score": 0.045764845987195046
@@ -244,6 +268,10 @@
     }
   },
   "domain/Open-Domain": {
+    "a_mem-DeepSeek-V4-Flash": {
+      "weighted_average": 0.6426878137332153,
+      "z_score": 0.11914980531250957
+    },
     "bm25_dialog-DeepSeek-V4-Flash": {
       "weighted_average": 0.653898844371742,
       "z_score": 0.05773734677463018
@@ -259,6 +287,10 @@
     "embedder_message-DeepSeek-V4-Flash": {
       "weighted_average": 0.5954162167617447,
       "z_score": -0.10448782787943353
+    },
+    "memoryos-DeepSeek-V4-Flash": {
+      "weighted_average": 0.5827000431424839,
+      "z_score": -0.1265259864472485
     },
     "wo_memory-DeepSeek-V4-Flash": {
       "weighted_average": 0.7890583754977315,
@@ -296,10 +328,6 @@
       "weighted_average": 0.6301757101151388,
       "z_score": 0.1041365163592125
     },
-    "a_mem_try-Qwen3-32B": {
-      "weighted_average": 0.75,
-      "z_score": 0.33966046002613337
-    },
     "bm25_dialog-Qwen3-32B": {
       "weighted_average": 0.7045356591536017,
       "z_score": 0.32894003295042135
@@ -323,6 +351,10 @@
     "wo_memory-Qwen3-32B": {
       "weighted_average": 0.6777916987106324,
       "z_score": 0.2916830271565992
+    },
+    "autoskill-Qwen3-8B": {
+      "weighted_average": 0.6252517059272131,
+      "z_score": 0.06175467625439468
     },
     "a_mem-Qwen3-8B": {
       "weighted_average": 0.6242959198003524,
@@ -374,6 +406,14 @@
       "weighted_average": 0.6162941450387674,
       "z_score": 0.08638960492851362
     },
+    "mem0-DeepSeek-V4-Flash": {
+      "weighted_average": 0.6995099041569959,
+      "z_score": 0.4691698211449338
+    },
+    "memoryos-DeepSeek-V4-Flash": {
+      "weighted_average": 0.6873785504898764,
+      "z_score": 0.40973017272206463
+    },
     "wo_memory-DeepSeek-V4-Flash": {
       "weighted_average": 0.6843333218403984,
       "z_score": 0.405965031918939
@@ -410,6 +450,10 @@
       "weighted_average": 0.6459659187554212,
       "z_score": 0.19346040977232518
     },
+    "a_mem-Qwen3-32B": {
+      "weighted_average": 0.6502581433395455,
+      "z_score": 0.2265270504462678
+    },
     "bm25_dialog-Qwen3-32B": {
       "weighted_average": 0.6735631918329076,
       "z_score": 0.3306157052619213
@@ -426,9 +470,21 @@
       "weighted_average": 0.6304417447519047,
       "z_score": 0.14660982000379835
     },
+    "mem0-Qwen3-32B": {
+      "weighted_average": 0.6459640702479348,
+      "z_score": 0.21343353008000526
+    },
+    "memoryos-Qwen3-32B": {
+      "weighted_average": 0.618308305261972,
+      "z_score": 0.08513095815599724
+    },
     "wo_memory-Qwen3-32B": {
       "weighted_average": 0.667580103555201,
       "z_score": 0.31660421030137187
+    },
+    "autoskill-Qwen3-8B": {
+      "weighted_average": 0.7002349269309631,
+      "z_score": 0.45250844541127233
     },
     "a_mem-Qwen3-8B": {
       "weighted_average": 0.6139202866093867,
@@ -458,12 +514,28 @@
       "weighted_average": 0.4878765795725107,
       "z_score": -0.4876246074886719
     },
+    "uno-Qwen3-8B": {
+      "weighted_average": 0.6422859891535927,
+      "z_score": 0.17739572510367788
+    },
+    "uno-single-Qwen3-8B": {
+      "weighted_average": 0.637669827537431,
+      "z_score": 0.1565855796803889
+    },
     "wo_memory-Qwen3-8B": {
       "weighted_average": 0.6417122056441326,
       "z_score": 0.18279591320786218
     }
   },
   "task/Long-Short": {
+    "a_mem-DeepSeek-V4-Flash": {
+      "weighted_average": 0.415929971603139,
+      "z_score": 0.06357369204670932
+    },
+    "bm25_dialog-DeepSeek-V4-Flash": {
+      "weighted_average": 0.49516803760737516,
+      "z_score": 0.2900106386797447
+    },
     "bm25_message-DeepSeek-V4-Flash": {
       "weighted_average": 0.42925757236573137,
       "z_score": 0.11708767580831528
@@ -475,6 +547,10 @@
     "embedder_message-DeepSeek-V4-Flash": {
       "weighted_average": 0.40451765102147463,
       "z_score": 0.0348591891239907
+    },
+    "memoryos-DeepSeek-V4-Flash": {
+      "weighted_average": 0.41096122459744067,
+      "z_score": 0.028398617479834107
     },
     "wo_memory-DeepSeek-V4-Flash": {
       "weighted_average": 0.5665637515596038,
@@ -508,6 +584,10 @@
       "weighted_average": 0.00015753731321178539,
       "z_score": -1.7021142649667826
     },
+    "a_mem-Qwen3-32B": {
+      "weighted_average": 0.4028971696192469,
+      "z_score": 0.032009669467745645
+    },
     "bm25_dialog-Qwen3-32B": {
       "weighted_average": 0.49252132223598605,
       "z_score": 0.26300177928450014
@@ -524,9 +604,17 @@
       "weighted_average": 0.42225983725415317,
       "z_score": 0.07019192320103237
     },
+    "memoryos-Qwen3-32B": {
+      "weighted_average": 0.3550461220108575,
+      "z_score": -0.10671927820723294
+    },
     "wo_memory-Qwen3-32B": {
       "weighted_average": 0.4264282305734601,
       "z_score": 0.039985407106588905
+    },
+    "autoskill-Qwen3-8B": {
+      "weighted_average": 0.4063105951575547,
+      "z_score": 0.05369051548353154
     },
     "a_mem-Qwen3-8B": {
       "weighted_average": 0.43029060522395585,
@@ -582,6 +670,10 @@
       "weighted_average": 0.8172237848850413,
       "z_score": 0.3744325395128989
     },
+    "memoryos-DeepSeek-V4-Flash": {
+      "weighted_average": 0.8133184283190519,
+      "z_score": 0.3450255272094893
+    },
     "wo_memory-DeepSeek-V4-Flash": {
       "weighted_average": 0.8097172700154417,
       "z_score": 0.32638086115395215
@@ -618,6 +710,10 @@
       "weighted_average": -0.1353869548512818,
       "z_score": -5.815650080990394
     },
+    "a_mem-Qwen3-32B": {
+      "weighted_average": 0.7207917639697146,
+      "z_score": -0.24172515577402834
+    },
     "bm25_dialog-Qwen3-32B": {
       "weighted_average": 0.7582951663461484,
       "z_score": 0.0012168314906450504
@@ -634,9 +730,21 @@
       "weighted_average": 0.7296963941262309,
       "z_score": -0.17780899164527414
     },
+    "mem0-Qwen3-32B": {
+      "weighted_average": 0.7544560790802369,
+      "z_score": -0.031167525339472917
+    },
+    "memoryos-Qwen3-32B": {
+      "weighted_average": 0.7441099215455586,
+      "z_score": -0.08509516915345651
+    },
     "wo_memory-Qwen3-32B": {
       "weighted_average": 0.7468440507327045,
       "z_score": -0.07945111221352262
+    },
+    "autoskill-Qwen3-8B": {
+      "weighted_average": 0.7551908831864252,
+      "z_score": 0.005346873452127424
     },
     "a_mem-Qwen3-8B": {
       "weighted_average": 0.7172255401985393,
@@ -665,6 +773,14 @@
     "memoryos-Qwen3-8B": {
       "weighted_average": 0.7492896957866262,
       "z_score": -0.06190272889024969
+    },
+    "uno-Qwen3-8B": {
+      "weighted_average": 0.770878556309816,
+      "z_score": 0.07155611613952774
+    },
+    "uno-single-Qwen3-8B": {
+      "weighted_average": 0.7636215133128346,
+      "z_score": 0.029857327236347757
     },
     "wo_memory-Qwen3-8B": {
       "weighted_average": 0.751682658112401,
@@ -695,6 +811,10 @@
     "mem0-DeepSeek-V4-Flash": {
       "weighted_average": 0.6625261312106331,
       "z_score": -0.2445508987983076
+    },
+    "memoryos-DeepSeek-V4-Flash": {
+      "weighted_average": 0.7080131977569702,
+      "z_score": -0.05853633062646274
     },
     "wo_memory-DeepSeek-V4-Flash": {
       "weighted_average": 0.6901649559547894,
@@ -732,6 +852,10 @@
       "weighted_average": 0.7796257979386777,
       "z_score": 0.2832655971416335
     },
+    "a_mem-Qwen3-32B": {
+      "weighted_average": 0.6970738533157974,
+      "z_score": -0.1460221773343108
+    },
     "bm25_dialog-Qwen3-32B": {
       "weighted_average": 0.738408282461311,
       "z_score": 0.08934770252086942
@@ -748,9 +872,21 @@
       "weighted_average": 0.6906961365450289,
       "z_score": -0.19813871499359442
     },
+    "mem0-Qwen3-32B": {
+      "weighted_average": 0.6732283284585784,
+      "z_score": -0.28263208499474046
+    },
+    "memoryos-Qwen3-32B": {
+      "weighted_average": 0.6955145337406238,
+      "z_score": -0.08214995204055509
+    },
     "wo_memory-Qwen3-32B": {
       "weighted_average": 0.7573863949905435,
       "z_score": 0.1804258960340223
+    },
+    "autoskill-Qwen3-8B": {
+      "weighted_average": 0.6545101822932915,
+      "z_score": -0.5667408378338525
     },
     "a_mem-Qwen3-8B": {
       "weighted_average": 0.7147450049684689,
@@ -779,6 +915,14 @@
     "memoryos-Qwen3-8B": {
       "weighted_average": 0.7451992806939878,
       "z_score": 0.10738254706207798
+    },
+    "uno-Qwen3-8B": {
+      "weighted_average": 0.7626077253781898,
+      "z_score": 0.21540313032076377
+    },
+    "uno-single-Qwen3-8B": {
+      "weighted_average": 0.7581632809337454,
+      "z_score": 0.15886991005375792
     },
     "wo_memory-Qwen3-8B": {
       "weighted_average": 0.7302452908066688,

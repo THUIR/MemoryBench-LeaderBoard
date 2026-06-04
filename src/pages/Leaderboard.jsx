@@ -2,6 +2,7 @@ import { useState, useMemo, useRef, useEffect, Fragment } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { eloData, memorySystems, baseModels, cases, getMemorySystemId, getBaseModelId } from '../data/eloData';
 import { summaryAverages } from '../data/summaryAverages';
+import { tokenData } from '../data/tokenData';
 import './Leaderboard.css';
 
 function ELOBar({ elo, maxElo = 1100, minElo = 900 }) {
@@ -132,7 +133,7 @@ function HeatmapSection({ model }) {
         <div className="heatmap-grid">
           {/* Header row with memory system names */}
           <div className="heatmap-grid-corner"></div>
-          {memorySystems.map(mem => (
+          {memorySystems.filter(mem => !['autoskill', 'uno', 'uno-single'].includes(mem.id)).map(mem => (
             <div key={mem.id} className="heatmap-grid-header">{mem.name}</div>
           ))}
           {/* Data rows */}
@@ -141,7 +142,7 @@ function HeatmapSection({ model }) {
             return (
               <Fragment>
                 <div key={`row-${caseId}`} className="heatmap-grid-row-header">{caseNames[idx]}</div>
-                {memorySystems.map(mem => {
+                {memorySystems.filter(mem => !['autoskill', 'uno', 'uno-single'].includes(mem.id)).map(mem => {
                   const key = `${mem.id}-${model.id}`;
                   const scoreData = caseInfo?.[key];
                   const value = scoreData?.weighted_average ?? scoreData?.z_score ?? null;
@@ -322,10 +323,20 @@ export default function Leaderboard() {
       data = data.filter(d => d.systemKey.startsWith(selectedMemorySystem));
     }
 
+    // Filter out systems that don't have full participation (autoskill, uno, uno-single)
+    const incompleteSystems = ['autoskill', 'uno', 'uno-single'];
+    data = data.filter(d => !incompleteSystems.some(s => d.systemKey.startsWith(s + '-')));
+
     // Apply sorting
     const { col, dir } = overallSort;
     if (col === 'elo') {
       data = [...data].sort((a, b) => dir === 'asc' ? a.elo - b.elo : b.elo - a.elo);
+    } else if (col === 'tokens') {
+      data = [...data].sort((a, b) => {
+        const aTokens = tokenData?.overall?.systems?.[a.systemKey]?.avg_total_tokens || 0;
+        const bTokens = tokenData?.overall?.systems?.[b.systemKey]?.avg_total_tokens || 0;
+        return dir === 'asc' ? aTokens - bTokens : bTokens - aTokens;
+      });
     } else if (col === 'model') {
       data = [...data].sort((a, b) => {
         const aVal = a.systemKey.includes('-32B') ? 'Qwen3-32B' : 'Qwen3-8B';
@@ -381,6 +392,12 @@ export default function Leaderboard() {
       data = [...data].sort((a, b) => dir === 'asc' ? a.model.localeCompare(b.model) : b.model.localeCompare(a.model));
     } else if (col === 'memory') {
       data = [...data].sort((a, b) => dir === 'asc' ? a.memory.localeCompare(b.memory) : b.memory.localeCompare(a.memory));
+    } else if (col === 'tokens') {
+      data = [...data].sort((a, b) => {
+        const aTokens = tokenData?.cases?.[selectedBenchmarkTable]?.systems?.[a.systemKey]?.avg_total_tokens || 0;
+        const bTokens = tokenData?.cases?.[selectedBenchmarkTable]?.systems?.[b.systemKey]?.avg_total_tokens || 0;
+        return dir === 'asc' ? aTokens - bTokens : bTokens - aTokens;
+      });
     } else if (col === 'weighted_average') {
       data = [...data].sort((a, b) => {
         const aVal = a.weighted_average ?? -1;
@@ -421,9 +438,21 @@ export default function Leaderboard() {
   const getMemorySystemName = (id) => memorySystems.find(m => m.id === id)?.name || id;
   const getBaseModelName = (key) => {
     if (key.includes('-DeepSeek-V4-Flash')) return 'DeepSeek-V4-Flash';
+    if (key.includes('-Gemini-3.5-Flash')) return 'Gemini-3.5-Flash';
     if (key.includes('-Mistral-Small-3.2-24B-Instruct-2506')) return 'Mistral-Small-3.2-24B-Instruct-2506';
     if (key.includes('-Qwen3-32B')) return 'Qwen3-32B';
     return 'Qwen3-8B';
+  };
+
+  const getTokenInfo = (systemKey) => {
+    if (!tokenData?.overall?.systems) return null;
+    const tokenInfo = tokenData.overall.systems[systemKey];
+    if (!tokenInfo) return null;
+    return {
+      avgInput: tokenInfo.avg_input_tokens?.toFixed(0) || '0',
+      avgOutput: tokenInfo.avg_output_tokens?.toFixed(0) || '0',
+      avgTotal: tokenInfo.avg_total_tokens?.toFixed(0) || '0'
+    };
   };
 
   const selectedBenchmarkInfo = cases.find(c => c.id === selectedBenchmarkTable);
@@ -481,6 +510,7 @@ export default function Leaderboard() {
                     <Th label="Model" col="model" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="model-col" />
                     <Th label="Memory System" col="memory" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="memory-col" />
                     <Th label='ELO¹' col="elo" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
+                    <Th label="Tokens" col="tokens" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="tokens-col" />
                     <Th label="Cases" col="cases" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="participated-col" />
                     <Th label="Details" col="details" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="detail-col" />
                   </tr>
@@ -497,9 +527,18 @@ export default function Leaderboard() {
                     <td className="memory-col"><span className="memory-name">{getMemorySystemName(getMemorySystemId(row.systemKey))}</span></td>
                     <td className="elo-col">
                       <div className="elo-display">
-                        <StarRating elo={row.elo} />
                         <ELOBar elo={row.elo} minElo={eloRange.min} maxElo={eloRange.max} />
                       </div>
+                    </td>
+                    <td className="tokens-col">
+                      {(() => {
+                        const tokens = getTokenInfo(row.systemKey);
+                        return tokens ? (
+                          <span className="tokens-badge" title={`Input: ${tokens.avgInput}, Output: ${tokens.avgOutput}`}>
+                            {tokens.avgTotal}
+                          </span>
+                        ) : '-';
+                      })()}
                     </td>
                     <td className="participated-col"><span className="cases-badge">{row.participated}/7</span></td>
                     <td className="detail-col"><Link to={`/detail/${row.systemKey}`} className="view-detail-btn">View →</Link></td>
@@ -559,6 +598,7 @@ export default function Leaderboard() {
                       <Th label="Model" col="model" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="model-col" />
                       <Th label="Memory System" col="memory" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="memory-col" />
                       <Th label='ELO¹' col="elo" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
+                      <Th label="Tokens" col="tokens" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="tokens-col" />
                       <Th label='MinMax²' col="weighted_average" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="score-col" />
                       <Th label='Z-Score³' col="z_score" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="score-col" />
                     </tr>
@@ -575,9 +615,18 @@ export default function Leaderboard() {
                       <td className="memory-col"><span className="memory-name">{getMemorySystemName(row.memory)}</span></td>
                       <td className="elo-col">
                         <div className="elo-display">
-                          <StarRating elo={row.elo} />
                           <ELOBar elo={row.elo} minElo={benchmarkEloRange.min} maxElo={benchmarkEloRange.max} />
                         </div>
+                      </td>
+                      <td className="tokens-col">
+                        {(() => {
+                          const caseTokens = tokenData?.cases?.[selectedBenchmarkTable]?.systems?.[row.systemKey];
+                          return caseTokens ? (
+                            <span className="tokens-badge" title={`Input: ${caseTokens.avg_input_tokens?.toFixed(0)}, Output: ${caseTokens.avg_output_tokens?.toFixed(0)}`}>
+                              {caseTokens.avg_total_tokens?.toFixed(0)}
+                            </span>
+                          ) : '-';
+                        })()}
                       </td>
                       <td className="score-col">
                         {row.weighted_average !== null ? row.weighted_average.toFixed(4) : '-'}

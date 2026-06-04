@@ -562,6 +562,18 @@ th.score-col {
   color: var(--text-secondary);
 }
 
+.tokens-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 500;
+  background: rgba(201, 169, 98, 0.15);
+  border: 1px solid rgba(201, 169, 98, 0.4);
+  border-radius: 12px;
+  color: var(--accent-caramel);
+  cursor: default;
+}
+
 .detail-col {
   width: 70px;
   text-align: right;
@@ -753,6 +765,7 @@ th.score-col {
 .model-col, th.model-col { width: 90px; min-width: 90px; max-width: 90px; }
 .memory-col, th.memory-col { width: 120px; min-width: 120px; max-width: 120px; }
 .elo-col, th.elo-col { width: 240px; min-width: 240px; max-width: 240px; }
+.tokens-col, th.tokens-col { width: 80px; min-width: 80px; max-width: 80px; text-align: center; }
 .participated-col, th.participated-col { width: 30px; min-width: 30px; max-width: 30px; }
 .detail-col, th.detail-col { width: 40px; min-width: 40px; max-width: 40px; }
 .score-col, th.score-col { width: 80px; min-width: 80px; max-width: 80px; text-align: center; }
@@ -1119,20 +1132,6 @@ th.score-col {
     font-size: 11px;
   }
 
-  /* 移动端表格横向滚动提示 */
-  .table-container::after {
-    content: '← 滑动 →';
-    position: absolute;
-    bottom: 8px;
-    right: 8px;
-    font-size: 10px;
-    color: var(--text-muted);
-    background: rgba(255,255,255,0.9);
-    padding: 2px 6px;
-    border-radius: 4px;
-    pointer-events: none;
-  }
-
   .heatmaps-container {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1182,8 +1181,28 @@ th.score-col {
   .leaderboard-table th,
   .leaderboard-table td { padding: 6px 4px; font-size: 9px; }
   .leaderboard-table th { font-size: 8px; }
+
+  .table-header-sticky,
+  .table-body-scroll {
+    overflow-x: auto;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+
+  .leaderboard-table {
+    width: 30px;
+  }
+
   .page-wrapper {
     padding: 8px 4px;
+    overflow-x: auto;
+  }
+
+  .ranking-section,
+  .benchmark-tables-section {
+    overflow-x: auto;
   }
 
   .section-title {
@@ -1206,6 +1225,22 @@ th.score-col {
     width: 35px;
     min-width: 35px;
     padding: 6px 2px;
+  }
+
+  .model-col {
+    width: 70px;
+    min-width: 70px;
+  }
+
+  .memory-col {
+    width: 90px;
+    min-width: 90px;
+  }
+
+  .elo-col {
+    width: 120px;
+    min-width: 70px;
+    text-align: left;
   }
 
   .rank-badge {
@@ -1234,9 +1269,9 @@ th.score-col {
     font-size: 9px;
   }
 
-  .elo-col {
+  .elo-col, th.elo-col {
     width: 120px;
-    min-width: 70px;
+    min-width: 120px;
     text-align: left;
   }
 
@@ -1250,6 +1285,42 @@ th.score-col {
 
   .elo-value {
     font-size: 10px;
+  }
+
+  .tokens-col {
+    width: 60px;
+    min-width: 60px;
+    font-size: 8px;
+  }
+
+  .tokens-badge {
+    padding: 2px 4px;
+    font-size: 8px;
+  }
+
+  .participated-col {
+    width: 25px;
+    min-width: 25px;
+  }
+
+  .cases-badge {
+    padding: 2px 6px;
+    font-size: 8px;
+  }
+
+  .detail-col {
+    width: 35px;
+    min-width: 35px;
+  }
+
+  .view-detail-btn {
+    font-size: 8px;
+  }
+
+  .score-col {
+    width: 60px;
+    min-width: 60px;
+    font-size: 8px;
   }
 
   .case-buttons {

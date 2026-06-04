@@ -22,7 +22,7 @@ function CaseCard({ caseInfo, systems, type }) {
       <div className="case-card-stats">
         <div className="case-stat">
           <span className="case-stat-value">{caseInfo.samples}</span>
-          <span className="case-stat-label">Samples</span>
+          <span className="case-stat-label">Cases</span>
         </div>
         <div className="case-stat">
           <span className="case-stat-value">{systems.length}</span>

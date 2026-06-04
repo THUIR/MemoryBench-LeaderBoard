@@ -27,12 +27,13 @@ function getBaseModelIdFromModel(modelName) {
 function getScoreDisplay(sample) {
   const m = sample.metrics;
   if (!m) return null;
-  // Try different score fields
-  if (m.avg_score !== undefined) return m.avg_score;
-  if (m.score !== undefined) return m.score;
-  if (m.f1 !== undefined) return m.f1;
-  if (m.reasoning_bert_score !== undefined) return m.reasoning_bert_score;
-  if (m.rougel !== undefined) return m.rougel;
+  // Try different score fields (check for both undefined and null)
+  if (m.avg_score != null) return m.avg_score;
+  if (m.score != null) return m.score;
+  if (m.f1 != null) return m.f1;
+  if (m.reasoning_bert_score != null) return m.reasoning_bert_score;
+  if (m.rougel != null) return m.rougel;
+  if (m['Rouge-L'] != null) return m['Rouge-L'];
   return null;
 }
 
@@ -334,7 +335,11 @@ export default function CaseSamples() {
           </div>
           <div className="case-header-stats">
             <div className="stat">
-              <span className="stat-value">{evaluatedSamples.length}</span>
+              <span className="stat-value">{caseInfo?.samples}</span>
+              <span className="stat-label">Cases</span>
+            </div>
+            <div className="stat">
+              <span className="stat-value">{filteredSamples.length}</span>
               <span className="stat-label">Samples</span>
             </div>
             <div className="stat">
