@@ -348,6 +348,11 @@ export default function CaseSamples() {
             </div>
           </div>
         </div>
+        {(caseId === 'domain/Open-Domain' || caseId === 'task/Long-Short') && (
+          <div className="case-header-note">
+            <p><strong>Note:</strong> Mem0 is not available for this case as it timed out and could not complete evaluation on <strong>Open-Domain</strong> and <strong>Long-Short</strong> benchmarks.</p>
+          </div>
+        )}
 
         <section className="systems-ranking">
           <div className="section-header">

@@ -87,6 +87,21 @@
   color: var(--text-secondary);
 }
 
+.leaderboard-note {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: rgba(201, 169, 98, 0.1);
+  border: 1px solid rgba(201, 169, 98, 0.2);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.leaderboard-note strong {
+  color: var(--accent-caramel);
+}
+
 .table-header {
   margin-bottom: 32px;
 }
@@ -765,8 +780,8 @@ th.score-col {
 .model-col, th.model-col { width: 90px; min-width: 90px; max-width: 90px; }
 .memory-col, th.memory-col { width: 120px; min-width: 120px; max-width: 120px; }
 .elo-col, th.elo-col { width: 240px; min-width: 240px; max-width: 240px; }
-.tokens-col, th.tokens-col { width: 80px; min-width: 80px; max-width: 80px; text-align: center; }
-.participated-col, th.participated-col { width: 30px; min-width: 30px; max-width: 30px; }
+.tokens-col, th.tokens-col { width: 120px; min-width: 120px; max-width: 120px; text-align: center; }
+.participated-col, th.participated-col { width: 80px; min-width: 80px; max-width: 80px; }
 .detail-col, th.detail-col { width: 40px; min-width: 40px; max-width: 40px; }
 .score-col, th.score-col { width: 80px; min-width: 80px; max-width: 80px; text-align: center; }
 
@@ -1114,13 +1129,19 @@ th.score-col {
 
   .participated-col,
   .detail-col {
-    display: none;
+    display: block;
+  }
+
+  .participated-col {
+    width: 70px;
+    min-width: 70px;
   }
 
   .rank-col { width: 40px; min-width: 40px; }
   .model-col { width: 80px; min-width: 80px; }
   .memory-col { width: 100px; min-width: 100px; }
   .elo-col { width: 140px; min-width: 140px; }
+  .tokens-col { width: 100px; min-width: 100px; }
 
   .leaderboard-table {
     min-width: 400px;
@@ -1288,14 +1309,14 @@ th.score-col {
   }
 
   .tokens-col {
-    width: 60px;
-    min-width: 60px;
-    font-size: 8px;
+    width: 90px;
+    min-width: 90px;
+    font-size: 9px;
   }
 
   .tokens-badge {
-    padding: 2px 4px;
-    font-size: 8px;
+    padding: 2px 6px;
+    font-size: 10px;
   }
 
   .participated-col {

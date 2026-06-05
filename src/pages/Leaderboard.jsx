@@ -104,6 +104,15 @@ function Th({ label, col, sortState, onSort, sortable = true, className = '' }) 
 
 function HeatmapCell({ value }) {
   const minVal = 0.3, maxVal = 0.8;
+
+  if (value === null || value === undefined) {
+    return (
+      <div className="heatmap-cell empty">
+        <span className="heatmap-value">-</span>
+      </div>
+    );
+  }
+
   const normalized = Math.max(0, Math.min(1, (value - minVal) / (maxVal - minVal)));
 
   let bgColor;
@@ -148,7 +157,7 @@ function HeatmapSection({ model }) {
                   const value = scoreData?.weighted_average ?? scoreData?.z_score ?? null;
                   return (
                     <div key={mem.id} className="heatmap-grid-cell">
-                      {value !== null ? <HeatmapCell value={value} /> : <div className="heatmap-cell empty">-</div>}
+                      <HeatmapCell value={value} />
                     </div>
                   );
                 })}
@@ -510,8 +519,8 @@ export default function Leaderboard() {
                     <Th label="Model" col="model" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="model-col" />
                     <Th label="Memory System" col="memory" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="memory-col" />
                     <Th label='ELO¹' col="elo" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
-                    <Th label="Tokens" col="tokens" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="tokens-col" />
-                    <Th label="Cases" col="cases" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="participated-col" />
+                    <Th label="Avg. Tokens/Case⁴" col="tokens" sortState={[overallSort.col, overallSort.dir]} onSort={(col) => setOverallSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="tokens-col" />
+                    <Th label="Domains/Tasks⁵" col="cases" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="participated-col" />
                     <Th label="Details" col="details" sortState={[overallSort.col, overallSort.dir]} onSort={() => {}} sortable={false} className="detail-col" />
                   </tr>
                 </thead>
@@ -547,6 +556,9 @@ export default function Leaderboard() {
               </tbody>
               </table>
             </div>
+          </div>
+          <div className="leaderboard-note">
+            <p><strong>Note:</strong> Mem0 is not shown in the Overall Rankings because it timed out or hung on <strong>Open-Domain</strong> and <strong>Long-Short</strong> cases. Only systems that completed all 7 benchmark cases (3 domains + 4 tasks) are displayed here to ensure fair ELO comparison.</p>
           </div>
         </section>
 
@@ -598,7 +610,7 @@ export default function Leaderboard() {
                       <Th label="Model" col="model" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="model-col" />
                       <Th label="Memory System" col="memory" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="memory-col" />
                       <Th label='ELO¹' col="elo" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="elo-col" />
-                      <Th label="Tokens" col="tokens" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="tokens-col" />
+                      <Th label="Avg. Tokens/Case⁴" col="tokens" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="tokens-col" />
                       <Th label='MinMax²' col="weighted_average" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="score-col" />
                       <Th label='Z-Score³' col="z_score" sortState={[benchmarkSort.col, benchmarkSort.dir]} onSort={(col) => setBenchmarkSort(prev => ({ col, dir: prev.col === col && prev.dir === 'asc' ? 'desc' : 'asc' }))} className="score-col" />
                     </tr>
@@ -672,6 +684,12 @@ export default function Leaderboard() {
             </div>
             <div className="footnote-item">
               <sup>3</sup> <strong>Z-Score:</strong> Transforms raw scores into standardized scores with a mean of 0 and a standard deviation of 1, reflecting how far a data point deviates from the mean.
+            </div>
+            <div className="footnote-item">
+              <sup>4</sup> <strong>Avg. Tokens/Case:</strong> Average total tokens (input + output) per test case, measuring the computational cost of each memory system configuration.
+            </div>
+            <div className="footnote-item">
+              <sup>5</sup> <strong>Domains/Tasks:</strong> Shows how many of the 7 benchmark cases each system participated in. Only systems that completed all 7 cases are displayed in the Overall Rankings to ensure fair ELO comparison. The 7 cases consist of 3 domains (Academic & Knowledge, Legal, Open-Domain) + 4 tasks (Long-Long, Long-Short, Short-Long, Short-Short).
             </div>
           </div>
         </div>
