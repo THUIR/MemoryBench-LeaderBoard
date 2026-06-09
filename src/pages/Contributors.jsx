@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import './Contributors.css';
 
 const contributors = [
@@ -76,7 +75,6 @@ function ContributorCard({ contributor, index }) {
       <div className="contributor-info">
         <h3 className="contributor-name">{contributor.name}</h3>
         <p className="contributor-affiliation">{contributor.affiliation}</p>
-        <span className="contributor-role">{contributor.role}</span>
       </div>
     </div>
   );
