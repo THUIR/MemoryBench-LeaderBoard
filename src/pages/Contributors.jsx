@@ -25,7 +25,7 @@ const contributors = [
   {
     name: 'Weihang Su',
     affiliation: 'Tsinghua University',
-    isPI: true,
+    isPI: false,
     role: 'Paper Writing',
   },
   {
