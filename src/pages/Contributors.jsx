@@ -3,41 +3,66 @@ import './Contributors.css';
 
 const contributors = [
   {
-    name: 'To Be Confirmed',
-    affiliation: 'To Be Confirmed',
+    name: 'Qingyao Ai',
+    affiliation: 'Tsinghua University',
     isPI: true,
-    role: 'Project Lead',
-    description: 'Lead of the MemoryBench project',
+    role: 'Paper Writing',
   },
   {
-    name: 'To Be Confirmed',
-    affiliation: 'To Be Confirmed',
-    role: 'Core Developer',
-    description: 'Primary development and architecture',
+    name: 'Yichen Tang',
+    affiliation: 'Tsinghua University',
+    role: 'Paper Writing',
   },
   {
-    name: 'To Be Confirmed',
-    affiliation: 'To Be Confirmed',
-    role: 'Data Lead',
-    description: 'Dataset curation and processing',
+    name: 'Changyue Wang',
+    affiliation: 'Tsinghua University',
+    role: 'Paper Writing',
   },
   {
-    name: 'To Be Confirmed',
-    affiliation: 'To Be Confirmed',
-    role: 'Evaluation Lead',
-    description: 'Metrics design and evaluation pipeline',
+    name: 'Jianming Long',
+    affiliation: 'Tsinghua University',
+    role: 'Paper Writing',
   },
   {
-    name: 'To Be Confirmed',
-    affiliation: 'To Be Confirmed',
-    role: 'Paper Lead',
-    description: 'Paper writing and submission',
+    name: 'Weihang Su',
+    affiliation: 'Tsinghua University',
+    isPI: true,
+    role: 'Paper Writing',
   },
   {
-    name: 'To Be Confirmed',
-    affiliation: 'To Be Confirmed',
-    role: 'Frontend Developer',
-    description: 'Web interface design and implementation',
+    name: 'Yiqun Liu',
+    affiliation: 'Tsinghua University',
+    role: 'Paper Writing',
+  },
+  {
+    name: 'Qimeng Zhang',
+    affiliation: 'Quan Cheng Laboratory',
+    role: 'Engineering Support',
+  },
+  {
+    name: 'Cheng Luo',
+    affiliation: 'MegaTech and Quan Cheng Laboratory',
+    role: 'Engineering Support',
+  },
+  {
+    name: 'Dongsheng Guo',
+    affiliation: 'Quan Cheng Laboratory',
+    role: 'Engineering Support',
+  },
+  {
+    name: 'Jikun Hu',
+    affiliation: 'Quan Cheng Laboratory',
+    role: 'Engineering Support',
+  },
+  {
+    name: 'Wei Zheng',
+    affiliation: 'Quan Cheng Laboratory',
+    role: 'Engineering Support',
+  },
+  {
+    name: 'Lixuan Wang',
+    affiliation: 'Quan Cheng Laboratory',
+    role: 'Engineering Support',
   },
 ];
 
@@ -52,7 +77,6 @@ function ContributorCard({ contributor, index }) {
         <h3 className="contributor-name">{contributor.name}</h3>
         <p className="contributor-affiliation">{contributor.affiliation}</p>
         <span className="contributor-role">{contributor.role}</span>
-        <p className="contributor-desc">{contributor.description}</p>
       </div>
     </div>
   );
