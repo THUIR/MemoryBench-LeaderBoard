@@ -139,8 +139,7 @@ memorybench/
 │   ├── index.css
 │   └── main.jsx
 ├── public/                          # Static assets
-│   ├── favicon.svg
-│   └── icons.svg
+│   └── favicon.svg
 ├── scripts/                         # Build/deployment scripts
 │   └── extract_scores.cjs
 ├── data-processing/                 # Data processing Python scripts
