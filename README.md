@@ -10,7 +10,6 @@ A sustainable learning evaluation platform built on the MemoryBench paper, featu
 
 1. **Hero Section**:
    - Title: MemoryBench
-   - ICML 2026 SpotLight badge
    - GitHub / HuggingFace / Paper links
 
 2. **Intro Section**:
