@@ -34,6 +34,16 @@ const contributors = [
     role: 'Paper Writing',
   },
   {
+    name: 'Jingtao Zhan',
+    affiliation: 'Tsinghua University',
+    role: 'Paper Writing',
+  },
+  {
+    name: 'Xingjian Yuan',
+    affiliation: 'Tsinghua University',
+    role: 'Paper Writing',
+  },
+  {
     name: 'Qimeng Zhang',
     affiliation: 'Quan Cheng Laboratory',
     role: 'Engineering Support',
