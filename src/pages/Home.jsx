@@ -37,7 +37,7 @@ const introData = [
       'Multi-dimensional evaluation – Declarative + Procedural memory, explicit + implicit feedback',
       'Comprehensive coverage – 28 benchmarks, 3 domains, 4 task formats, 2 languages',
       'Realistic user feedback simulation – LLM-as-user with verbal/action feedback (like, copy, dislike)',
-      '8 baselines evaluated – Vanilla, RAG (BM25/Embed), A-Mem, Mem0, MemoryOS',
+      '10 baselines evaluated – Vanilla, RAG (BM25/Embed), A-Mem, Mem0, MemoryOS, AutoSkill, UNO',
       'Off-policy & on-policy settings – Stepwise learning curves, ELO-based ranking'
     ]
   },
@@ -50,7 +50,7 @@ const introData = [
       'Easy-to-use Streamlit frontend – configure and run experiments with minimal setup',
       'Off-policy & on-policy experiments – fully reproduce paper settings',
       '28 benchmark datasets – covering Open, Legal, and Academic domains',
-      '8 baseline systems – Vanilla, BM25-M/S, Embed-M/S, A-Mem, Mem0, MemoryOS',
+      '10 baseline systems – Vanilla, BM25-M/S, Embed-M/S, A-Mem, Mem0, MemoryOS, AutoSkill, UNO',
       'Complete evaluation workflow – dataset loading, evaluation, normalization, and summary'
     ]
   },
@@ -61,8 +61,8 @@ const introData = [
     description: 'Train/test splits across 28 benchmarks. Includes multi-turn dialogues and simulated user feedback.',
     details: [
       '28 datasets across 3 domains & 4 task formats',
-      'Two user simulators: Qwen3-32B & Mistral-3.2-24B',
-      '8 baseline dialogue variants (BM25, Embedder, A-Mem, Mem0, MemoryOS)',
+      'Four user simulators: Qwen3-32B, Mistral-3.2-24B, DeepSeek-V4-Flash, Qwen3-8B',
+      '10 baseline dialogue variants (BM25, Embedder, A-Mem, Mem0, MemoryOS, AutoSkill, UNO)',
       'One-line loading via Hugging Face datasets'
     ]
   }
@@ -80,7 +80,7 @@ const codeSnippets = {
     '✓ Selected for Spotlight Paper',
     '',
     'Datasets: 28 benchmarks',
-    'Memory Systems: 8 baselines',
+    'Memory Systems: 10 baselines',
     'Evaluation: Multi-dimensional',
     '',
     'Key Features:',
@@ -279,7 +279,7 @@ function HeroSection() {
               <span className="stat-label">Datasets</span>
             </div>
             <div className="hero-stat-card bounce-2">
-              <span className="stat-value">8</span>
+              <span className="stat-value">10</span>
               <span className="stat-label stat-label-wrap">MEMORY SYSTEMS</span>
             </div>
             <div className="hero-stat-card bounce-3">
@@ -443,7 +443,7 @@ function TagsSection({ lastClickedTag, setLastClickedTag, highlightedTag, setHig
             <div className="tag-category-header">
               <span className="category-icon">💾</span>
               <span className="category-label">Memory Systems</span>
-              <span className="category-count">8</span>
+              <span className="category-count">10</span>
             </div>
             <div className="tag-list">
               {memorySystems.map(m => (
@@ -499,7 +499,7 @@ function TagsSection({ lastClickedTag, setLastClickedTag, highlightedTag, setHig
         </div>
         <div className="tags-note">
           <span className="note-icon">📊</span>
-          <span>28 datasets · 8 memory systems · 3 domains · 4 tasks · 4 models</span>
+          <span>28 datasets · 10 memory systems · 3 domains · 4 tasks · 4 models</span>
         </div>
       </div>
     </section>

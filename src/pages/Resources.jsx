@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import './Resources.css';
 
 const datasets = [
@@ -34,6 +33,11 @@ const memorySystems = {
     { name: 'A-Mem', fullName: 'Agentic Memory', authors: 'Xu et al., 2025a', description: 'An agentic memory system that dynamically organizes memories into interconnected knowledge networks via LLM-driven note construction, linking, and evolution.', link: 'https://arxiv.org/abs/2502.12110' },
     { name: 'Mem0', fullName: 'Memory-Centric', authors: 'Chhikara et al., 2025', description: 'A scalable memory-centric architecture that dynamically extracts, consolidates, and retrieves salient information from conversations, with an enhanced graph-based version (Mem0^g).', link: 'https://arxiv.org/abs/2504.19413' },
     { name: 'MemoryOS', fullName: 'Memory Operating System', authors: 'Kang et al., 2025', description: 'A memory operating system inspired by OS principles, featuring a hierarchical storage (short/mid/long-term) with segmented paging and heat-based updates for AI agents.', link: 'https://arxiv.org/abs/2506.06326' },
+  ],
+  newSystems: [
+    { name: "AutoSkill", fullName: "AutoSkill", authors: "Yang et al., 2026", description: "An experience-driven lifelong learning framework that transforms recurring user interaction patterns into explicit, versioned, and reusable skill artifacts without retraining the underlying LLM.", link: "https://arxiv.org/abs/2603.01145" },
+    { name: "UNO", fullName: "UNO", authors: "Wang et al., 2026", description: "A unified user log-driven optimization framework that enhances LLM systems by distilling noisy logs into structured experiences and adaptively selecting between direct expert modules and reflective critic modules guided by cognitive gap assessment.", link: "https://arxiv.org/abs/2602.06470" },
+    { name: "UNO-Single", fullName: "UNO-Single", authors: "Wang et al., 2026", description: "A lightweight variant of UNO that retains only the primary experience path, directly generating responses via expert LoRAs while falling back to the base model for reflective clusters.", link: "https://arxiv.org/abs/2602.06470" },
   ]
 };
 
@@ -118,9 +122,8 @@ export default function Resources() {
                 </div>
                 <p className="model-desc">{m.description}</p>
                 <ExternalLink href={m.link} className="model-link">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0L1.5 6v12L12 24l10.5-6V6L12 0zm0 2.25l8.25 4.5v9L12 20.25l-8.25-4.5v-9L12 2.25z"/>
                   </svg>
                   <span>HuggingFace</span>
                 </ExternalLink>
@@ -200,6 +203,35 @@ export default function Resources() {
           </div>
         </section>
 
+        {/* New Memory Systems */}
+        <div className="memory-subsection">
+          <h3 className="subsection-title">Supplementary Memory Systems</h3>
+          <div className="sota-grid">
+            {memorySystems.newSystems.map(sys => (
+              <div key={sys.name} className="sota-card">
+                <div className="sota-header">
+                  <h4 className="sota-name">{sys.name}</h4>
+                </div>
+                <div className="sota-info">
+                  <div className="info-row">
+                    <span className="info-label">Authors:</span>
+                    <span className="info-value">{sys.authors}</span>
+                  </div>
+                </div>
+                <p className="sota-desc">{sys.description}</p>
+                {sys.link && (
+                  <ExternalLink href={sys.link} className="sota-link">
+                    <span>View Paper</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+                    </svg>
+                  </ExternalLink>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Quick Summary */}
         <section className="resource-section summary-section">
           <div className="section-header">
@@ -215,7 +247,7 @@ export default function Resources() {
               <span className="summary-label">LLMs</span>
             </div>
             <div className="summary-card">
-              <span className="summary-number">8</span>
+              <span class="summary-number">10</span>
               <span className="summary-label">Memory Systems</span>
             </div>
           </div>
