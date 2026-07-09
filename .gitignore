@@ -5,6 +5,8 @@ node_modules/
 memorybench_results_20260603_1514_all_baselines/
 20260601新数据/
 data copy/
+memorybench_results_20260623_120317/
+oss_memorybench_results/
 
 # OS files
 .DS_Store

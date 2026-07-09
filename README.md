@@ -62,7 +62,7 @@ A sustainable learning evaluation platform built on the MemoryBench paper, featu
 
 5. **Page Styling**:
    - Page width: padding 40px 160px, max width 1600px
-   - Heatmaps display horizontally without scrolling, showing all 8 memory systems
+   - Heatmaps display horizontally without scrolling, showing all 10 memory systems
    - Responsive design with breakpoints at 1024px / 768px / 480px
 
 ### Page 2 - Case Details
@@ -164,7 +164,7 @@ memorybench/
 | `tokenData.js` | ~5KB | Token usage statistics per system |
 | `samples/*.json` | ~50MB | Sample detail data for 7 cases |
 
-**Memory Systems (11 total):**
+**Memory Systems (10 total):**
 - A-Mem, BM25-Dialog, BM25-Message, Embedder-Dialog, Embedder-Message, Mem0, MemoryOS, No Memory (Wo Memory)
 - AutoSkill, Uno, Uno-Single (incomplete participation - not shown in overall rankings)
 

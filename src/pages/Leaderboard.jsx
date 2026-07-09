@@ -142,7 +142,7 @@ function HeatmapSection({ model }) {
         <div className="heatmap-grid">
           {/* Header row with memory system names */}
           <div className="heatmap-grid-corner"></div>
-          {memorySystems.filter(mem => !['autoskill', 'uno', 'uno-single'].includes(mem.id)).map(mem => (
+          {memorySystems.filter(mem => !['autoskill', 'autoskill_with_library', 'autoskill_without_library', 'uno', 'uno-single'].includes(mem.id)).map(mem => (
             <div key={mem.id} className="heatmap-grid-header">{mem.name}</div>
           ))}
           {/* Data rows */}
@@ -151,7 +151,7 @@ function HeatmapSection({ model }) {
             return (
               <Fragment>
                 <div key={`row-${caseId}`} className="heatmap-grid-row-header">{caseNames[idx]}</div>
-                {memorySystems.filter(mem => !['autoskill', 'uno', 'uno-single'].includes(mem.id)).map(mem => {
+                {memorySystems.filter(mem => !['autoskill', 'autoskill_with_library', 'autoskill_without_library', 'uno', 'uno-single'].includes(mem.id)).map(mem => {
                   const key = `${mem.id}-${model.id}`;
                   const scoreData = caseInfo?.[key];
                   const value = scoreData?.weighted_average ?? scoreData?.z_score ?? null;
@@ -481,7 +481,7 @@ export default function Leaderboard() {
       <div className="page-wrapper">
         <div className="page-header">
           <h1 className="page-title">Leaderboard</h1>
-          <p className="page-subtitle">Compare ELO ratings across 4 base models and 8 memory systems · Filter by model, memory system, or view all</p>
+          <p className="page-subtitle">Compare ELO ratings across 4 base models and 10 memory systems · Filter by model, memory system, or view all</p>
         </div>
 
         {/* Main Leaderboard Section */}

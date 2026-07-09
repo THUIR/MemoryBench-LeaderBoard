@@ -46,7 +46,7 @@ def process_summary_folders(base_path, model_name):
     return summary_data
 
 def main():
-    base_dir = r"D:\Git\memorybench\20260601新数据"
+    base_dir = r"D:\Git\memorybench\memorybench_results_20260623_120317"
     output_file = r"D:\Git\memorybench\src\data\summaryAverages.json"
 
     all_summary = {}

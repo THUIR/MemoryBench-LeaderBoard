@@ -3,12 +3,41 @@ import { useState, useMemo, useEffect } from 'react';
 import { cases, memorySystems, baseModels, getMemorySystemId, getBaseModelId, eloData } from '../data/eloData';
 import './CaseSamples.css';
 
-const checklistLabels = [
-  "Relevance", "Accuracy", "Clarity", "Novelty",
-  "Richness", "Human-like", "Overall"
-];
-
 const ITEMS_PER_PAGE = 10;
+
+// Metrics that are auxiliary data (not to be displayed as individual items)
+const AUXILIARY_METRICS = new Set([
+  'exp_reasoning', 'gen_reasoning', 'exp_judge', 'gen_judge',
+  'golden_answer', 'evidence', 'exp_crime', 'gen_crime',
+  'exp_time', 'gen_time', 'exp_amount', 'gen_amount',
+  'exp_penalcode_index', 'gen_penalcode_index',
+  'checklist', 'checklist_content'
+]);
+
+// Format metric name for display (e.g., "reasoning_bert_score" -> "Reasoning BERT")
+function formatMetricName(metricName) {
+  const nameMap = {
+    'avg_score': 'Avg Score',
+    'f1': 'F1',
+    'rougel': 'Rouge-L',
+    'reasoning_bert_score': 'Reasoning BERT',
+    'judge_bert_score': 'Judge BERT',
+    'crime_recall': 'Crime Recall',
+    'crime_precision': 'Crime Precision',
+    'time_score': 'Time Score',
+    'amount_score': 'Amount Score',
+    'penalcode_index_recall': 'Penalcode Index Recall',
+    'penalcode_index_precision': 'Penalcode Index Precision',
+    'reasoning_meteor': 'Reasoning METEOR',
+    'judge_meteor': 'Judge METEOR',
+    'meteor': 'METEOR',
+  };
+  if (nameMap[metricName]) return nameMap[metricName];
+  // Convert snake_case to Title Case
+  return metricName.split('_').map(word =>
+    word.charAt(0).toUpperCase() + word.slice(1)
+  ).join(' ');
+}
 
 // Helper function to get baseModel ID from model name (e.g., "DeepSeek-V4-Flash" -> "DeepSeek-V4-Flash")
 function getBaseModelIdFromModel(modelName) {
@@ -25,28 +54,64 @@ function getBaseModelIdFromModel(modelName) {
 }
 
 function getScoreDisplay(sample) {
+  const metricType = sample.metric_type;
   const m = sample.metrics;
   if (!m) return null;
-  // Try different score fields (check for both undefined and null)
-  if (m.avg_score != null) return m.avg_score;
-  if (m.score != null) return m.score;
-  if (m.f1 != null) return m.f1;
-  if (m.reasoning_bert_score != null) return m.reasoning_bert_score;
-  if (m.rougel != null) return m.rougel;
-  if (m['Rouge-L'] != null) return m['Rouge-L'];
+
+  // Use the appropriate metric directly based on metric_type
+  if (metricType === 'avg_score' && m.avg_score !== undefined) {
+    return m.avg_score;
+  }
+  if (metricType === 'reasoning_bert_score' && m.reasoning_bert_score !== undefined) {
+    return m.reasoning_bert_score;
+  }
+  if (metricType === 'bert_score' && m.bert_score !== undefined) {
+    return m.bert_score;
+  }
+  if (metricType === 'BERTScore-F1' && m['BERTScore-F1'] !== undefined) {
+    return m['BERTScore-F1'];
+  }
+
+  // Fallback to display_score
+  if (sample.display_score != null) return sample.display_score;
   return null;
+}
+
+function getMetricTypeLabel(sample) {
+  const metricType = sample.metric_type;
+  if (metricType === 'avg_score') return 'Avg Score';
+  if (metricType === 'reasoning_bert_score') return 'Reasoning BERT';
+  if (metricType === 'bert_score') return 'BERT Score';
+  if (metricType === 'BERTScore-F1') return 'BERTScore-F1';
+  return 'Score';
+}
+
+function getMetricTypeLabelForCase(caseId) {
+  // Map caseId to metric label
+  const avgScoreCases = ['domain/Academic&Knowledge', 'domain/Open-Domain', 'task/Long-Long', 'task/Short-Long'];
+  const reasoningBertCases = ['domain/Legal'];
+  const bertScoreCases = ['task/Long-Short'];
+  const bertscoreF1Cases = ['task/Short-Short'];
+
+  if (avgScoreCases.includes(caseId)) return 'Avg Score';
+  if (reasoningBertCases.includes(caseId)) return 'Reasoning BERT';
+  if (bertScoreCases.includes(caseId)) return 'BERT Score';
+  if (bertscoreF1Cases.includes(caseId)) return 'BERTScore-F1';
+  return 'Score';
 }
 
 function getMetricsDisplay(sample) {
   const m = sample.metrics;
+  const metricType = sample.metric_type;
   if (!m) return null;
 
-  if (m.checklist_evaluation && m.checklist_evaluation.length > 0) {
+  // For avg_score cases: show checklist evaluation if available
+  if (metricType === 'avg_score' && m.checklist_evaluation && m.checklist_evaluation.length > 0) {
     return (
       <div className="checklist-grid">
         {m.checklist_evaluation.map((item, cidx) => (
           <div key={cidx} className="checklist-item">
-            <span className="checklist-label">{checklistLabels[item.checklist_id] || `Check ${item.checklist_id}`}</span>
+            <span className="checklist-label">evaluation_score_{item.checklist_id}</span>
             <div className="checklist-bar-container">
               <div
                 className="checklist-bar"
@@ -60,70 +125,61 @@ function getMetricsDisplay(sample) {
     );
   }
 
-  if (m.reasoning_bert_score !== undefined) {
+  // Dynamically render all available score metrics from the data
+  const scoreMetrics = [];
+  for (const [key, value] of Object.entries(m)) {
+    if (AUXILIARY_METRICS.has(key)) continue;
+    if (value === null || value === undefined) continue;
+    if (typeof value !== 'number') continue;
+    scoreMetrics.push({ name: key, value, displayName: formatMetricName(key) });
+  }
+
+  // Sort metrics by priority: avg_score, bert_score, BERTScore-F1, then others alphabetically
+  const priorityOrder = ['avg_score', 'bert_score', 'BERTScore-F1', 'f1', 'rougel',
+                         'judge_bert_score', 'crime_recall', 'crime_precision', 'time_score', 'amount_score',
+                         'penalcode_index_recall', 'penalcode_index_precision',
+                         'reasoning_meteor', 'judge_meteor', 'meteor'];
+  scoreMetrics.sort((a, b) => {
+    const aIdx = priorityOrder.indexOf(a.name);
+    const bIdx = priorityOrder.indexOf(b.name);
+    if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+    if (aIdx !== -1) return -1;
+    if (bIdx !== -1) return 1;
+    return a.displayName.localeCompare(b.displayName);
+  });
+
+  if (scoreMetrics.length > 0) {
+    // Metrics that should NOT be displayed as percentage (reasoning_bert_score, bert_score, BERTScore-F1 should show raw value like 0.6758)
+    const NON_PERCENTAGE_METRICS = ['reasoning_bert_score', 'bert_score', 'BERTScore-F1', 'judge_bert_score'];
+
     return (
       <div className="checklist-grid">
-        <div className="checklist-item">
-          <span className="checklist-label">Reasoning BERT</span>
-          <div className="checklist-bar-container">
-            <div
-              className="checklist-bar"
-              style={{ width: `${(m.reasoning_bert_score || 0) * 100}%` }}
-            />
-          </div>
-          <span className="checklist-score">{(m.reasoning_bert_score * 100).toFixed(1)}%</span>
-        </div>
-        <div className="checklist-item">
-          <span className="checklist-label">Judge BERT</span>
-          <div className="checklist-bar-container">
-            <div
-              className="checklist-bar"
-              style={{ width: `${(m.judge_bert_score || 0) * 100}%` }}
-            />
-          </div>
-          <span className="checklist-score">{(m.judge_bert_score * 100).toFixed(1)}%</span>
-        </div>
-        <div className="checklist-item">
-          <span className="checklist-label">Crime Recall</span>
-          <div className="checklist-bar-container">
-            <div
-              className="checklist-bar"
-              style={{ width: `${(m.crime_recall || 0) * 100}%` }}
-            />
-          </div>
-          <span className="checklist-score">{(m.crime_recall * 100).toFixed(1)}%</span>
-        </div>
-        <div className="checklist-item">
-          <span className="checklist-label">Crime Precision</span>
-          <div className="checklist-bar-container">
-            <div
-              className="checklist-bar"
-              style={{ width: `${(m.crime_precision || 0) * 100}%` }}
-            />
-          </div>
-          <span className="checklist-score">{(m.crime_precision * 100).toFixed(1)}%</span>
-        </div>
+        {scoreMetrics.map((metric, idx) => {
+          const isNonPercentage = NON_PERCENTAGE_METRICS.includes(metric.name);
+          // For bar width, still use percentage (0-1 -> 0-100%), cap at 100%
+          const barWidth = metric.value <= 1 ? metric.value * 100 : 100;
+          // For display, don't multiply by 100 for non-percentage metrics
+          const displayValue = isNonPercentage ? metric.value : (metric.value <= 1 ? metric.value * 100 : metric.value);
+          // Show 2 decimals for all metrics, except non-percentage metrics show 4 decimals
+          const decimals = isNonPercentage ? 4 : 2;
+          return (
+            <div key={idx} className="checklist-item">
+              <span className="checklist-label">{metric.displayName}</span>
+              <div className="checklist-bar-container">
+                <div
+                  className="checklist-bar"
+                  style={{ width: `${barWidth}%` }}
+                />
+              </div>
+              <span className="checklist-score">{displayValue.toFixed(decimals)}{isNonPercentage ? '' : (metric.value <= 1 ? '%' : '')}</span>
+            </div>
+          );
+        })}
       </div>
     );
   }
 
-  if (m.f1 !== undefined) {
-    return (
-      <div className="checklist-grid">
-        <div className="checklist-item">
-          <span className="checklist-label">F1 Score</span>
-          <div className="checklist-bar-container">
-            <div
-              className="checklist-bar"
-              style={{ width: `${(m.f1 || 0) * 100}%` }}
-            />
-          </div>
-          <span className="checklist-score">{(m.f1 * 100).toFixed(1)}%</span>
-        </div>
-      </div>
-    );
-  }
-
+  // Default fallback
   return null;
 }
 
@@ -159,7 +215,7 @@ function SampleModal({ sample, onClose }) {
           {/* Top Section: Score + Metrics */}
           <div className="modal-top-section">
             <div className="modal-section modal-score-section">
-              <h3>Score</h3>
+              <h3>{getMetricTypeLabel(sample)}</h3>
               <div className="modal-score">
                 <span className="score-value">{getScoreDisplay(sample)?.toFixed(4) || 'N/A'}</span>
               </div>
@@ -408,7 +464,7 @@ export default function CaseSamples() {
                 </select>
               </div>
               <div className="filter-group">
-                <label>Score</label>
+                <label>{getMetricTypeLabelForCase(caseId)}</label>
                 <select value={filterScore} onChange={e => { setFilterScore(e.target.value); setCurrentPage(1); }}>
                   <option value="all">All</option>
                   <option value="high">High (&gt;=0.8)</option>
@@ -438,7 +494,7 @@ export default function CaseSamples() {
                   </div>
                   <div className="sample-score">
                     <span className="score-value">{getScoreDisplay(sample)?.toFixed(2) || 'N/A'}</span>
-                    <span className="score-label">Score</span>
+                    <span className="score-label">{getMetricTypeLabel(sample)}</span>
                   </div>
                 </div>
               </div>

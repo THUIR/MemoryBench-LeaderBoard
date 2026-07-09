@@ -2,16 +2,16 @@ import json
 import os
 import re
 
-BASE_PATH = r"D:\Git\memorybench\memorybench_results_20260603_1514_all_baselines"
+BASE_PATH = r"D:\Git\memorybench\oss_memorybench_results"
 OUTPUT_DIR = r"D:\Git\memorybench\src\data"
 ELO_FILE = os.path.join(BASE_PATH, "elo_global_all_models.json")
 TOKEN_FILE = os.path.join(BASE_PATH, "token_results", "token_global_all_models.json")
 
-# Memory systems to include (exclude a_mem_before, a_mem_try, etc.)
+# Memory systems to include
 VALID_MEMORY_SYSTEMS = [
     "a_mem", "bm25_dialog", "bm25_message", "embedder_dialog",
     "embedder_message", "mem0", "memoryos", "wo_memory",
-    "autoskill", "uno", "uno-single"  # New systems from new data
+    "uno", "uno-single", "autoskill_with_library", "autoskill_without_library"
 ]
 
 # Base models
@@ -31,6 +31,19 @@ def save_json(path, data):
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
+def find_run_path(memory_path):
+    """Find the run folder path - handles both start_at_* subfolder and direct file structure"""
+    try:
+        run_folders = [f for f in os.listdir(memory_path) if f.startswith("start_at_")]
+        if run_folders:
+            return os.path.join(memory_path, run_folders[0])
+        # If no start_at_* folder, check if summary.json exists directly in memory_path
+        if os.path.exists(os.path.join(memory_path, "summary.json")):
+            return memory_path
+        return None
+    except:
+        return None
+
 def get_model_folder_name(model_id):
     """Convert model ID to folder name"""
     mapping = {
@@ -45,6 +58,33 @@ def get_model_folder_name(model_id):
 # Models to exclude (incomplete data)
 EXCLUDED_MODELS = ["Gemini-3.5-Flash"]
 
+# Memory systems to exclude from processing
+# Note: autoskill (without suffix) is excluded, but autoskill_with_library and autoskill_without_library are included
+EXCLUDED_MEMORY_SYSTEMS = []
+
+# Cases that use avg_score (0-1 range) for display metric
+CASES_WITH_AVG_SCORE = [
+    "domain/Academic&Knowledge",
+    "domain/Open-Domain",
+    "task/Long-Long",
+    "task/Short-Long"
+]
+
+# Cases that use reasoning_bert_score for display metric
+CASES_WITH_REASONING_BERT = [
+    "domain/Legal"
+]
+
+# Cases that use bert_score for display metric
+CASES_WITH_BERT_SCORE = [
+    "task/Long-Short"
+]
+
+# Cases that use BERTScore-F1 for display metric
+CASES_WITH_BERTSCORE_F1 = [
+    "task/Short-Short"
+]
+
 def process_elo_data():
     """Process elo_global_all_models.json to create eloData.js"""
     print("Processing ELO data...")
@@ -57,12 +97,15 @@ def process_elo_data():
         "overall_elo_full_participation": {}
     }
 
-    # Process cases - filter out excluded models
+    # Process cases - filter out excluded models and memory systems
     for case_key, case_data in elo_raw.get("cases", {}).items():
         filtered_elo = {}
         for system_key, elo_value in case_data.get("elo", {}).items():
             # Skip systems with excluded models
             if any(excluded in system_key for excluded in EXCLUDED_MODELS):
+                continue
+            # Skip systems with excluded memory systems
+            if any(excluded in system_key for excluded in EXCLUDED_MEMORY_SYSTEMS):
                 continue
             filtered_elo[system_key] = elo_value
         elo_data["cases"][case_key] = {
@@ -71,9 +114,11 @@ def process_elo_data():
             "n_samples": case_data.get("n_samples", 0)
         }
 
-    # Process overall_elo - filter out excluded models
+    # Process overall_elo - filter out excluded models and memory systems
     for system_key, stats in elo_raw.get("overall_elo", {}).items():
         if any(excluded in system_key for excluded in EXCLUDED_MODELS):
+            continue
+        if any(excluded in system_key for excluded in EXCLUDED_MEMORY_SYSTEMS):
             continue
         elo_data["overall_elo"][system_key] = {
             "avg": stats.get("avg", 0),
@@ -119,17 +164,16 @@ def process_summary_averages():
 
                 # Process each memory system
                 for memory_sys in os.listdir(case_path):
+                    # Skip excluded memory systems
+                    if memory_sys in EXCLUDED_MEMORY_SYSTEMS:
+                        continue
                     memory_path = os.path.join(case_path, memory_sys)
                     if not os.path.isdir(memory_path):
                         continue
 
-                    # Find the run folder (starts with start_at_)
-                    try:
-                        run_folders = [f for f in os.listdir(memory_path) if f.startswith("start_at_")]
-                        if not run_folders:
-                            continue
-                        run_path = os.path.join(memory_path, run_folders[0])
-                    except:
+                    # Find the run folder (handles both start_at_* subfolder and direct structure)
+                    run_path = find_run_path(memory_path)
+                    if not run_path:
                         continue
 
                     summary_file = os.path.join(run_path, "summary.json")
@@ -187,17 +231,16 @@ def process_samples():
 
                 # Process each memory system
                 for memory_sys in os.listdir(case_path):
+                    # Skip excluded memory systems
+                    if memory_sys in EXCLUDED_MEMORY_SYSTEMS:
+                        continue
                     memory_path = os.path.join(case_path, memory_sys)
                     if not os.path.isdir(memory_path):
                         continue
 
-                    # Find the run folder
-                    try:
-                        run_folders = [f for f in os.listdir(memory_path) if f.startswith("start_at_")]
-                        if not run_folders:
-                            continue
-                        run_path = os.path.join(memory_path, run_folders[0])
-                    except:
+                    # Find the run folder (handles both start_at_* subfolder and direct structure)
+                    run_path = find_run_path(memory_path)
+                    if not run_path:
                         continue
 
                     predict_file = os.path.join(run_path, "predict.json")
@@ -210,60 +253,157 @@ def process_samples():
                     try:
                         predict_data = load_json(predict_file)
 
-                        # Load summary data if exists
-                        summary_scores = []
+                        # Build dataset -> scores mapping from summary.details
+                        # summary.details[dataset] arrays are in the same order as evaluate_details for that dataset
+                        dataset_scores = {}  # dataset_name -> [raw_scores]
                         if os.path.exists(summary_file):
                             summary = load_json(summary_file)
-                            # Collect all detail scores in order
-                            details = summary.get("details", {})
-                            all_detail_scores = []
-                            for dataset_name, score_list in details.items():
-                                all_detail_scores.extend(score_list)
-                            summary_scores = all_detail_scores
+                            for dataset_name, score_list in summary.get("details", {}).items():
+                                dataset_scores[dataset_name] = score_list
 
-                        # Load eval data if exists
-                        eval_data = {}
+                        # Load eval data if exists - build {dataset_test_idx: {dataset, metrics, raw_score}}
+                        eval_data = {}  # "dataset_test_idx" -> {dataset, metrics, raw_score}
                         if os.path.exists(eval_file):
                             eval_raw = load_json(eval_file)
-                            eval_data = {e["test_idx"]: e for e in eval_raw}
+                            # First pass: count items per dataset to track indices
+                            dataset_counts = {}
+                            for e in eval_raw:
+                                ds = e.get("dataset", "")
+                                if ds not in dataset_counts:
+                                    dataset_counts[ds] = 0
+                                dataset_counts[ds] += 1
+
+                            # Second pass: build mapping with string key "dataset_test_idx"
+                            dataset_indices = {ds: 0 for ds in dataset_counts}
+                            for e in eval_raw:
+                                test_idx = e.get("test_idx")
+                                if test_idx is not None:
+                                    ds = e.get("dataset", "")
+                                    idx_in_ds = dataset_indices.get(ds, 0)
+                                    dataset_indices[ds] = idx_in_ds + 1
+
+                                    # Get raw score from summary.details for this dataset and index
+                                    raw_score = None
+                                    if ds in dataset_scores and idx_in_ds < len(dataset_scores[ds]):
+                                        raw_score = dataset_scores[ds][idx_in_ds]
+
+                                    key = f"{ds}_{test_idx}"
+                                    eval_data[key] = {
+                                        "dataset": ds,
+                                        "metrics": e.get("metrics", {}),
+                                        "raw_score": raw_score
+                                    }
 
                         # Process each predict item
                         for idx, p in enumerate(predict_data):
                             test_idx = p.get("test_idx", 0)
+                            dataset_name = p.get("dataset", "")
 
-                            # Get score from summary details by enumerate index
-                            # (details array is ordered by predict array order, not by test_idx)
-                            # Only use summary details - no fallback to metrics
-                            score = None
-                            if idx < len(summary_scores):
-                                score = summary_scores[idx]
-
-                            # Get eval details (for messages and other info, not for score)
-                            eval_item = eval_data.get(test_idx, {})
+                            # Get eval data by "dataset_test_idx" for accurate matching
+                            key = f"{dataset_name}_{test_idx}"
+                            eval_item = eval_data.get(key, {})
                             metrics = eval_item.get("metrics", {}) if eval_item else {}
+                            raw_score = eval_item.get("raw_score")
 
-                            # Simplify messages
-                            messages = p.get("messages", [])
-                            simplified_messages = []
-                            for msg in messages:
-                                simplified_messages.append({
-                                    "role": msg.get("role", ""),
-                                    "content": msg.get("content", "")[:2000] if msg.get("content") else ""
-                                })
+                            # Skip if metrics is empty
+                            if not metrics or len(metrics) == 0:
+                                continue
 
+                            # Determine which score field to use based on case type
+                            use_avg_score = case_key in CASES_WITH_AVG_SCORE
+                            use_reasoning_bert = case_key in CASES_WITH_REASONING_BERT
+                            use_bert_score = case_key in CASES_WITH_BERT_SCORE
+                            use_bertscore_f1 = case_key in CASES_WITH_BERTSCORE_F1
+
+                            # Filter based on case type and score must be > 0
+                            score_metric = None
+                            if use_avg_score:
+                                if 'avg_score' not in metrics or metrics['avg_score'] is None:
+                                    continue
+                                avg_score = metrics['avg_score']
+                                if not isinstance(avg_score, (int, float)) or avg_score < 0 or avg_score > 1:
+                                    continue
+                                if avg_score == 0:
+                                    continue
+                                score_metric = 'avg_score'
+                            elif use_reasoning_bert:
+                                if 'reasoning_bert_score' not in metrics or metrics['reasoning_bert_score'] is None:
+                                    continue
+                                reasoning_bert = metrics['reasoning_bert_score']
+                                if reasoning_bert == 0:
+                                    continue
+                                score_metric = 'reasoning_bert_score'
+                            elif use_bert_score:
+                                if 'bert_score' not in metrics or metrics['bert_score'] is None:
+                                    continue
+                                bert_score = metrics['bert_score']
+                                if bert_score == 0:
+                                    continue
+                                score_metric = 'bert_score'
+                            elif use_bertscore_f1:
+                                if 'BERTScore-F1' not in metrics or metrics['BERTScore-F1'] is None:
+                                    continue
+                                bertscore_f1 = metrics['BERTScore-F1']
+                                if bertscore_f1 == 0:
+                                    continue
+                                score_metric = 'BERTScore-F1'
+                            else:
+                                # Default: look for any valid score
+                                if 'avg_score' in metrics and metrics['avg_score'] is not None and metrics['avg_score'] != 0:
+                                    score_metric = 'avg_score'
+                                elif 'rougel' in metrics and metrics['rougel'] is not None and metrics['rougel'] != 0:
+                                    score_metric = 'rougel'
+                                elif 'f1' in metrics and metrics['f1'] is not None and metrics['f1'] != 0:
+                                    score_metric = 'f1'
+                                else:
+                                    continue
+
+                            # Use original score directly for display (no normalization)
+                            # For avg_score cases: use raw_score from details
+                            # For reasoning_bert/bert_score/BERTScore-F1 cases: use the value directly from metrics
+                            display_score = None
+                            if use_avg_score:
+                                # Use raw_score from details array directly
+                                display_score = raw_score
+                            elif use_reasoning_bert:
+                                reasoning_bert_val = metrics.get('reasoning_bert_score', 0)
+                                display_score = reasoning_bert_val if isinstance(reasoning_bert_val, (int, float)) else 0
+                            elif use_bert_score:
+                                bert_score_val = metrics.get('bert_score', 0)
+                                display_score = bert_score_val if isinstance(bert_score_val, (int, float)) else 0
+                            elif use_bertscore_f1:
+                                bertscore_f1_val = metrics.get('BERTScore-F1', 0)
+                                display_score = bertscore_f1_val if isinstance(bertscore_f1_val, (int, float)) else 0
+                            else:
+                                # Default: use rougel or any available score
+                                rougel = metrics.get('rougel', 0)
+                                if isinstance(rougel, (int, float)) and rougel > 0:
+                                    display_score = rougel
+                                else:
+                                    display_score = sample.get('display_score')
+
+                            # Keep full messages without truncation
+                            simplified_messages = p.get("messages", [])
+
+                            # Keep full response without truncation
+                            response = p.get("response", "") if p.get("response") else ""
+
+                            # Create sample
+                            # metric_type: 'avg_score', 'reasoning_bert_score', or 'f1' - tells frontend which metric to display
+                            # display_score: the score for sorting/display
                             sample = {
                                 "test_idx": test_idx,
                                 "model": model_id,
                                 "case_type": case_type,
                                 "case_name": case_name,
                                 "memory_system": memory_sys,
+                                "system_key": f"{memory_sys}-{model_id}",
                                 "dataset": eval_item.get("dataset", p.get("dataset", "")),
                                 "messages": simplified_messages,
-                                "response": p.get("response", "")[:2000] if p.get("response") else "",
-                                "metrics": {
-                                    **metrics,  # Keep original metrics (may have rougel, etc.)
-                                    **({"avg_score": score} if score is not None else {})  # Override with correct score from summary only if available
-                                },
+                                "response": response,
+                                "metrics": metrics if metrics else {},
+                                "metric_type": score_metric,
+                                "display_score": display_score,
                                 "eval_details": {
                                     "exp_reasoning": metrics.get("exp_reasoning", "") if metrics else "",
                                     "gen_reasoning": metrics.get("gen_reasoning", "") if metrics else "",
@@ -285,16 +425,21 @@ def process_samples():
     TARGET_SAMPLES = 100
 
     for case_key, samples in all_samples.items():
-        # Filter out samples with null scores
-        valid_samples = [s for s in samples if s.get("metrics", {}).get("avg_score") is not None]
+        # Filter out samples with null display_score
+        valid_samples = [s for s in samples if s.get("display_score") is not None]
 
         if len(valid_samples) <= TARGET_SAMPLES:
             limited_samples[case_key] = valid_samples
             continue
 
         # Get scores for stratification
-        scores = [s["metrics"]["avg_score"] for s in valid_samples]
+        scores = [s["display_score"] for s in valid_samples]
         min_score, max_score = min(scores), max(scores)
+
+        # If all scores are the same, just take the first TARGET_SAMPLES
+        if max_score == min_score:
+            limited_samples[case_key] = valid_samples[:TARGET_SAMPLES]
+            continue
 
         # Divide into 4 ranges and sample proportionally from each
         ranges = [
@@ -306,7 +451,7 @@ def process_samples():
 
         range_samples = [[] for _ in ranges]
         for s in valid_samples:
-            score = s["metrics"]["avg_score"]
+            score = s["display_score"]
             for i, (low, high) in enumerate(ranges):
                 if low <= score < high or (i == len(ranges) - 1 and score == high):
                     range_samples[i].append(s)
@@ -321,7 +466,7 @@ def process_samples():
             count = min(count, len(range_samps))
 
             # Sort by score within range for consistent sampling
-            range_samps.sort(key=lambda x: x["metrics"]["avg_score"])
+            range_samps.sort(key=lambda x: x["display_score"])
             # Pick evenly spaced samples from the range
             if count > 0:
                 step = max(1, len(range_samps) // count)
@@ -351,12 +496,15 @@ def process_token_data():
         overall_file = os.path.join(token_dir, "token_global_all_models.json")
         overall_data = load_json(overall_file)
 
-        # Filter out excluded models from systems
+        # Filter out excluded models and memory systems from systems
         if "systems" in overall_data:
             filtered_systems = {}
             for key, val in overall_data["systems"].items():
-                if not any(excluded in key for excluded in EXCLUDED_MODELS):
-                    filtered_systems[key] = val
+                if any(excluded in key for excluded in EXCLUDED_MODELS):
+                    continue
+                if any(excluded in key for excluded in EXCLUDED_MEMORY_SYSTEMS):
+                    continue
+                filtered_systems[key] = val
             result["overall"]["systems"] = filtered_systems
 
         # Also copy summary info (filtered)
@@ -389,12 +537,15 @@ def process_token_data():
             case_file = os.path.join(token_dir, filename)
             case_data = load_json(case_file)
 
-            # Filter systems
+            # Filter systems (exclude models and memory systems)
             filtered_systems = {}
             if "systems" in case_data:
                 for key, val in case_data["systems"].items():
-                    if not any(excluded in key for excluded in EXCLUDED_MODELS):
-                        filtered_systems[key] = val
+                    if any(excluded in key for excluded in EXCLUDED_MODELS):
+                        continue
+                    if any(excluded in key for excluded in EXCLUDED_MEMORY_SYSTEMS):
+                        continue
+                    filtered_systems[key] = val
 
             result["cases"][case_key] = {
                 "systems": filtered_systems
@@ -424,9 +575,10 @@ def main():
         {"id": "mem0", "name": "Mem0", "description": "Mem0记忆系统"},
         {"id": "memoryos", "name": "MemoryOS", "description": "MemoryOS系统"},
         {"id": "wo_memory", "name": "No Memory", "description": "无记忆系统基线"},
-        {"id": "autoskill", "name": "AutoSkill", "description": "AutoSkill记忆系统"},
         {"id": "uno", "name": "Uno", "description": "Uno记忆系统"},
-        {"id": "uno-single", "name": "Uno-Single", "description": "Uno-Single记忆系统"}
+        {"id": "uno-single", "name": "Uno-Single", "description": "Uno-Single记忆系统"},
+        {"id": "autoskill_with_library", "name": "AutoSkill (with library)", "description": "AutoSkill记忆系统（带工具库）"},
+        {"id": "autoskill_without_library", "name": "AutoSkill (without library)", "description": "AutoSkill记忆系统（不带工具库）"}
     ]
     base_models = [
         {"id": "DeepSeek-V4-Flash", "name": "DeepSeek-V4-Flash"},
