@@ -37,14 +37,41 @@ export const tokenData = {
         "avg_output_tokens": 858.634,
         "avg_total_tokens": 7348.155
       },
-      "autoskill-Qwen3-8B": {
-        "num_samples": 0,
-        "total_input_tokens": 0,
-        "total_output_tokens": 0,
-        "total_tokens": 0,
-        "avg_input_tokens": 0.0,
-        "avg_output_tokens": 0.0,
-        "avg_total_tokens": 0.0
+      "autoskill_with_library-Qwen3-32B": {
+        "num_samples": 1638,
+        "total_input_tokens": 5676154,
+        "total_output_tokens": 1303798,
+        "total_tokens": 6979952,
+        "avg_input_tokens": 3465.295,
+        "avg_output_tokens": 795.969,
+        "avg_total_tokens": 4261.265
+      },
+      "autoskill_with_library-Qwen3-8B": {
+        "num_samples": 1638,
+        "total_input_tokens": 6250235,
+        "total_output_tokens": 1248261,
+        "total_tokens": 7498496,
+        "avg_input_tokens": 3815.772,
+        "avg_output_tokens": 762.064,
+        "avg_total_tokens": 4577.836
+      },
+      "autoskill_without_library-Qwen3-32B": {
+        "num_samples": 1638,
+        "total_input_tokens": 3028899,
+        "total_output_tokens": 1271836,
+        "total_tokens": 4300735,
+        "avg_input_tokens": 1849.145,
+        "avg_output_tokens": 776.457,
+        "avg_total_tokens": 2625.601
+      },
+      "autoskill_without_library-Qwen3-8B": {
+        "num_samples": 1638,
+        "total_input_tokens": 2989001,
+        "total_output_tokens": 1225570,
+        "total_tokens": 4214571,
+        "avg_input_tokens": 1824.787,
+        "avg_output_tokens": 748.211,
+        "avg_total_tokens": 2572.998
       },
       "bm25_dialog-DeepSeek-V4-Flash": {
         "num_samples": 1638,
@@ -283,11 +310,11 @@ export const tokenData = {
       "wo_memory-DeepSeek-V4-Flash": {
         "num_samples": 1638,
         "total_input_tokens": 37715916,
-        "total_output_tokens": 1720056,
-        "total_tokens": 39435972,
+        "total_output_tokens": 1719789,
+        "total_tokens": 39435705,
         "avg_input_tokens": 23025.59,
-        "avg_output_tokens": 1050.095,
-        "avg_total_tokens": 24075.685
+        "avg_output_tokens": 1049.932,
+        "avg_total_tokens": 24075.522
       },
       "wo_memory-Mistral-Small-3.2-24B-Instruct-2506": {
         "num_samples": 1638,
@@ -318,23 +345,23 @@ export const tokenData = {
       }
     },
     "summary": {
-      "num_samples": 61040,
-      "total_input_tokens": 731836622,
-      "total_output_tokens": 47219833,
-      "total_tokens": 779056455,
-      "avg_input_tokens": 11989.46,
-      "avg_output_tokens": 773.588,
-      "avg_total_tokens": 12763.048
+      "num_samples": 67592,
+      "total_input_tokens": 749780911,
+      "total_output_tokens": 52269031,
+      "total_tokens": 802049942,
+      "avg_input_tokens": 11092.746,
+      "avg_output_tokens": 773.302,
+      "avg_total_tokens": 11866.048
     },
     "model_summaries": {
       "DeepSeek-V4-Flash": {
         "num_samples": 12519,
         "total_input_tokens": 185483202,
-        "total_output_tokens": 12028781,
-        "total_tokens": 197511983,
+        "total_output_tokens": 12028514,
+        "total_tokens": 197511716,
         "avg_input_tokens": 14816.136,
-        "avg_output_tokens": 960.842,
-        "avg_total_tokens": 15776.978
+        "avg_output_tokens": 960.821,
+        "avg_total_tokens": 15776.956
       },
       "Mistral-Small-3.2-24B-Instruct-2506": {
         "num_samples": 12519,
@@ -346,22 +373,22 @@ export const tokenData = {
         "avg_total_tokens": 10845.605
       },
       "Qwen3-32B": {
-        "num_samples": 12519,
-        "total_input_tokens": 129985019,
-        "total_output_tokens": 11184150,
-        "total_tokens": 141169169,
-        "avg_input_tokens": 10383.019,
-        "avg_output_tokens": 893.374,
-        "avg_total_tokens": 11276.393
+        "num_samples": 15795,
+        "total_input_tokens": 138690072,
+        "total_output_tokens": 13759784,
+        "total_tokens": 152449856,
+        "avg_input_tokens": 8780.631,
+        "avg_output_tokens": 871.148,
+        "avg_total_tokens": 9651.779
       },
       "Qwen3-8B": {
-        "num_samples": 13655,
-        "total_input_tokens": 140561270,
-        "total_output_tokens": 12220158,
-        "total_tokens": 152781428,
-        "avg_input_tokens": 10293.758,
-        "avg_output_tokens": 894.922,
-        "avg_total_tokens": 11188.68
+        "num_samples": 16931,
+        "total_input_tokens": 149800506,
+        "total_output_tokens": 14693989,
+        "total_tokens": 164494495,
+        "avg_input_tokens": 8847.706,
+        "avg_output_tokens": 867.875,
+        "avg_total_tokens": 9715.581
       }
     },
     "memory_system_summaries": {
@@ -374,14 +401,23 @@ export const tokenData = {
         "avg_output_tokens": 700.167,
         "avg_total_tokens": 7196.175
       },
-      "autoskill": {
-        "num_samples": 0,
-        "total_input_tokens": 0,
-        "total_output_tokens": 0,
-        "total_tokens": 0,
-        "avg_input_tokens": 0.0,
-        "avg_output_tokens": 0.0,
-        "avg_total_tokens": 0.0
+      "autoskill_with_library": {
+        "num_samples": 3276,
+        "total_input_tokens": 11926389,
+        "total_output_tokens": 2552059,
+        "total_tokens": 14478448,
+        "avg_input_tokens": 3640.534,
+        "avg_output_tokens": 779.017,
+        "avg_total_tokens": 4419.551
+      },
+      "autoskill_without_library": {
+        "num_samples": 3276,
+        "total_input_tokens": 6017900,
+        "total_output_tokens": 2497406,
+        "total_tokens": 8515306,
+        "avg_input_tokens": 1836.966,
+        "avg_output_tokens": 762.334,
+        "avg_total_tokens": 2599.3
       },
       "bm25_dialog": {
         "num_samples": 8190,
@@ -458,11 +494,11 @@ export const tokenData = {
       "wo_memory": {
         "num_samples": 8190,
         "total_input_tokens": 98126090,
-        "total_output_tokens": 6603243,
-        "total_tokens": 104729333,
+        "total_output_tokens": 6602976,
+        "total_tokens": 104729066,
         "avg_input_tokens": 11981.208,
-        "avg_output_tokens": 806.257,
-        "avg_total_tokens": 12787.464
+        "avg_output_tokens": 806.224,
+        "avg_total_tokens": 12787.432
       }
     }
   },
@@ -505,14 +541,41 @@ export const tokenData = {
           "avg_output_tokens": 805.635,
           "avg_total_tokens": 9454.742
         },
-        "autoskill-Qwen3-8B": {
-          "num_samples": 0,
-          "total_input_tokens": 0,
-          "total_output_tokens": 0,
-          "total_tokens": 0,
-          "avg_input_tokens": 0.0,
-          "avg_output_tokens": 0.0,
-          "avg_total_tokens": 0.0
+        "autoskill_with_library-Qwen3-32B": {
+          "num_samples": 244,
+          "total_input_tokens": 1343451,
+          "total_output_tokens": 184032,
+          "total_tokens": 1527483,
+          "avg_input_tokens": 5505.947,
+          "avg_output_tokens": 754.23,
+          "avg_total_tokens": 6260.176
+        },
+        "autoskill_with_library-Qwen3-8B": {
+          "num_samples": 244,
+          "total_input_tokens": 1357713,
+          "total_output_tokens": 184923,
+          "total_tokens": 1542636,
+          "avg_input_tokens": 5564.398,
+          "avg_output_tokens": 757.881,
+          "avg_total_tokens": 6322.279
+        },
+        "autoskill_without_library-Qwen3-32B": {
+          "num_samples": 244,
+          "total_input_tokens": 663376,
+          "total_output_tokens": 175835,
+          "total_tokens": 839211,
+          "avg_input_tokens": 2718.754,
+          "avg_output_tokens": 720.635,
+          "avg_total_tokens": 3439.389
+        },
+        "autoskill_without_library-Qwen3-8B": {
+          "num_samples": 244,
+          "total_input_tokens": 697549,
+          "total_output_tokens": 187012,
+          "total_tokens": 884561,
+          "avg_input_tokens": 2858.807,
+          "avg_output_tokens": 766.443,
+          "avg_total_tokens": 3625.25
         },
         "bm25_dialog-DeepSeek-V4-Flash": {
           "num_samples": 244,
@@ -733,11 +796,11 @@ export const tokenData = {
         "wo_memory-DeepSeek-V4-Flash": {
           "num_samples": 244,
           "total_input_tokens": 517113,
-          "total_output_tokens": 229458,
-          "total_tokens": 746571,
+          "total_output_tokens": 229191,
+          "total_tokens": 746304,
           "avg_input_tokens": 2119.316,
-          "avg_output_tokens": 940.402,
-          "avg_total_tokens": 3059.717
+          "avg_output_tokens": 939.307,
+          "avg_total_tokens": 3058.623
         },
         "wo_memory-Mistral-Small-3.2-24B-Instruct-2506": {
           "num_samples": 244,
@@ -806,14 +869,41 @@ export const tokenData = {
           "avg_output_tokens": 1069.402,
           "avg_total_tokens": 10344.631
         },
-        "autoskill-Qwen3-8B": {
-          "num_samples": 0,
-          "total_input_tokens": 0,
-          "total_output_tokens": 0,
-          "total_tokens": 0,
-          "avg_input_tokens": 0.0,
-          "avg_output_tokens": 0.0,
-          "avg_total_tokens": 0.0
+        "autoskill_with_library-Qwen3-32B": {
+          "num_samples": 241,
+          "total_input_tokens": 644447,
+          "total_output_tokens": 251590,
+          "total_tokens": 896037,
+          "avg_input_tokens": 2674.054,
+          "avg_output_tokens": 1043.942,
+          "avg_total_tokens": 3717.996
+        },
+        "autoskill_with_library-Qwen3-8B": {
+          "num_samples": 241,
+          "total_input_tokens": 1041294,
+          "total_output_tokens": 227223,
+          "total_tokens": 1268517,
+          "avg_input_tokens": 4320.722,
+          "avg_output_tokens": 942.834,
+          "avg_total_tokens": 5263.556
+        },
+        "autoskill_without_library-Qwen3-32B": {
+          "num_samples": 241,
+          "total_input_tokens": 492739,
+          "total_output_tokens": 239864,
+          "total_tokens": 732603,
+          "avg_input_tokens": 2044.56,
+          "avg_output_tokens": 995.286,
+          "avg_total_tokens": 3039.846
+        },
+        "autoskill_without_library-Qwen3-8B": {
+          "num_samples": 241,
+          "total_input_tokens": 855015,
+          "total_output_tokens": 237463,
+          "total_tokens": 1092478,
+          "avg_input_tokens": 3547.78,
+          "avg_output_tokens": 985.324,
+          "avg_total_tokens": 4533.104
         },
         "bm25_dialog-DeepSeek-V4-Flash": {
           "num_samples": 241,
@@ -1107,14 +1197,41 @@ export const tokenData = {
           "avg_output_tokens": 753.141,
           "avg_total_tokens": 4278.485
         },
-        "autoskill-Qwen3-8B": {
-          "num_samples": 0,
-          "total_input_tokens": 0,
-          "total_output_tokens": 0,
-          "total_tokens": 0,
-          "avg_input_tokens": 0.0,
-          "avg_output_tokens": 0.0,
-          "avg_total_tokens": 0.0
+        "autoskill_with_library-Qwen3-32B": {
+          "num_samples": 334,
+          "total_input_tokens": 827366,
+          "total_output_tokens": 216576,
+          "total_tokens": 1043942,
+          "avg_input_tokens": 2477.144,
+          "avg_output_tokens": 648.431,
+          "avg_total_tokens": 3125.575
+        },
+        "autoskill_with_library-Qwen3-8B": {
+          "num_samples": 334,
+          "total_input_tokens": 883900,
+          "total_output_tokens": 205941,
+          "total_tokens": 1089841,
+          "avg_input_tokens": 2646.407,
+          "avg_output_tokens": 616.59,
+          "avg_total_tokens": 3262.997
+        },
+        "autoskill_without_library-Qwen3-32B": {
+          "num_samples": 334,
+          "total_input_tokens": 350337,
+          "total_output_tokens": 212021,
+          "total_tokens": 562358,
+          "avg_input_tokens": 1048.913,
+          "avg_output_tokens": 634.793,
+          "avg_total_tokens": 1683.707
+        },
+        "autoskill_without_library-Qwen3-8B": {
+          "num_samples": 334,
+          "total_input_tokens": 179365,
+          "total_output_tokens": 204290,
+          "total_tokens": 383655,
+          "avg_input_tokens": 537.021,
+          "avg_output_tokens": 611.647,
+          "avg_total_tokens": 1148.668
         },
         "bm25_dialog-DeepSeek-V4-Flash": {
           "num_samples": 334,
@@ -1372,14 +1489,41 @@ export const tokenData = {
           "avg_output_tokens": 1465.68,
           "avg_total_tokens": 10475.633
         },
-        "autoskill-Qwen3-8B": {
-          "num_samples": 0,
-          "total_input_tokens": 0,
-          "total_output_tokens": 0,
-          "total_tokens": 0,
-          "avg_input_tokens": 0.0,
-          "avg_output_tokens": 0.0,
-          "avg_total_tokens": 0.0
+        "autoskill_with_library-Qwen3-32B": {
+          "num_samples": 275,
+          "total_input_tokens": 826552,
+          "total_output_tokens": 358402,
+          "total_tokens": 1184954,
+          "avg_input_tokens": 3005.644,
+          "avg_output_tokens": 1303.28,
+          "avg_total_tokens": 4308.924
+        },
+        "autoskill_with_library-Qwen3-8B": {
+          "num_samples": 275,
+          "total_input_tokens": 909971,
+          "total_output_tokens": 354707,
+          "total_tokens": 1264678,
+          "avg_input_tokens": 3308.985,
+          "avg_output_tokens": 1289.844,
+          "avg_total_tokens": 4598.829
+        },
+        "autoskill_without_library-Qwen3-32B": {
+          "num_samples": 275,
+          "total_input_tokens": 558218,
+          "total_output_tokens": 351632,
+          "total_tokens": 909850,
+          "avg_input_tokens": 2029.884,
+          "avg_output_tokens": 1278.662,
+          "avg_total_tokens": 3308.545
+        },
+        "autoskill_without_library-Qwen3-8B": {
+          "num_samples": 275,
+          "total_input_tokens": 432028,
+          "total_output_tokens": 352854,
+          "total_tokens": 784882,
+          "avg_input_tokens": 1571.011,
+          "avg_output_tokens": 1283.105,
+          "avg_total_tokens": 2854.116
         },
         "bm25_dialog-DeepSeek-V4-Flash": {
           "num_samples": 275,
@@ -1691,14 +1835,41 @@ export const tokenData = {
           "avg_output_tokens": 145.398,
           "avg_total_tokens": 6650.203
         },
-        "autoskill-Qwen3-8B": {
-          "num_samples": 0,
-          "total_input_tokens": 0,
-          "total_output_tokens": 0,
-          "total_tokens": 0,
-          "avg_input_tokens": 0.0,
-          "avg_output_tokens": 0.0,
-          "avg_total_tokens": 0.0
+        "autoskill_with_library-Qwen3-32B": {
+          "num_samples": 251,
+          "total_input_tokens": 1204584,
+          "total_output_tokens": 44032,
+          "total_tokens": 1248616,
+          "avg_input_tokens": 4799.139,
+          "avg_output_tokens": 175.426,
+          "avg_total_tokens": 4974.566
+        },
+        "autoskill_with_library-Qwen3-8B": {
+          "num_samples": 251,
+          "total_input_tokens": 1257182,
+          "total_output_tokens": 39112,
+          "total_tokens": 1296294,
+          "avg_input_tokens": 5008.693,
+          "avg_output_tokens": 155.825,
+          "avg_total_tokens": 5164.518
+        },
+        "autoskill_without_library-Qwen3-32B": {
+          "num_samples": 251,
+          "total_input_tokens": 687885,
+          "total_output_tokens": 42796,
+          "total_tokens": 730681,
+          "avg_input_tokens": 2740.578,
+          "avg_output_tokens": 170.502,
+          "avg_total_tokens": 2911.08
+        },
+        "autoskill_without_library-Qwen3-8B": {
+          "num_samples": 251,
+          "total_input_tokens": 725347,
+          "total_output_tokens": 35264,
+          "total_tokens": 760611,
+          "avg_input_tokens": 2889.829,
+          "avg_output_tokens": 140.494,
+          "avg_total_tokens": 3030.323
         },
         "bm25_dialog-DeepSeek-V4-Flash": {
           "num_samples": 251,
@@ -1956,14 +2127,41 @@ export const tokenData = {
           "avg_output_tokens": 1170.406,
           "avg_total_tokens": 4557.014
         },
-        "autoskill-Qwen3-8B": {
-          "num_samples": 0,
-          "total_input_tokens": 0,
-          "total_output_tokens": 0,
-          "total_tokens": 0,
-          "avg_input_tokens": 0.0,
-          "avg_output_tokens": 0.0,
-          "avg_total_tokens": 0.0
+        "autoskill_with_library-Qwen3-32B": {
+          "num_samples": 143,
+          "total_input_tokens": 429517,
+          "total_output_tokens": 155051,
+          "total_tokens": 584568,
+          "avg_input_tokens": 3003.615,
+          "avg_output_tokens": 1084.273,
+          "avg_total_tokens": 4087.888
+        },
+        "autoskill_with_library-Qwen3-8B": {
+          "num_samples": 143,
+          "total_input_tokens": 387568,
+          "total_output_tokens": 146662,
+          "total_tokens": 534230,
+          "avg_input_tokens": 2710.266,
+          "avg_output_tokens": 1025.608,
+          "avg_total_tokens": 3735.874
+        },
+        "autoskill_without_library-Qwen3-32B": {
+          "num_samples": 143,
+          "total_input_tokens": 143138,
+          "total_output_tokens": 155544,
+          "total_tokens": 298682,
+          "avg_input_tokens": 1000.965,
+          "avg_output_tokens": 1087.72,
+          "avg_total_tokens": 2088.685
+        },
+        "autoskill_without_library-Qwen3-8B": {
+          "num_samples": 143,
+          "total_input_tokens": 56175,
+          "total_output_tokens": 141309,
+          "total_tokens": 197484,
+          "avg_input_tokens": 392.832,
+          "avg_output_tokens": 988.175,
+          "avg_total_tokens": 1381.007
         },
         "bm25_dialog-DeepSeek-V4-Flash": {
           "num_samples": 143,
@@ -2275,14 +2473,41 @@ export const tokenData = {
           "avg_output_tokens": 624.453,
           "avg_total_tokens": 4037.32
         },
-        "autoskill-Qwen3-8B": {
-          "num_samples": 0,
-          "total_input_tokens": 0,
-          "total_output_tokens": 0,
-          "total_tokens": 0,
-          "avg_input_tokens": 0.0,
-          "avg_output_tokens": 0.0,
-          "avg_total_tokens": 0.0
+        "autoskill_with_library-Qwen3-32B": {
+          "num_samples": 150,
+          "total_input_tokens": 400237,
+          "total_output_tokens": 94115,
+          "total_tokens": 494352,
+          "avg_input_tokens": 2668.247,
+          "avg_output_tokens": 627.433,
+          "avg_total_tokens": 3295.68
+        },
+        "autoskill_with_library-Qwen3-8B": {
+          "num_samples": 150,
+          "total_input_tokens": 412607,
+          "total_output_tokens": 89693,
+          "total_tokens": 502300,
+          "avg_input_tokens": 2750.713,
+          "avg_output_tokens": 597.953,
+          "avg_total_tokens": 3348.667
+        },
+        "autoskill_without_library-Qwen3-32B": {
+          "num_samples": 150,
+          "total_input_tokens": 133206,
+          "total_output_tokens": 94144,
+          "total_tokens": 227350,
+          "avg_input_tokens": 888.04,
+          "avg_output_tokens": 627.627,
+          "avg_total_tokens": 1515.667
+        },
+        "autoskill_without_library-Qwen3-8B": {
+          "num_samples": 150,
+          "total_input_tokens": 43522,
+          "total_output_tokens": 67378,
+          "total_tokens": 110900,
+          "avg_input_tokens": 290.147,
+          "avg_output_tokens": 449.187,
+          "avg_total_tokens": 739.333
         },
         "bm25_dialog-DeepSeek-V4-Flash": {
           "num_samples": 150,
